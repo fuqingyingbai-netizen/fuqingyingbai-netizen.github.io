@@ -53,10 +53,10 @@ avatar: /assets/img/avatar.png
 
 ## 部署到 GitHub（首次上线）
 
-1. 在 GitHub 上新建一个仓库，名字必须是 `你的GitHub用户名.github.io`（公开仓库）
+1. 在 GitHub 上新建一个仓库，名字必须是 `fuqingyingbai-netizen.github.io`（公开仓库）
 2. 把本文件夹的内容推送到这个仓库（Git 命令或 GitHub Desktop 都行）
 3. 进入仓库的 **Settings → Pages**，把 Source 选为 **GitHub Actions**
-4. 等待一两分钟，你的网站就上线了，地址是 `https://你的GitHub用户名.github.io`
+4. 等待一两分钟，你的网站就上线了，地址是 `https://fuqingyingbai-netizen.github.io`
 
 之后每次推送新内容，网站都会自动重新构建。
 
