@@ -23,10 +23,10 @@ description: >- # 用于搜索引擎描述和订阅源
 
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
-url: "" # 部署后请改成 https://你的GitHub用户名.github.io
+url: "https://fuqingyingbai-netizen.github.io"
 
 github:
-  username: # 改成你的 GitHub 用户名
+  username: fuqingyingbai-netizen
 
 twitter:
   username: # 可选：不用 X（Twitter）就留空
@@ -38,8 +38,7 @@ social:
   email: # 改成你的邮箱
   fediverse_handle: # fill in your fediverse handle. E.g. "@username@domain.com"
   links:
-    # 第一行是页脚版权归属的链接，改成你自己的主页
-    # - https://github.com/你的用户名
+    - https://github.com/fuqingyingbai-netizen
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
     # - https://www.linkedin.com/in/username
