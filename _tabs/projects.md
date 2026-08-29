@@ -7,6 +7,12 @@ order: 4
 
 <!-- 以后可以在这里补充项目截图、演示链接、详细介绍 -->
 
+### 🛒 [shopkeeper-agent（电商问数）](https://github.com/fuqingyingbai-netizen/shopkeeper-agent)
+
+基于 LangGraph 的智能数据分析 Agent 实战项目：自然语言提问 → 混合检索 → SQL 生成与执行 → 流式返回分析结果（学习练习项目）。
+
+*技术栈：Python / LangGraph / FastAPI / React　|　Fork 自 didilili 教程项目　|　更新：2026-08*
+
 ### 🤖 [resume-evaluator-agent](https://github.com/fuqingyingbai-netizen/resume-evaluator-agent)
 
 AI 简历评估助手：基于大语言模型对简历进行智能评估与分析。
