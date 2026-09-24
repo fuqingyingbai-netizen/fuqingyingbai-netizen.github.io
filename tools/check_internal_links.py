@@ -27,6 +27,8 @@ if hasattr(sys.stdout, "reconfigure"):
 ROOT = Path(__file__).resolve().parents[1]
 ATTRIBUTE_PATTERN = re.compile(r'(?:href|src)\s*=\s*"([^"]+)"', re.IGNORECASE)
 EXTERNAL_PREFIXES = ("http://", "https://", "//", "mailto:", "tel:", "javascript:", "data:")
+# 主题的分享按钮等会在 HTML 里留下 {url} / {title} 这类运行时占位符，需要跳过
+PLACEHOLDER_CHARS = "{}"
 
 
 def collect_targets(site: Path) -> dict[str, set[str]]:
@@ -37,6 +39,8 @@ def collect_targets(site: Path) -> dict[str, set[str]]:
         for raw in ATTRIBUTE_PATTERN.findall(text):
             link = raw.strip()
             if not link or link.startswith("#") or link.startswith(EXTERNAL_PREFIXES):
+                continue
+            if any(char in link for char in PLACEHOLDER_CHARS):
                 continue
             path = urlparse(link).path
             if not path:
