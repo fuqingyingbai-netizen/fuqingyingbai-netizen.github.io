@@ -24,6 +24,10 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
+# Windows 控制台默认编码可能不支持部分字符，这里统一成 UTF-8 输出
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 ROOT = Path(__file__).resolve().parents[1]
 META_PATH = ROOT / "_data" / "projects.json"
 OUTPUT_PATH = ROOT / "_tabs" / "projects.md"
