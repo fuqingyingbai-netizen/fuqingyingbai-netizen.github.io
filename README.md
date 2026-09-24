@@ -11,17 +11,19 @@
 ├── _config.yml          # 站点全局配置（标题、简介、社交链接、头像等）
 ├── _data/
 │   ├── contact.yml      # 侧边栏联系方式图标
-│   └── share.yml        # 文章底部分享按钮
+│   ├── share.yml        # 文章底部分享按钮
+│   └── projects.json    # 项目展示页的元信息（顺序、分组、简介、标签）
 ├── _posts/              # 文章（学习笔记、随笔等）
 ├── _tabs/               # 导航栏页面
 │   ├── about.md         # 关于我
-│   ├── projects.md      # 项目展示
+│   ├── projects.md      # 项目展示（由脚本自动生成）
 │   ├── resources.md     # 学习资源
 │   ├── categories.md    # 分类
 │   ├── tags.md          # 标签
 │   └── archives.md      # 归档
 ├── assets/              # 图片等静态资源
-└── .github/workflows/   # 自动构建部署配置
+├── tools/               # 辅助脚本
+└── .github/workflows/   # 自动构建部署与质量检查配置
 ```
 
 ## 日常维护
@@ -70,10 +72,35 @@ avatar: /assets/img/avatar.png
 ### 4. 修改页面内容
 
 - 关于我：`_tabs/about.md`
-- 项目展示：`_tabs/projects.md`
 - 学习资源：`_tabs/resources.md`
 
 每个页面文件开头的 `order` 决定它在导航栏中的位置（数字越小越靠前）。
+
+> 注意：`_tabs/projects.md` 由脚本自动生成，请勿直接修改；要增删项目或调整介绍，编辑 `_data/projects.json`。
+
+## 自动化与质量检查
+
+仓库内置了三个自动化能力，都在 `.github/workflows/` 里：
+
+| 工作流 | 触发方式 | 作用 |
+| --- | --- | --- |
+| `pages-deploy.yml` | 推送到 main | 构建站点并部署到 GitHub Pages |
+| `sync-projects.yml` | 每周一 + 手动 | 调用 GitHub API 同步项目信息，自动更新项目页并触发网站重建 |
+| `quality-check.yml` | 推送 + 每周一 + 手动 | 构建校验、项目页同步校验、外链检查 |
+
+### 项目展示页自动生成
+
+项目页的数据来自两处：
+
+- `_data/projects.json`：手工维护的部分（项目顺序、分组、简介、标签）
+- GitHub API：实时信息（主要语言、星标数、最近更新时间）
+
+本地同步（需要 Python 3.10 以上，可选设置 `GITHUB_TOKEN` 提高 API 限额）：
+
+```bash
+python tools/sync_projects.py           # 生成 / 更新 _tabs/projects.md
+python tools/sync_projects.py --check    # 只检查是否已同步，不写入文件
+```
 
 ## 提交规范建议
 
