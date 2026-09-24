@@ -99,15 +99,18 @@ def render_project(project: dict, repo: dict | None, user: str) -> str:
         lines.append(" ".join(f"`{tag}`" for tag in tags))
         lines.append("")
 
-    if repo is None:
-        lines.append("*暂时无法读取该仓库的实时信息，请在 GitHub 上查看。*")
-        lines.append("")
-    else:
-        language = repo.get("language") or "未标注"
-        stars = repo.get("stargazers_count", 0)
-        updated = format_date(repo.get("pushed_at"))
-        lines.append(f"*语言：{language}　|　最近更新：{updated}　|　⭐ {stars}*")
-        lines.append("")
+    show_stats = project.get("show_stats", True)
+    # 本仓库自身不显示实时数据：否则每次推送都会改变页面内容，导致同步检查误报
+    if show_stats:
+        if repo is None:
+            lines.append("*暂时无法读取该仓库的实时信息，请在 GitHub 上查看。*")
+            lines.append("")
+        else:
+            language = repo.get("language") or "未标注"
+            stars = repo.get("stargazers_count", 0)
+            updated = format_date(repo.get("pushed_at"))
+            lines.append(f"*语言：{language}　|　最近更新：{updated}　|　⭐ {stars}*")
+            lines.append("")
 
     note = project.get("note")
     if note:

@@ -35,7 +35,8 @@
       "emoji": "🌐",
       "title": "个人网站（本仓库）",
       "description": "用 Chirpy 主题搭建的个人网站，由 GitHub Actions 自动构建部署，项目页由脚本自动同步。",
-      "tags": ["Jekyll", "GitHub Actions", "自动化"]
+      "tags": ["Jekyll", "GitHub Actions", "自动化"],
+      "show_stats": false
     },
     {
       "repo": "shopkeeper-agent",
