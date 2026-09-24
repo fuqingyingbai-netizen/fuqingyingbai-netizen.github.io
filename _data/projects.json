@@ -1,0 +1,58 @@
+{
+  "user": "fuqingyingbai-netizen",
+  "groups": [
+    { "key": "personal", "title": "个人项目" },
+    { "key": "learning", "title": "学习与实践项目" }
+  ],
+  "projects": [
+    {
+      "repo": "resume-evaluator-agent",
+      "group": "personal",
+      "emoji": "🤖",
+      "title": "resume-evaluator-agent",
+      "description": "AI 简历评估助手：基于大语言模型对简历进行智能评估与分析，帮助快速了解简历的匹配程度。",
+      "tags": ["Python", "LLM", "Prompt 工程"]
+    },
+    {
+      "repo": "journal-todo",
+      "group": "personal",
+      "emoji": "📔",
+      "title": "journal-todo",
+      "description": "日记与待办管理应用，把每天的记录和任务安排放在一起管理。",
+      "tags": ["TypeScript", "前端应用"]
+    },
+    {
+      "repo": "pomodoro-timer",
+      "group": "personal",
+      "emoji": "🍅",
+      "title": "pomodoro-timer",
+      "description": "番茄钟计时工具，帮助保持专注、管理学习节奏。",
+      "tags": ["Python", "工具类应用"]
+    },
+    {
+      "repo": "fuqingyingbai-netizen.github.io",
+      "group": "personal",
+      "emoji": "🌐",
+      "title": "个人网站（本仓库）",
+      "description": "用 Chirpy 主题搭建的个人网站，由 GitHub Actions 自动构建部署，项目页由脚本自动同步。",
+      "tags": ["Jekyll", "GitHub Actions", "自动化"]
+    },
+    {
+      "repo": "shopkeeper-agent",
+      "group": "learning",
+      "emoji": "🛒",
+      "title": "shopkeeper-agent（电商问数）",
+      "description": "基于 LangGraph 的智能数据分析 Agent 实战项目：自然语言提问 → 混合检索 → SQL 生成与执行 → 流式返回分析结果。通过这个项目系统练习了智能体工作流编排与前后端联调。",
+      "tags": ["Python", "LangGraph", "FastAPI", "Qdrant", "Elasticsearch", "React"],
+      "note": "Fork 自 didilili 的开源教程项目，用于学习实践，详细复盘见[项目总结随笔](/posts/练习项目总结-电商问数智能Agent/)。"
+    },
+    {
+      "repo": "generative-ai-for-beginners",
+      "group": "learning",
+      "emoji": "📚",
+      "title": "generative-ai-for-beginners",
+      "description": "微软《生成式 AI 入门》21 课学习项目，系统建立生成式 AI 的知识框架。",
+      "tags": ["学习资料", "Fork"]
+    }
+  ]
+}
