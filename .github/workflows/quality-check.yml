@@ -1,0 +1,49 @@
+name: Quality Check
+
+# 推送、每周定时和手动触发时执行：构建校验 + 项目页同步校验 + 外链检查
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    # 每周一 06:30（北京时间）= 每周日 22:30 UTC
+    - cron: "30 22 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 准备 Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+
+      - name: 构建站点（校验 front matter 与模板）
+        env:
+          JEKYLL_ENV: production
+        run: bundle exec jekyll build -d _site
+
+      - name: 检查项目页是否与 GitHub 数据一致
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python tools/sync_projects.py --check
+
+      - name: 检查文章与页面中的外部链接
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --max-concurrency 4
+            --accept 200,204,206,301,302,403,429
+            ./_posts/*.md ./_tabs/*.md ./README.md
+          fail: false
