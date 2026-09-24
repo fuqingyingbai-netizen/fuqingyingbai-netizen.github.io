@@ -5,6 +5,19 @@
 - 线上地址：https://fuqingyingbai-netizen.github.io/
 - 仓库地址：https://github.com/fuqingyingbai-netizen/fuqingyingbai-netizen.github.io
 
+## 技术栈与功能
+
+| 部分 | 说明 |
+| --- | --- |
+| 站点框架 | Jekyll + [Chirpy](https://github.com/cotes2020/jekyll-theme-chirpy) 主题 |
+| 托管与部署 | GitHub Pages + GitHub Actions 自动构建（推送即部署） |
+| 内容组织 | Markdown（文章、页面）、JSON（项目元信息）、YAML（站点配置） |
+| 自动化脚本 | Python 3.10+（项目信息同步、文章脚手架、站内链接检查） |
+| 质量保障 | 单元测试、站点构建校验、站内/站外链接检查 |
+
+主要功能：文章与分类标签、项目自动展示、学习资源页、代码高亮、流程图（Mermaid）、
+深浅色主题、站内搜索、RSS 订阅。
+
 ## 目录结构
 
 ```text
@@ -102,6 +115,15 @@ python tools/sync_projects.py           # 生成 / 更新 _tabs/projects.md
 python tools/sync_projects.py --check    # 只检查是否已同步，不写入文件
 ```
 
+### 工具脚本一览
+
+| 脚本 | 作用 | 用法 |
+| --- | --- | --- |
+| `tools/new_post.py` | 新建文章，自动生成规范 front matter | `python tools/new_post.py "标题" --category 学习笔记 --tag AI` |
+| `tools/sync_projects.py` | 同步 GitHub 项目信息，生成项目页 | `python tools/sync_projects.py`（`--check` 只校验） |
+| `tools/check_internal_links.py` | 检查构建产物中的站内链接是否有效 | 先 `jekyll build`，再 `python tools/check_internal_links.py` |
+| `tools/tests/` | 单元测试 | `python -m unittest discover -s tools/tests -v` |
+
 ## 提交规范建议
 
 为了让提交历史清晰、便于追溯（例如用于作业或项目审核），建议：
@@ -130,6 +152,27 @@ bundle exec jekyll serve
 ```
 
 然后访问 `http://localhost:4000`。没有本地环境也不影响线上更新。
+
+## 常见问题
+
+**网站改动后多久生效？**
+推送到 `main` 分支后 GitHub Actions 会自动构建，通常 1–2 分钟上线，可在仓库的 Actions 页面查看进度。
+
+**构建没有自动触发怎么办？**
+进入 Actions → Build and Deploy → Run workflow，手动触发一次即可。
+
+**项目页是手写的吗？**
+不是。项目页由 `tools/sync_projects.py` 按 `_data/projects.json` 与 GitHub API 自动生成，并且每周一自动同步一次。
+
+**新增一篇文章的完整流程？**
+
+1. `python tools/new_post.py "标题" --category 分类 --tag 标签`
+2. 打开生成的文件，写好正文
+3. `git add` → `git commit` → `git push`
+4. 等 1–2 分钟，网站自动更新
+
+**为什么项目页里"本仓库"不显示星标和更新时间？**
+网站仓库每次推送都会刷新自己的更新时间，如果展示实时数据，页面内容会不停变化、导致同步检查误报，因此该条目固定不显示实时数据。
 
 ## 许可
 
