@@ -1,6 +1,6 @@
 ---
 icon: fas fa-bookmark
-order: 6
+order: 2
 title: 资源
 ---
 
