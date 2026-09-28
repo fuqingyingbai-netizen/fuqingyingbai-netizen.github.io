@@ -37,6 +37,7 @@ TIMEOUT_SECONDS = 30
 HEADER = """---
 icon: fas fa-laptop-code
 order: 4
+title: 项目
 ---
 
 <!-- 本文件由 tools/sync_projects.py 自动生成，请勿直接修改。 -->

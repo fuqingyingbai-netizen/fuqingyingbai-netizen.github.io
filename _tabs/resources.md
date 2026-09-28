@@ -1,6 +1,7 @@
 ---
 icon: fas fa-bookmark
 order: 6
+title: 资源
 ---
 
 这里整理我在学习人工智能和大模型应用开发过程中常用的资源，会持续补充。
