@@ -39,6 +39,14 @@
       "show_stats": false
     },
     {
+      "repo": "dify-apps",
+      "group": "personal",
+      "emoji": "🧩",
+      "title": "dify-apps（Dify 应用集合）",
+      "description": "在 Dify 平台搭建的 AI 应用集合，以 DSL 文件形式开源：出题组卷工作流、知识库智能客服、竞品情报分析 Agent，可直接导入 Dify 使用或二次开发。",
+      "tags": ["Dify", "AI Agent", "LLM 应用"]
+    },
+    {
       "repo": "shopkeeper-agent",
       "group": "learning",
       "emoji": "🛒",

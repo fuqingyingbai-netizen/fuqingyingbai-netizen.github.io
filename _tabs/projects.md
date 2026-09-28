@@ -40,6 +40,14 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 `Jekyll` `GitHub Actions` `自动化`
 
+### 🧩 [dify-apps（Dify 应用集合）](https://github.com/fuqingyingbai-netizen/dify-apps)
+
+在 Dify 平台搭建的 AI 应用集合，以 DSL 文件形式开源：出题组卷工作流、知识库智能客服、竞品情报分析 Agent，可直接导入 Dify 使用或二次开发。
+
+`Dify` `AI Agent` `LLM 应用`
+
+*语言：未标注　|　最近更新：2026-09-28　|　⭐ 0*
+
 ## 学习与实践项目
 
 ### 🛒 [shopkeeper-agent（电商问数）](https://github.com/fuqingyingbai-netizen/shopkeeper-agent)
