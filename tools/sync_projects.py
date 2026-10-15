@@ -96,7 +96,7 @@ def render_project(project: dict, repo: dict | None, user: str) -> str:
     emoji = project.get("emoji", "📦")
     title = project.get("title", name)
 
-    lines = ['<article class="project-card" markdown="1">', "", f"### {emoji} [{title}]({url})", ""]
+    lines = [f'<article class="project-card" id="project-{escape(name, quote=True)}" markdown="1">', "", f"### {emoji} [{title}]({url})", ""]
     lines.append(project.get("description", "").strip())
     lines.append("")
 

@@ -1,0 +1,12 @@
+<section class="visitor-comments" aria-labelledby="visitor-comments-title"
+  data-comments-server="{{ site.comments.waline.server_url | escape }}"
+  data-comments-path="{{ page.url | relative_url | escape }}">
+  <h2 id="visitor-comments-title">交流与讨论</h2>
+  <p class="comment-help">无需 GitHub 账户。昵称必填，邮箱选填且不公开显示；留言审核后显示。</p>
+  <p class="comment-status" role="status" aria-live="polite">滚动到这里即可加载评论。</p>
+  <div id="waline"></div>
+  <button type="button" class="comment-retry" hidden>重新加载评论</button>
+  <noscript><p>请启用 JavaScript 后加载评论。</p></noscript>
+  <p class="legacy-comments"><a href="https://github.com/{{ site.comments.giscus.repo }}/discussions">查看原 GitHub 评论 <span aria-hidden="true">↗</span></a></p>
+</section>
+<script type="module" src="{{ '/assets/js/visitor-comments.js' | relative_url }}"></script>

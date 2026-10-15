@@ -1,0 +1,12 @@
+{% if page.comments and site.comments.provider %}
+  {% if site.comments.provider == 'waline' %}
+    {% if site.comments.waline.server_url and site.comments.waline.server_url != empty %}
+      {% include comments/waline.html %}
+    {% else %}
+      {% include comments/giscus.html %}
+    {% endif %}
+  {% else %}
+    {% capture comment_path %}comments/{{ site.comments.provider }}.html{% endcapture %}
+    {% include {{ comment_path }} %}
+  {% endif %}
+{% endif %}

@@ -21,6 +21,7 @@
 ## 目录结构
 
 首页增加了个人介绍与项目精选；“学习记录”将学习笔记、项目随笔和每周总结集中展示。
+站内搜索覆盖文章、项目、关于页和资源页；项目搜索结果可直接定位到对应卡片。
 精选项目与项目页共用 `_data/projects.json`，设置 `featured: true` 即可出现在首页（最多三个）；
 `short_title` / `summary` 控制精选卡片的简短介绍，`article_url` 可关联已有项目复盘。
 视觉样式位于 `assets/css/site.css`，沿用 Chirpy 的深浅色主题。
@@ -129,6 +130,15 @@ GitHub Actions 定时任务可能延迟，公开活动接口也存在延迟和 3
 `_layouts/home.html` 与 `_includes/head.html` 基于 Chirpy v7.6.0。
 前者保留主题的分页逻辑，后者允许浏览器缩放；升级主题时应对照上游检查这两个文件。
 构建依赖和本地预览文件不要提交到仓库。
+
+### 访客评论（待部署后端）
+
+目前正式站点继续使用 Giscus。已预留 Waline 适配：昵称必填、邮箱选填、无需 GitHub 账户，
+支持随主题切换深浅色、滚动加载与加载失败重试。
+部署说明位于仓库中的 `tools/waline-server/README.md`。
+必须先部署后端、注册管理员并完成匿名提交与审核验证，才能将 `comments.provider` 改为 `waline`。
+只需要在站点填公开的 `server_url`；数据库密码、登录密钥和验证码 secret 只存服务端。
+未配置服务端地址时会回退到 Giscus，旧 GitHub 讨论不删除。
 
 ### 项目展示页自动生成
 

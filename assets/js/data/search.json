@@ -1,0 +1,45 @@
+---
+layout: compress
+swcache: true
+---
+[
+  {% assign first = true %}
+  {% assign visible_posts = site.posts | where_exp: 'post', 'post.hidden != true' %}
+  {% for post in visible_posts %}
+  {% unless first %},{% endunless %}{% assign first = false %}
+  {
+    "title": {{ post.title | jsonify }},
+    "url": {{ post.url | relative_url | jsonify }},
+    "categories": {{ post.categories | join: ', ' | jsonify }},
+    "tags": {{ post.tags | join: ', ' | jsonify }},
+    "date": {{ post.date | jsonify }},
+    {% capture content %}{% include post-summary.html full_text=true %}{% endcapture %}
+    "content": {{ content | jsonify }}
+  }
+  {% endfor %}
+  {% for tab in site.tabs %}
+  {% if tab.url == '/about/' or tab.url == '/resources/' %}
+  {% unless first %},{% endunless %}{% assign first = false %}
+  {
+    {% assign tab_key = tab.url | remove: '/' %}
+    "title": {{ site.data.locales[site.lang].tabs[tab_key] | default: tab.title | jsonify }},
+    "url": {{ tab.url | relative_url | jsonify }},
+    "categories": "页面",
+    "tags": "",
+    "content": {{ tab.content | markdownify | strip_html | normalize_whitespace | jsonify }}
+  }
+  {% endif %}
+  {% endfor %}
+  {% for project in site.data.projects.projects %}
+  {% unless first %},{% endunless %}{% assign first = false %}
+  {
+    "title": {{ project.short_title | default: project.title | jsonify }},
+    {% capture project_url %}/projects/#project-{{ project.repo }}{% endcapture %}
+    "url": {{ project_url | relative_url | jsonify }},
+    "categories": "项目",
+    "tags": {{ project.tags | join: ', ' | jsonify }},
+    {% capture project_content %}{{ project.repo }} {{ project.description }} {{ project.note | markdownify | strip_html }}{% endcapture %}
+    "content": {{ project_content | normalize_whitespace | jsonify }}
+  }
+  {% endfor %}
+]

@@ -1,0 +1,4 @@
+comments:
+  provider: waline
+  waline:
+    server_url: https://comments.example.invalid
