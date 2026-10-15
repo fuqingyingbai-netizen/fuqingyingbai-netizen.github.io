@@ -205,4 +205,4 @@ bundle exec jekyll serve
 
 ## 许可
 
-主题部分遵循 [MIT License](LICENSE)，网站内容版权归作者所有。
+主题部分遵循 [MIT License](https://github.com/fuqingyingbai-netizen/fuqingyingbai-netizen.github.io/blob/main/LICENSE)，网站内容版权归作者所有。
