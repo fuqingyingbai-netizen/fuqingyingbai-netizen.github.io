@@ -5,7 +5,7 @@ html[data-mode='dark'] { --site-accent: #8dcece; --site-tint: #202f31; }
   html:not([data-mode]), html[data-mode='system'] { --site-accent: #8dcece; --site-tint: #202f31; }
 }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-#sidebar .site-subtitle { font-style: normal !important; line-height: 1.8; }
+#sidebar .site-subtitle { font-style: normal !important; line-height: 1.8; word-break: keep-all; text-wrap: balance; }
 #sidebar .nav-link { min-height: 44px; }
 a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); outline-offset: 4px; border-radius: 3px; }
 .home-intro { margin: .4rem 0 2.8rem; padding: 2.2rem; border: 1px solid var(--main-border-color); border-radius: var(--site-radius); background: linear-gradient(135deg, var(--site-tint), var(--main-bg)); }
@@ -39,6 +39,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); o
 .project-card blockquote { margin: .8rem 0 0; padding: .2rem 0 .2rem .8rem; font-size: .8rem; }
 .project-card blockquote p { margin: 0; }
 .project-card code { white-space: normal; }
+.project-stats { display: flex; flex-wrap: wrap; gap: .3rem .8rem; margin-top: auto; padding-top: .8rem; color: var(--text-muted-color); font-size: .75rem; }
+.project-stats span { white-space: nowrap; }
 #post-list .card-wrapper { border: 1px solid var(--main-border-color); box-shadow: none; border-radius: var(--site-radius); margin-bottom: 1rem; }
 #post-list .card-title { font-size: 1.15rem; line-height: 1.6; }
 #post-list .card-body { padding: 1.5rem; }

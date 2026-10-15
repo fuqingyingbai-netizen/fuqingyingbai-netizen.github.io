@@ -8,6 +8,8 @@
     {
       "repo": "resume-evaluator-agent",
       "featured": true,
+      "short_title": "AI 简历评估助手",
+      "summary": "基于大语言模型，对简历进行匹配评估与分析。",
       "group": "personal",
       "emoji": "🤖",
       "title": "resume-evaluator-agent",
@@ -42,6 +44,8 @@
     {
       "repo": "dify-apps",
       "featured": true,
+      "short_title": "Dify 应用集合",
+      "summary": "可导入 Dify 的出题组卷、知识库客服和竞品情报应用集合。",
       "group": "personal",
       "emoji": "🧩",
       "title": "dify-apps（Dify 应用集合）",
@@ -51,6 +55,8 @@
     {
       "repo": "shopkeeper-agent",
       "featured": true,
+      "short_title": "电商问数 Agent",
+      "summary": "用 LangGraph 串联检索、SQL 生成与执行，练习智能问数工作流和前后端联调。",
       "article_url": "/posts/练习项目总结-电商问数智能Agent/",
       "group": "learning",
       "emoji": "🛒",

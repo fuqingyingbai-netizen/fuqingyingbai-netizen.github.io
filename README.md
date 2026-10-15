@@ -22,7 +22,8 @@
 
 首页增加了个人介绍与项目精选；“学习记录”将学习笔记、项目随笔和每周总结集中展示。
 精选项目与项目页共用 `_data/projects.json`，设置 `featured: true` 即可出现在首页（最多三个）；
-`article_url` 可关联已有项目复盘。视觉样式位于 `assets/css/site.css`，沿用 Chirpy 的深浅色主题。
+`short_title` / `summary` 控制精选卡片的简短介绍，`article_url` 可关联已有项目复盘。
+视觉样式位于 `assets/css/site.css`，沿用 Chirpy 的深浅色主题。
 导航调整不会改变 `/posts/:title/` 或原有页面地址。
 
 ```text

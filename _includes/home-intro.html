@@ -18,8 +18,8 @@
     {% for project in featured limit: 3 %}
       <article class="project-card">
         <p class="project-kind">{% if project.group == 'learning' %}学习与实践 · Fork{% else %}个人项目{% endif %}</p>
-        <h3><a href="https://github.com/{{ site.data.projects.user }}/{{ project.repo }}">{{ project.title | escape }} <span aria-hidden="true">↗</span></a></h3>
-        <p>{{ project.description | escape }}</p>
+        <h3><a href="https://github.com/{{ site.data.projects.user }}/{{ project.repo }}">{{ project.short_title | default: project.title | escape }} <span aria-hidden="true">↗</span></a></h3>
+        <p>{{ project.summary | default: project.description | escape }}</p>
         <ul class="project-tags" aria-label="技术栈">{% for tag in project.tags limit: 3 %}<li>{{ tag | escape }}</li>{% endfor %}</ul>
         {% if project.article_url %}<a class="project-reading" href="{{ project.article_url | relative_url }}">阅读项目复盘 <span aria-hidden="true">→</span></a>{% endif %}
       </article>

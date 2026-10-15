@@ -21,7 +21,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 `Python` `LLM` `Prompt 工程`
 
-*语言：Python　|　最近更新：2026-05-30　|　⭐ 0*
+<div class="project-stats"><span>语言：Python</span><span>最近更新：2026-05-30</span><span>⭐ 0</span></div>
 
 </article>
 
@@ -33,7 +33,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 `TypeScript` `前端应用`
 
-*语言：TypeScript　|　最近更新：2026-05-26　|　⭐ 0*
+<div class="project-stats"><span>语言：TypeScript</span><span>最近更新：2026-05-26</span><span>⭐ 0</span></div>
 
 </article>
 
@@ -45,7 +45,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 `Python` `工具类应用`
 
-*语言：Python　|　最近更新：2026-05-25　|　⭐ 0*
+<div class="project-stats"><span>语言：Python</span><span>最近更新：2026-05-25</span><span>⭐ 0</span></div>
 
 </article>
 
@@ -67,7 +67,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 `Dify` `AI Agent` `LLM 应用`
 
-*语言：未标注　|　最近更新：2026-09-28　|　⭐ 0*
+<div class="project-stats"><span>语言：未标注</span><span>最近更新：2026-09-28</span><span>⭐ 0</span></div>
 
 </article>
 
@@ -85,7 +85,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 `Python` `LangGraph` `FastAPI` `Qdrant` `Elasticsearch` `React`
 
-*语言：Python　|　最近更新：2026-08-29　|　⭐ 0*
+<div class="project-stats"><span>语言：Python</span><span>最近更新：2026-08-29</span><span>⭐ 0</span></div>
 
 > Fork 自 didilili 的开源教程项目，用于学习实践，详细复盘见[项目总结随笔](/posts/练习项目总结-电商问数智能Agent/)。
 
@@ -99,7 +99,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 `学习资料` `Fork`
 
-*语言：未标注　|　最近更新：2026-08-06　|　⭐ 0*
+<div class="project-stats"><span>语言：未标注</span><span>最近更新：2026-08-06</span><span>⭐ 0</span></div>
 
 </article>
 
