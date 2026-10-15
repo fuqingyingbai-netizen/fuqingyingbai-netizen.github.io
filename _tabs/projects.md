@@ -13,7 +13,7 @@ title: 项目
 
 <div class="project-grid" markdown="1">
 
-<article class="project-card" markdown="1">
+<article class="project-card" id="project-resume-evaluator-agent" markdown="1">
 
 ### 🤖 [resume-evaluator-agent](https://github.com/fuqingyingbai-netizen/resume-evaluator-agent)
 
@@ -25,7 +25,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 </article>
 
-<article class="project-card" markdown="1">
+<article class="project-card" id="project-journal-todo" markdown="1">
 
 ### 📔 [journal-todo](https://github.com/fuqingyingbai-netizen/journal-todo)
 
@@ -37,7 +37,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 </article>
 
-<article class="project-card" markdown="1">
+<article class="project-card" id="project-pomodoro-timer" markdown="1">
 
 ### 🍅 [pomodoro-timer](https://github.com/fuqingyingbai-netizen/pomodoro-timer)
 
@@ -49,7 +49,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 </article>
 
-<article class="project-card" markdown="1">
+<article class="project-card" id="project-fuqingyingbai-netizen.github.io" markdown="1">
 
 ### 🌐 [个人网站（本仓库）](https://github.com/fuqingyingbai-netizen/fuqingyingbai-netizen.github.io)
 
@@ -59,7 +59,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 </article>
 
-<article class="project-card" markdown="1">
+<article class="project-card" id="project-dify-apps" markdown="1">
 
 ### 🧩 [dify-apps（Dify 应用集合）](https://github.com/fuqingyingbai-netizen/dify-apps)
 
@@ -77,7 +77,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 <div class="project-grid" markdown="1">
 
-<article class="project-card" markdown="1">
+<article class="project-card" id="project-shopkeeper-agent" markdown="1">
 
 ### 🛒 [shopkeeper-agent（电商问数）](https://github.com/fuqingyingbai-netizen/shopkeeper-agent)
 
@@ -91,7 +91,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 </article>
 
-<article class="project-card" markdown="1">
+<article class="project-card" id="project-generative-ai-for-beginners" markdown="1">
 
 ### 📚 [generative-ai-for-beginners](https://github.com/fuqingyingbai-netizen/generative-ai-for-beginners)
 

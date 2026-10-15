@@ -46,12 +46,37 @@ jobs:
       - name: 检查站内链接
         run: python tools/check_internal_links.py
 
+      - name: 检查搜索定位与当前评论模式
+        run: python tools/check_site_contracts.py
+
+      - name: 校验前端与评论服务入口语法
+        run: |
+          node --check assets/js/site-accessibility.js
+          node --check assets/js/visitor-comments.js
+          node --check tools/waline-server/api/index.js
+
+      - name: 构建并校验 Waline 适配（不连接真实后端）
+        env:
+          JEKYLL_ENV: production
+        run: |
+          bundle exec jekyll build --config _config.yml,tools/tests/waline-preview.yml -d _site-waline
+          python tools/check_site_contracts.py --site _site-waline --waline
+          python tools/check_internal_links.py --site _site-waline
+
       - name: 保存 PR 预览页面
         if: github.event_name == 'pull_request'
         uses: actions/upload-artifact@v4
         with:
           name: site-preview
           path: _site
+          retention-days: 3
+
+      - name: 保存 Waline 适配预览
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-preview-waline
+          path: _site-waline
           retention-days: 3
 
       - name: 检查文章与页面中的外部链接
