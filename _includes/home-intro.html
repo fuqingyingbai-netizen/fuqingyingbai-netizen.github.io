@@ -18,10 +18,11 @@
     {% for project in featured limit: 3 %}
       <article class="project-card">
         <p class="project-kind">{% if project.group == 'learning' %}学习与实践 · Fork{% else %}个人项目{% endif %}</p>
-        <h3><a href="https://github.com/{{ site.data.projects.user }}/{{ project.repo }}">{{ project.short_title | default: project.title | escape }} <span aria-hidden="true">↗</span></a></h3>
+        <h3><a href="{% if project.detail_url %}{{ project.detail_url | relative_url }}{% else %}https://github.com/{{ site.data.projects.user }}/{{ project.repo }}{% endif %}">{{ project.short_title | default: project.title | escape }} <span aria-hidden="true">→</span></a></h3>
+        {% if project.cover %}<figure class="project-preview"><img src="{{ project.cover | relative_url }}" alt="{{ project.cover_alt | escape }}" width="1200" height="630" loading="lazy" decoding="async"><figcaption>流程示意</figcaption></figure>{% endif %}
         <p>{{ project.summary | default: project.description | escape }}</p>
         <ul class="project-tags" aria-label="技术栈">{% for tag in project.tags limit: 3 %}<li>{{ tag | escape }}</li>{% endfor %}</ul>
-        {% if project.article_url %}<a class="project-reading" href="{{ project.article_url | relative_url }}">阅读项目复盘 <span aria-hidden="true">→</span></a>{% endif %}
+        <div class="project-actions">{% if project.detail_url %}<a href="{{ project.detail_url | relative_url }}">{{ project.detail_label | default: '查看项目说明' | escape }} <span aria-hidden="true">→</span></a>{% elsif project.article_url %}<a href="{{ project.article_url | relative_url }}">阅读项目复盘 <span aria-hidden="true">→</span></a>{% endif %}<a href="https://github.com/{{ site.data.projects.user }}/{{ project.repo }}">查看代码 <span aria-hidden="true">↗</span></a></div>
       </article>
     {% endfor %}
   </div>

@@ -6,6 +6,7 @@ permalink: /notes/
 ---
 
 <p class="page-lead">把学到的知识、做过的项目和每周的进展，慢慢整理在这里。</p>
+{% include reading-path.html %}
 <nav class="notes-nav" aria-label="记录类型"><a href="#learning">学习笔记</a><a href="#practice">项目与随笔</a><a href="#weekly">每周总结</a><a href="{{ '/archives/' | relative_url }}">按时间归档 →</a></nav>
 
 {% assign learning = site.posts | where_exp: 'post', 'post.categories contains "学习笔记" and post.hidden != true' %}

@@ -190,6 +190,10 @@ python tools/sync_projects.py --check    # 只检查是否已同步，不写入�
 
 ## 本地预览（可选）
 
+项目介绍、封面和说明页入口维护在 `_data/projects.json`，修改后运行 `python tools/sync_projects.py`，不要只改生成页。
+项目说明页位于 `projects/`；首页短标题使用文章的 `card_title`，摘要使用 `description`，文章标题与链接保持独立。
+阅读路线维护在 `_data/reading_path.yml`。分享封面与流程示意图可用 `tools/generate_share_cards.py` 重新生成，需要 Pillow 和可用的中文字体；可通过 `--font` 指定字体文件。
+
 需要本机安装 Ruby 环境：
 
 ```bash

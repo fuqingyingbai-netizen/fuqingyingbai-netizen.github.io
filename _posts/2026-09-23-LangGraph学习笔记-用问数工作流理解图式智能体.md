@@ -1,5 +1,7 @@
 ---
 title: 学习笔记｜LangGraph 入门：用问数工作流理解"图式"智能体
+card_title: 用问数工作流理解 LangGraph
+description: 状态放在哪里，步骤怎么衔接，校验失败后怎样回退？从问数 Agent 的简化流程出发，整理 LangGraph 的四个核心概念与实践体会。
 date: 2026-09-23 09:00:00 +0800
 categories: [学习笔记]
 tags: [LangGraph, AI Agent, 学习笔记]
