@@ -7,7 +7,7 @@ if (container) {
   let instance;
   let loading = false;
   const isDark = () => {
-    const mode = document.documentElement.dataset.mode;
+    const mode = document.documentElement.dataset.bsTheme;
     return mode === 'dark' || (!mode && matchMedia('(prefers-color-scheme: dark)').matches);
   };
   async function loadComments() {
@@ -53,6 +53,6 @@ if (container) {
     loadComments();
   }
   new MutationObserver(() => instance?.update({ dark: isDark() }))
-    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-mode'] });
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-bs-theme'] });
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => instance?.update({ dark: isDark() }));
 }
