@@ -7,6 +7,7 @@
   "projects": [
     {
       "repo": "resume-evaluator-agent",
+      "featured": true,
       "group": "personal",
       "emoji": "🤖",
       "title": "resume-evaluator-agent",
@@ -40,6 +41,7 @@
     },
     {
       "repo": "dify-apps",
+      "featured": true,
       "group": "personal",
       "emoji": "🧩",
       "title": "dify-apps（Dify 应用集合）",
@@ -48,6 +50,8 @@
     },
     {
       "repo": "shopkeeper-agent",
+      "featured": true,
+      "article_url": "/posts/练习项目总结-电商问数智能Agent/",
       "group": "learning",
       "emoji": "🛒",
       "title": "shopkeeper-agent（电商问数）",

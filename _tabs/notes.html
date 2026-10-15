@@ -1,0 +1,18 @@
+---
+title: 学习记录
+icon: fas fa-pen-nib
+order: 3
+permalink: /notes/
+---
+
+<p class="page-lead">把学到的知识、做过的项目和每周的进展，慢慢整理在这里。</p>
+<nav class="notes-nav" aria-label="记录类型"><a href="#learning">学习笔记</a><a href="#practice">项目与随笔</a><a href="#weekly">每周总结</a><a href="{{ '/archives/' | relative_url }}">按时间归档 →</a></nav>
+
+{% assign learning = site.posts | where_exp: 'post', 'post.categories contains "学习笔记" and post.hidden != true' %}
+{% assign practice = site.posts | where_exp: 'post', 'post.categories contains "随笔" and post.hidden != true' %}
+{% assign weekly = site.posts | where_exp: 'post', 'post.categories contains "每周总结" and post.hidden != true' %}
+<section class="notes-section" aria-labelledby="learning"><h2 id="learning">学习笔记</h2>{% include note-list.html posts=learning %}</section>
+<section class="notes-section" aria-labelledby="practice"><h2 id="practice">项目与随笔</h2>{% include note-list.html posts=practice %}</section>
+<section class="notes-section" aria-labelledby="weekly"><h2 id="weekly">每周总结</h2>
+  {% if weekly.size > 0 %}{% include note-list.html posts=weekly %}{% else %}<p class="empty-note">从 2026 年 10 月 18 日起，每周日记录公开 GitHub 活动，汇总会陆续放在这里。</p>{% endif %}
+</section>
