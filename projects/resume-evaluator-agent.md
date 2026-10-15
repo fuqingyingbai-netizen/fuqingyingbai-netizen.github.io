@@ -24,6 +24,8 @@ image: /assets/img/covers/resume-evaluator-agent.png
 
 ## 公开实现里能看到什么
 
+<p class="table-hint">表格可左右滑动，查看完整实现说明。</p>
+
 | 部分 | 当前实现 |
 | --- | --- |
 | 对话入口 | 使用 LangChain `create_agent` 组装模型、提示词和工具 |

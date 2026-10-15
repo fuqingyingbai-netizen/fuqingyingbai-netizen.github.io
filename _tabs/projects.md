@@ -17,7 +17,7 @@ title: 项目
 
 ### 🤖 [resume-evaluator-agent](https://github.com/fuqingyingbai-netizen/resume-evaluator-agent)
 
-<figure class="project-preview"><img src="/assets/img/covers/resume-evaluator-agent.png" alt="简历输入、对话 Agent、Coze 工作流与评估报告的流程示意" width="1200" height="630" loading="lazy" decoding="async"><figcaption>流程示意</figcaption></figure>
+<figure class="project-preview"><img src="/assets/img/covers/resume-evaluator-agent.png" alt="简历输入、对话 Agent、Coze 工作流与评估报告的流程示意" width="1200" height="630" loading="lazy" decoding="async"></figure>
 
 AI 简历评估助手：基于大语言模型对简历进行智能评估与分析，帮助快速了解简历的匹配程度。
 
@@ -67,7 +67,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 ### 🧩 [dify-apps（Dify 应用集合）](https://github.com/fuqingyingbai-netizen/dify-apps)
 
-<figure class="project-preview"><img src="/assets/img/covers/dify-apps.png" alt="Dify 出题组卷、知识库客服与竞品情报分析的流程示意" width="1200" height="630" loading="lazy" decoding="async"><figcaption>流程示意</figcaption></figure>
+<figure class="project-preview"><img src="/assets/img/covers/dify-apps.png" alt="Dify 出题组卷、知识库客服与竞品情报分析的流程示意" width="1200" height="630" loading="lazy" decoding="async"></figure>
 
 在 Dify 平台搭建的 AI 应用集合，以 DSL 文件形式开源：出题组卷工作流、知识库智能客服、竞品情报分析 Agent，可直接导入 Dify 使用或二次开发。
 
@@ -89,7 +89,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 ### 🛒 [shopkeeper-agent（电商问数）](https://github.com/fuqingyingbai-netizen/shopkeeper-agent)
 
-<figure class="project-preview"><img src="/assets/img/covers/shopkeeper-agent.png" alt="混合检索、SQL 生成校验、查询与流式返回的流程示意" width="1200" height="630" loading="lazy" decoding="async"><figcaption>流程示意</figcaption></figure>
+<figure class="project-preview"><img src="/assets/img/covers/shopkeeper-agent.png" alt="混合检索、SQL 生成校验、查询与流式返回的流程示意" width="1200" height="630" loading="lazy" decoding="async"></figure>
 
 基于 LangGraph 的智能数据分析 Agent 实战项目：自然语言提问 → 混合检索 → SQL 生成与执行 → 流式返回分析结果。通过这个项目系统练习了智能体工作流编排与前后端联调。
 

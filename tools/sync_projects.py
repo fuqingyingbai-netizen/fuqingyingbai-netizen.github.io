@@ -103,7 +103,7 @@ def render_project(project: dict, repo: dict | None, user: str) -> str:
             f'<img src="{escape(project["cover"], quote=True)}" '
             f'alt="{escape(project.get("cover_alt", "项目流程示意"), quote=True)}" '
             'width="1200" height="630" loading="lazy" decoding="async">'
-            '<figcaption>流程示意</figcaption></figure>', ""
+            '</figure>', ""
         ])
     lines.append(project.get("description", "").strip())
     lines.append("")

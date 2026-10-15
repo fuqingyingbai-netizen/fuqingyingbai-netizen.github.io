@@ -38,7 +38,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); o
 .project-reading { margin-top: .9rem; font-size: .78rem; color: var(--site-accent); }
 .project-preview { margin: 0 0 1rem; }
 .project-preview img, .case-figure img { display: block; width: 100%; height: auto; border-radius: 9px; }
-.project-preview figcaption, .case-figure figcaption { margin-top: .3rem; color: var(--text-muted-color); font-size: .7rem; text-align: right; }
+.case-figure figcaption { margin-top: .3rem; color: var(--text-muted-color); font-size: .7rem; text-align: right; }
+.table-hint { display: none; }
 .project-actions { display: flex; flex-wrap: wrap; gap: .5rem 1rem; margin-top: 1rem; font-size: .78rem; }
 .case-figure { margin: 1.6rem 0; }
 .reading-path { margin: 1.5rem 0 2rem; }
@@ -82,6 +83,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); o
   .intro-description { font-size: .92rem; }
   .project-grid { grid-template-columns: 1fr; }
   .reading-path ol { grid-template-columns: 1fr; }
+  .table-hint { display: block; font-size: .8rem; color: var(--text-muted-color); }
   #post-list .card-body { padding: 1.15rem; }
   .note-list li { grid-template-columns: 1fr; gap: .15rem; }
   .section-heading { gap: .5rem; }
