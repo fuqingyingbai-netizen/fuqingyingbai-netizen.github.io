@@ -23,7 +23,7 @@ class Page(HTMLParser):
             self.visitor_comments = True
 
 
-def check(site: Path, waline: bool):
+def check(site: Path, waline: bool | None):
     entries = json.loads((site / "assets/js/data/search.json").read_text(encoding="utf-8"))
     assert isinstance(entries, list) and entries, "Search index is empty"
     projects = json.loads((ROOT / "_data/projects.json").read_text(encoding="utf-8"))["projects"]
@@ -43,6 +43,8 @@ def check(site: Path, waline: bool):
     assert post_pages, "No published posts"
     for post in post_pages:
         text = post.read_text(encoding="utf-8")
+        if waline is None:
+            waline = Page(text).visitor_comments
         assert Page(text).visitor_comments == waline, f"Wrong comment mode: {post.name}"
         if waline:
             assert "visitor-comments.js" in text and 'id="waline"' in text
@@ -55,6 +57,7 @@ def check(site: Path, waline: bool):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--site", default="_site")
-    parser.add_argument("--waline", action="store_true")
+    parser.add_argument("--waline", action="store_true", default=None,
+                        help="Require Waline; otherwise verify the build's active comment mode")
     options = parser.parse_args()
     check(ROOT / options.site, options.waline)
