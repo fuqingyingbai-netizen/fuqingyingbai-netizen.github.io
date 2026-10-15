@@ -52,6 +52,7 @@ jobs:
       - name: 校验前端与评论服务入口语法
         run: |
           node --check assets/js/site-accessibility.js
+          node --check assets/js/career.js
           node --check assets/js/visitor-comments.js
           node --check tools/waline-server/api/index.js
 

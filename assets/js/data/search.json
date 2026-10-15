@@ -18,7 +18,7 @@ swcache: true
   }
   {% endfor %}
   {% for tab in site.tabs %}
-  {% if tab.url == '/about/' or tab.url == '/resources/' %}
+  {% if tab.url == '/about/' or tab.url == '/resources/' or tab.url == '/career/' %}
   {% unless first %},{% endunless %}{% assign first = false %}
   {
     {% assign tab_key = tab.url | remove: '/' %}
@@ -26,7 +26,7 @@ swcache: true
     "url": {{ tab.url | relative_url | jsonify }},
     "categories": "页面",
     "tags": "",
-    "content": {{ tab.content | markdownify | strip_html | normalize_whitespace | jsonify }}
+    "content": {{ tab.search_content | default: tab.content | markdownify | strip_html | normalize_whitespace | jsonify }}
   }
   {% endif %}
   {% endfor %}
