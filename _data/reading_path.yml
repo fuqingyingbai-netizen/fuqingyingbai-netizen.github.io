@@ -1,0 +1,12 @@
+- title: 理解智能体编排
+  text: 从状态、节点和条件边开始，看 LangGraph 怎样组织问数流程。
+  url: /posts/LangGraph学习笔记-用问数工作流理解图式智能体/
+  label: 阅读 LangGraph 笔记
+- title: 串起一条工程链路
+  text: 把检索、SQL 生成、后端接口与前端联调放在一起看。
+  url: /posts/练习项目总结-电商问数智能Agent/
+  label: 阅读问数项目复盘
+- title: 导入一个应用试试
+  text: 对照出题、客服和竞品分析三个场景，理解工作流、知识库与工具调用。
+  url: /projects/dify-apps/
+  label: 查看 Dify 应用说明

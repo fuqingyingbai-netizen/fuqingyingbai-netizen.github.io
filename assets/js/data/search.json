@@ -30,6 +30,17 @@ swcache: true
   }
   {% endif %}
   {% endfor %}
+  {% assign project_cases = site.pages | where: 'project_case', true %}
+  {% for item in project_cases %}
+  {% unless first %},{% endunless %}{% assign first = false %}
+  {
+    "title": {{ item.title | jsonify }},
+    "url": {{ item.url | relative_url | jsonify }},
+    "categories": "项目说明",
+    "tags": {{ item.tags | join: ', ' | jsonify }},
+    "content": {{ item.content | markdownify | strip_html | normalize_whitespace | jsonify }}
+  }
+  {% endfor %}
   {% for project in site.data.projects.projects %}
   {% unless first %},{% endunless %}{% assign first = false %}
   {

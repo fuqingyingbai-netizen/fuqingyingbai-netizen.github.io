@@ -87,6 +87,17 @@ class RenderProjectTests(unittest.TestCase):
         text = MODULE.render_project(self.project, make_repo(language=None), "example")
         self.assertIn("语言：未标注", text)
 
+    def test_keeps_case_and_preview_when_regenerated(self):
+        project = dict(self.project, group="all", cover="/assets/img/covers/demo.png",
+                       cover_alt="流程示意", detail_url="/projects/demo/",
+                       article_url="/projects/demo/")
+        page = MODULE.render_page({"user": "example", "projects": [project]},
+                                  {"demo": make_repo()})
+        self.assertIn('src="/assets/img/covers/demo.png"', page)
+        self.assertIn('alt="流程示意"', page)
+        self.assertEqual(page.count('href="/projects/demo/"'), 1)
+        self.assertIn("https://github.com/example/demo", page)
+
 
 class RenderPageTests(unittest.TestCase):
     meta = {

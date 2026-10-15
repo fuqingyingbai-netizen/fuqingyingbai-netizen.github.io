@@ -97,6 +97,14 @@ def render_project(project: dict, repo: dict | None, user: str) -> str:
     title = project.get("title", name)
 
     lines = [f'<article class="project-card" id="project-{escape(name, quote=True)}" markdown="1">', "", f"### {emoji} [{title}]({url})", ""]
+    if project.get("cover"):
+        lines.extend([
+            '<figure class="project-preview">'
+            f'<img src="{escape(project["cover"], quote=True)}" '
+            f'alt="{escape(project.get("cover_alt", "项目流程示意"), quote=True)}" '
+            'width="1200" height="630" loading="lazy" decoding="async">'
+            '</figure>', ""
+        ])
     lines.append(project.get("description", "").strip())
     lines.append("")
 
@@ -129,7 +137,11 @@ def render_project(project: dict, repo: dict | None, user: str) -> str:
         lines.append("")
 
     article_url = project.get("article_url")
-    if article_url and not note:
+    detail_url = project.get("detail_url")
+    if detail_url:
+        label = project.get("detail_label", "查看项目说明")
+        lines.extend([f'<a class="project-reading" href="{escape(detail_url, quote=True)}">{escape(label)} →</a>', ""])
+    if article_url and article_url != detail_url and not note:
         lines.extend([f"[阅读项目复盘 →]({article_url})", ""])
 
     lines.append("</article>")

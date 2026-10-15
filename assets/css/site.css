@@ -36,6 +36,20 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); o
 .project-tags { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem; margin-top: auto; margin-bottom: 0; }
 .project-tags li { background: var(--site-tint); color: var(--site-accent); font-size: .7rem; padding: .2rem .5rem; border-radius: 5px; }
 .project-reading { margin-top: .9rem; font-size: .78rem; color: var(--site-accent); }
+.project-preview { margin: 0 0 1rem; }
+.project-preview img, .case-figure img { display: block; width: 100%; height: auto; border-radius: 9px; }
+.case-figure figcaption { margin-top: .3rem; color: var(--text-muted-color); font-size: .7rem; text-align: right; }
+.table-hint { display: none; }
+.project-actions { display: flex; flex-wrap: wrap; gap: .5rem 1rem; margin-top: 1rem; font-size: .78rem; }
+.case-figure { margin: 1.6rem 0; }
+.reading-path { margin: 1.5rem 0 2rem; }
+.reading-path > h2 { font-size: 1.2rem; margin-top: 0; }
+.reading-path ol { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; counter-reset: reading; }
+.reading-path li { min-width: 0; padding: 1.1rem; border: 1px solid var(--main-border-color); border-radius: 12px; background: var(--site-tint); counter-increment: reading; }
+.reading-path h3 { margin: 0 0 .6rem; font-size: .95rem; }
+.reading-path h3::before { content: '0' counter(reading) ' / '; color: var(--site-accent); font-size: .75rem; }
+.reading-path p { margin-bottom: .8rem; font-size: .82rem; line-height: 1.8; color: var(--text-muted-color); }
+.reading-path a { font-size: .8rem; }
 .project-card blockquote { margin: .8rem 0 0; padding: .2rem 0 .2rem .8rem; font-size: .8rem; }
 .project-card blockquote p { margin: 0; }
 .project-card code { white-space: normal; }
@@ -68,6 +82,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); o
   .home-intro { padding: 1.4rem; margin-bottom: 2rem; }
   .intro-description { font-size: .92rem; }
   .project-grid { grid-template-columns: 1fr; }
+  .reading-path ol { grid-template-columns: 1fr; }
+  .table-hint { display: block; font-size: .8rem; color: var(--text-muted-color); }
   #post-list .card-body { padding: 1.15rem; }
   .note-list li { grid-template-columns: 1fr; gap: .15rem; }
   .section-heading { gap: .5rem; }

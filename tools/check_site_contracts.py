@@ -30,6 +30,9 @@ def check(site: Path, waline: bool | None):
     expected = {f"/projects/#project-{p['repo']}" for p in projects}
     actual = {entry["url"] for entry in entries if entry["categories"] == "项目"}
     assert expected == actual, "Project search entries do not match the source data"
+    case_urls = {p["detail_url"] for p in projects if p.get("detail_url", "").startswith("/projects/")}
+    indexed_cases = {entry["url"] for entry in entries if entry["categories"] == "项目说明"}
+    assert case_urls == indexed_cases, "Project case pages are missing from search"
     for entry in entries:
         parsed = urlsplit(entry["url"])
         assert not parsed.scheme and parsed.path.startswith("/"), "Search must point to local content"
