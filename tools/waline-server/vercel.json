@@ -1,4 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "regions": ["sin1"],
+  "env": { "NODE_OPTIONS": "--experimental-require-module" },
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "node_modules/{@mathjax/mathjax-newcm-font,@mathjax/mathjax-tex-font,mhchemparser,ip2region/data,@waline/core,@waline/vercel}/**/*"
+    }
+  },
   "rewrites": [{ "source": "/(.*)", "destination": "/api/index" }]
 }
