@@ -1,5 +1,8 @@
 const container = document.querySelector('[data-comments-server]');
 if (container) {
+  // Chirpy emits comment providers with its scripts; mount beside the article footer.
+  const footer = document.querySelector('#tail-wrapper footer');
+  if (footer) footer.before(container);
   const version = '3.16.1';
   const base = `https://cdn.jsdelivr.net/npm/@waline/client@${version}/dist/`;
   const status = container.querySelector('.comment-status');
