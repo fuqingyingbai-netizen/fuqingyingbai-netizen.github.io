@@ -1,0 +1,47 @@
+name: Weekly Summary
+
+on:
+  schedule:
+    # 每周日北京时间 20:00（UTC 12:00）；Actions 的定时执行可能延迟。
+    - cron: "0 12 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: content-updates
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Generate public activity digest
+        run: python tools/weekly_summary.py
+      - name: Commit this week's post
+        id: commit
+        run: |
+          git add _posts/
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "docs: 发布本周公开 GitHub 活动总结"
+          git pull --rebase origin main
+          git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: Rebuild website
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run pages-deploy.yml --ref main

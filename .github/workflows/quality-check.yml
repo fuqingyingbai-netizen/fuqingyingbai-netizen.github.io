@@ -2,6 +2,8 @@ name: Quality Check
 
 # 推送、每周定时和手动触发时执行：构建校验 + 项目页同步校验 + 外链检查
 on:
+  pull_request:
+    branches: [main]
   push:
     branches:
       - main
@@ -44,12 +46,21 @@ jobs:
       - name: 检查站内链接
         run: python tools/check_internal_links.py
 
+      - name: 保存 PR 预览页面
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-preview
+          path: _site
+          retention-days: 3
+
       - name: 检查文章与页面中的外部链接
         uses: lycheeverse/lychee-action@v2
         with:
           args: >-
             --no-progress
             --max-concurrency 4
+            --base-url https://fuqingyingbai-netizen.github.io
             --accept 200,204,206,301,302,403,429
             ./_posts/*.md ./_tabs/*.md ./README.md
           fail: false

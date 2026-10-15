@@ -20,6 +20,12 @@
 
 ## 目录结构
 
+首页增加了个人介绍与项目精选；“学习记录”将学习笔记、项目随笔和每周总结集中展示。
+精选项目与项目页共用 `_data/projects.json`，设置 `featured: true` 即可出现在首页（最多三个）；
+`short_title` / `summary` 控制精选卡片的简短介绍，`article_url` 可关联已有项目复盘。
+视觉样式位于 `assets/css/site.css`，沿用 Chirpy 的深浅色主题。
+导航调整不会改变 `/posts/:title/` 或原有页面地址。
+
 ```text
 ├── _config.yml          # 站点全局配置（标题、简介、社交链接、头像等）
 ├── _data/
@@ -93,13 +99,36 @@ avatar: /assets/img/avatar.png
 
 ## 自动化与质量检查
 
-仓库内置了三个自动化能力，都在 `.github/workflows/` 里：
+仓库内置了四个自动化流程，都在 `.github/workflows/` 里：
 
 | 工作流 | 触发方式 | 作用 |
 | --- | --- | --- |
 | `pages-deploy.yml` | 推送到 main | 构建站点并部署到 GitHub Pages |
 | `sync-projects.yml` | 每周一 + 手动 | 调用 GitHub API 同步项目信息，自动更新项目页并触发网站重建 |
-| `quality-check.yml` | 推送 + 每周一 + 手动 | 构建校验、项目页同步校验、外链检查 |
+| `quality-check.yml` | PR + 推送 + 每周一 + 手动 | 构建校验、项目页同步校验、外链检查 |
+| `weekly-summary.yml` | 每周日北京时间 20:00 + 手动 | 自 2026-10-18 起汇总公开 GitHub 活动，提交文章后触发网站重建 |
+
+### 每周中文总结
+
+`tools/weekly_summary.py` 使用**匿名公开活动接口**，并在发布时再次核验涉及仓库仍公开。
+它按北京时间“上周日 20:00 至本周日 20:00”的固定区间整理来源链接，不读取私有仓库、
+聊天记录或活动正文，不调用模型。已存在的当期文章不会被覆盖，首次到期前运行会直接跳过。
+以后若加入聊天素材，须先取得逐项公开授权；当前自动流程不接入任何聊天内容。
+
+```bash
+python tools/weekly_summary.py --dry-run  # 到期后预览，不写文章
+python -m unittest discover -s tools/tests -v
+```
+
+GitHub Actions 定时任务可能延迟，公开活动接口也存在延迟和 300 条上限；文章会说明覆盖范围，
+不会将推送次数写成提交数或推测本周完成的学习成果。网络错误会终止发布，避免生成误导性的空报告。
+项目同步和周总结共用写入并发组，自动提交后显式触发 Pages 部署。
+
+### 主题覆盖文件
+
+`_layouts/home.html` 与 `_includes/head.html` 基于 Chirpy v7.6.0。
+前者保留主题的分页逻辑，后者允许浏览器缩放；升级主题时应对照上游检查这两个文件。
+构建依赖和本地预览文件不要提交到仓库。
 
 ### 项目展示页自动生成
 
@@ -176,4 +205,4 @@ bundle exec jekyll serve
 
 ## 许可
 
-主题部分遵循 [MIT License](LICENSE)，网站内容版权归作者所有。
+主题部分遵循 [MIT License](https://github.com/fuqingyingbai-netizen/fuqingyingbai-netizen.github.io/blob/main/LICENSE)，网站内容版权归作者所有。

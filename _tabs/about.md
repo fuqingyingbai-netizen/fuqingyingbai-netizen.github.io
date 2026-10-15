@@ -1,7 +1,7 @@
 ---
 # the default layout is 'page'
 icon: fas fa-info-circle
-order: 3
+order: 1
 ---
 
 ## 你好，我是沈郑毅 👋

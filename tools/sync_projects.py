@@ -16,6 +16,7 @@
 from __future__ import annotations
 
 import argparse
+from html import escape
 import json
 import os
 import sys
@@ -36,14 +37,14 @@ TIMEOUT_SECONDS = 30
 
 HEADER = """---
 icon: fas fa-laptop-code
-order: 1
+order: 2
 title: 项目
 ---
 
 <!-- 本文件由 tools/sync_projects.py 自动生成，请勿直接修改。 -->
 <!-- 如需增删项目或调整介绍，请编辑 _data/projects.json 后重新运行脚本。 -->
 
-下面是我在 GitHub 上的项目，项目信息（语言、星标数、最近更新）由脚本自动同步。
+从个人工具到 AI 应用，这里记录我做过的项目和学习实践。每个项目都附有仓库入口，方便查看代码。
 """
 
 
@@ -95,7 +96,7 @@ def render_project(project: dict, repo: dict | None, user: str) -> str:
     emoji = project.get("emoji", "📦")
     title = project.get("title", name)
 
-    lines = [f"### {emoji} [{title}]({url})", ""]
+    lines = ['<article class="project-card" markdown="1">', "", f"### {emoji} [{title}]({url})", ""]
     lines.append(project.get("description", "").strip())
     lines.append("")
 
@@ -114,13 +115,24 @@ def render_project(project: dict, repo: dict | None, user: str) -> str:
             language = repo.get("language") or "未标注"
             stars = repo.get("stargazers_count", 0)
             updated = format_date(repo.get("pushed_at"))
-            lines.append(f"*语言：{language}　|　最近更新：{updated}　|　⭐ {stars}*")
+            lines.append(
+                '<div class="project-stats">'
+                f'<span>语言：{escape(language)}</span>'
+                f'<span>最近更新：{updated}</span>'
+                f'<span>⭐ {stars}</span></div>'
+            )
             lines.append("")
 
     note = project.get("note")
     if note:
         lines.append(f"> {note}")
         lines.append("")
+
+    article_url = project.get("article_url")
+    if article_url and not note:
+        lines.extend([f"[阅读项目复盘 →]({article_url})", ""])
+
+    lines.append("</article>")
 
     return "\n".join(lines).rstrip()
 
@@ -138,9 +150,11 @@ def render_page(meta: dict, repos: dict[str, dict]) -> str:
             continue
         blocks.append(f"## {group['title']}")
         blocks.append("")
+        blocks.extend(['<div class="project-grid" markdown="1">', ""])
         for project in members:
             blocks.append(render_project(project, repos.get(project["repo"]), user))
             blocks.append("")
+        blocks.extend(["</div>", ""])
 
     blocks.append("---")
     blocks.append("")

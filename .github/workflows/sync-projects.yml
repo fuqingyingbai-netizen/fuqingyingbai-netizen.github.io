@@ -11,6 +11,10 @@ permissions:
   contents: write
   actions: write
 
+concurrency:
+  group: content-updates
+  cancel-in-progress: false
+
 jobs:
   sync:
     runs-on: ubuntu-latest
