@@ -1,0 +1,28 @@
+---
+layout: page
+---
+
+<p class="page-lead">{{ page.description | escape }}</p>
+<section aria-labelledby="featured-topics">
+  <h2 id="featured-topics">常用主题</h2>
+  <nav class="topic-links" aria-label="常用主题">
+    {% for name in site.data.content_navigation.topics %}
+      {% assign posts = site.tags[name] %}
+      {% if posts.size > 0 %}
+      <a class="topic-link" href="{{ name | slugify | url_encode | prepend: '/tags/' | append: '/' | relative_url }}"><span>{{ name | escape }}</span><small>{{ posts.size }} 篇</small></a>
+      {% endif %}
+    {% endfor %}
+  </nav>
+</section>
+
+<details class="all-topics" id="all-tags">
+  <summary>全部标签 <span class="text-muted">{{ site.tags.size }}</span></summary>
+  <p class="text-muted">按名称排列，保留每个细分主题的阅读入口。</p>
+  <div id="tags" class="d-flex flex-wrap">
+    {% assign sorted_tags = site.tags | sort %}
+    {% for item in sorted_tags %}
+      {% assign name = item[0] %}
+      <div><a class="tag" href="{{ name | slugify | url_encode | prepend: '/tags/' | append: '/' | relative_url }}">{{ name | escape }} <span class="text-muted">{{ item[1].size }}</span></a></div>
+    {% endfor %}
+  </div>
+</details>

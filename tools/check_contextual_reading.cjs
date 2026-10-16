@@ -84,6 +84,14 @@ const cases = [
         assert(await phone.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${width}/${scale}% article overflowed`);
       }
       assert.equal(await phone.locator('#panel-wrapper').isVisible(), false);
+      // Long project titles must leave the mobile menu/search controls in view at 200%.
+      for (const route of ['/projects/resume-evaluator-agent/', '/projects/dify-apps/']) {
+        await phone.goto(base + route, { waitUntil: 'networkidle' });
+        await phone.evaluate(() => document.documentElement.style.fontSize = '200%');
+        assert(await phone.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${width} enlarged project title overflowed`);
+        const searchButton = await phone.locator('#search-trigger').boundingBox();
+        assert(searchButton.x >= 0 && searchButton.x + searchButton.width <= width, 'Search control left the viewport');
+      }
       await mobile.close();
     }
     const plain = await browser.newContext({ viewport: { width: 1413, height: 871 }, javaScriptEnabled: false, reducedMotion: 'reduce' });

@@ -36,6 +36,19 @@ image: /assets/img/covers/resume-evaluator-agent.png
 
 ## 怎样对照代码阅读
 
+可以先看工具怎样交还执行结果。下面摘自公开代码，成功时原样返回标准输出，失败时返回错误说明：
+
+```python
+if result.returncode != 0:
+    return f"工作流执行失败: {result.stderr}"
+
+return result.stdout
+```
+
+这段代码展示的是返回逻辑。报告的具体字段和内容取决于绑定的 Coze 工作流；它没有在这一层校验报告结构，也没有提供可供核对的评估分数样例。执行超过 120 秒时，代码另行返回“工作流执行超时，请稍后重试”。
+
+[查看这段代码的固定版本](https://github.com/fuqingyingbai-netizen/resume-evaluator-agent/blob/eef05e7cd70122a45984edf3d36f48dc5f490c4f/src/tools/coze_workflow_tool.py)。继续阅读时，可以沿着下面三处入口核对：
+
 - [Agent 组装入口](https://github.com/fuqingyingbai-netizen/resume-evaluator-agent/blob/main/src/agents/agent.py)：看模型、工具与消息状态怎样连接。
 - [工作流工具封装](https://github.com/fuqingyingbai-netizen/resume-evaluator-agent/blob/main/src/tools/coze_workflow_tool.py)：看文件输入、平台调用和结果返回。
 - [依赖配置](https://github.com/fuqingyingbai-netizen/resume-evaluator-agent/blob/main/pyproject.toml)：项目声明 Python 3.12 及以上，并依赖 Coze 相关运行组件。
@@ -58,4 +71,4 @@ bash scripts/http_run.sh -m http -p 5000
 
 这页介绍的是公开代码中的对话入口与工作流调用方式。评估工作流的完整平台编排、实际输出样例和效果评测尚未在本页展示，不能据此判断评估准确性。
 
-核对日期：2026-10-15。后续有可公开的运行示例时，再补充展示与验证过程。
+核对日期：2026-10-16。后续有可公开的运行示例时，再补充展示与验证过程。

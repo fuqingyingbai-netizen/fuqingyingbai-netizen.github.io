@@ -34,6 +34,20 @@ image: /assets/img/covers/dify-apps.png
 
 ## 导入与检查
 
+以智能客服为例，公开 DSL 中的问题分类器包含“产品使用”“信号问题”“退款退货”等类别。下面是其中两个类别的配置摘录，省略了其他字段：
+
+```yaml
+classes:
+  - id: '1'
+    label: CLASS 1
+    name: 产品使用
+  - id: '2'
+    label: CLASS 2
+    name: 信号问题
+```
+
+[对照固定版本的完整 DSL](https://github.com/fuqingyingbai-netizen/dify-apps/blob/670d5037ec294ec84333bbfd58c804b79a5ea7d0/apps/smart-customer-service/app.yml)。在自己的工作区导入后，可以用“如何使用这个产品？”这样的构造问题，观察分类器输出，再检查后续节点的输入、知识检索结果和最终回复。这个问题仅作为试用输入，实际分类与回答需要运行后核验。
+
 1. 在 Dify 工作区的 Studio 中选择导入 DSL 文件，使用对应目录下的 `app.yml`。
 2. 对照该应用的 README 安装插件，并在工作区配置模型连接。
 3. 重新绑定自己的知识库或飞书目标文档，核对工具权限。
@@ -48,4 +62,4 @@ image: /assets/img/covers/dify-apps.png
 - [竞品分析说明与 DSL](https://github.com/fuqingyingbai-netizen/dify-apps/tree/main/apps/competitive-intel-agent)
 - [Dify 官方导入与管理说明](https://docs.dify.ai/en/cloud/use-dify/workspace/app-management)
 
-核对日期：2026-10-15。本页按公开仓库说明整理；运行截图、实际输出与效果评测需要在可公开的材料上另行补充。
+核对日期：2026-10-16。本页按公开仓库说明与配置整理；运行截图、实际输出与效果评测需要在可公开的材料上另行补充。

@@ -14,10 +14,18 @@ class Page(HTMLParser):
         self.ids = []
         self.visitor_comments = False
         self.dependencies = []
+        self.meta = {}
+        self.canonical = []
         self.feed(text)
 
     def handle_starttag(self, tag, attrs):
         values = dict(attrs)
+        if tag == "meta":
+            key = values.get("property") or values.get("name")
+            if key:
+                self.meta.setdefault(key, []).append(values.get("content", ""))
+        if tag == "link" and values.get("rel") == "canonical":
+            self.canonical.append(values.get("href", ""))
         if values.get("id"):
             self.ids.append(values["id"])
         if "data-comments-server" in values:
@@ -30,6 +38,20 @@ class Page(HTMLParser):
 
 def check(site: Path, waline: bool | None):
     home = Page((site / "index.html").read_text(encoding="utf-8"))
+    summaries = []
+    for route in ["", "about", "projects", "notes", "resources", "career", "categories", "tags", "archives"]:
+        page = Page((site / route / "index.html").read_text(encoding="utf-8"))
+        descriptions = page.meta.get("description", [])
+        assert len(descriptions) == 1 and 20 <= len(descriptions[0]) <= 160, f"Missing or unsuitable page summary: /{route}"
+        summary = descriptions[0]
+        assert page.meta.get("og:description") == [summary], f"Share summary differs: /{route}"
+        assert page.meta.get("og:image") and len(page.meta["og:image"]) == 1, f"Share image missing or duplicated: /{route}"
+        image = urlsplit(page.meta["og:image"][0])
+        assert image.scheme == "https" and image.netloc == urlsplit(home.canonical[0]).netloc, f"Share image is not hosted on the site: /{route}"
+        assert (site / image.path.lstrip("/")).is_file(), f"Share image missing: {image.path}"
+        assert len(page.canonical) == 1 and page.meta.get("og:url") == page.canonical, f"Canonical mismatch: /{route}"
+        summaries.append(summary)
+    assert len(set(summaries)) == len(summaries), "Page summaries must describe their own sections"
     for dependency in home.dependencies:
         parsed = urlsplit(dependency)
         assert not parsed.netloc and not parsed.scheme, f"Home theme dependency is external: {dependency}"
@@ -64,7 +86,7 @@ def check(site: Path, waline: bool | None):
         else:
             assert "https://giscus.app/client.js" in text
     assert not (site / "tools").exists(), "Deployment source must not be publicly served"
-    print(f"[site-contracts] {len(entries)} search entries, {len(actual)} project anchors, {len(post_pages)} post comment modes verified")
+    print(f"[site-contracts] {len(entries)} search entries, {len(actual)} project anchors, {len(post_pages)} post comment modes, {len(summaries)} share summaries verified")
 
 
 if __name__ == "__main__":

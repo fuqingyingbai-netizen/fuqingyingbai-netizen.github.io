@@ -1,0 +1,29 @@
+---
+layout: page
+---
+
+<p class="page-lead">{{ page.description | escape }}</p>
+<section aria-labelledby="record-types">
+  <h2 id="record-types">记录类型</h2>
+  <nav class="content-types" aria-label="按记录类型阅读">
+    {% assign primary_names = site.data.content_navigation.types | map: 'name' %}
+    {% for type in site.data.content_navigation.types %}
+      {% assign posts = site.categories[type.name] %}
+      {% assign count = posts.size | default: 0 %}
+      {% capture target %}{% if count > 0 %}/categories/{{ type.name | slugify | url_encode }}/{% else %}/notes/#{{ type.anchor }}{% endif %}{% endcapture %}
+      <a class="content-type" href="{{ target | relative_url }}"><span class="content-type-title">{{ type.name }} <small>{{ count }} 篇</small></span><span class="content-type-description">{{ type.description }}</span>{% if count == 0 %}<small>记录将陆续更新 →</small>{% endif %}</a>
+    {% endfor %}
+  </nav>
+</section>
+<section aria-labelledby="more-categories">
+  <h2 id="more-categories">专题分类</h2>
+  <nav class="topic-links" aria-label="专题分类">
+    {% assign sorted_categories = site.categories | sort %}
+    {% for item in sorted_categories %}
+      {% assign name = item[0] %}
+      {% unless primary_names contains name %}
+      <a class="topic-link" href="{{ name | slugify | url_encode | prepend: '/categories/' | append: '/' | relative_url }}"><span>{{ name | escape }}</span><small>{{ item[1].size }} 篇</small></a>
+      {% endunless %}
+    {% endfor %}
+  </nav>
+</section>

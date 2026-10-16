@@ -81,7 +81,26 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); o
 .note-list li { display: grid; grid-template-columns: 6rem 1fr; gap: .8rem; align-items: baseline; padding: .9rem 0; border-bottom: 1px solid var(--main-border-color); }
 .note-list time { color: var(--text-muted-color); font-size: .8rem; font-variant-numeric: tabular-nums; }
 .empty-note { color: var(--text-muted-color); padding: 1rem; background: var(--site-tint); border-radius: 8px; }
+/* Content indexes use the same quiet cards as the rest of the site. */
+.content-types, .about-paths { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: .9rem; margin: 1.2rem 0 2rem; }
+.content-type, .about-paths > a { display: flex; flex-direction: column; gap: .6rem; min-width: 0; padding: 1.2rem; border: 1px solid var(--main-border-color) !important; border-radius: 12px; color: var(--heading-color); background: var(--card-bg); }
+.content-type:hover, .about-paths > a:hover { border-color: var(--site-accent) !important; }
+.content-type-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem 1rem; font-weight: 600; }
+.content-type-title small, .content-type-description, .about-paths > a > span { font-size: .85rem; font-weight: 400; color: var(--text-muted-color); }
+.content-type > small { font-size: .8rem; color: var(--site-accent); }
+.about-paths strong { display: flex; align-items: baseline; justify-content: space-between; gap: .6rem; font-size: .95rem; }
+.topic-links { display: flex; flex-wrap: wrap; gap: .7rem; margin: 1.2rem 0 2rem; }
+.topic-link { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: .5rem 1rem; padding: .65rem 1rem; border: 1px solid var(--main-border-color) !important; border-radius: 9px; color: var(--site-accent); background: var(--site-tint); }
+.topic-link small { color: var(--text-muted-color); font-size: .8rem; }
+.all-topics { margin-top: 2rem; border-top: 1px solid var(--main-border-color); padding-top: .6rem; }
+.all-topics summary { width: fit-content; max-width: 100%; padding: .7rem 0; cursor: pointer; font-weight: 600; }
+.all-topics summary .text-muted { margin-left: .5rem; font-weight: 400; }
+.all-topics > p { margin: .5rem 0 1rem; font-size: .85rem; }
+.all-topics:target { scroll-margin-top: 4rem; }
+.all-topics #tags .tag { display: inline-flex; align-items: center; min-height: 44px; white-space: normal; overflow-wrap: anywhere; }
 @media (max-width: 849px) {
+  #topbar-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #topbar > button { flex-shrink: 0; }
   /* Keep the article in place while Chirpy's existing drawer/mask opens. */
   [sidebar-display] #main-wrapper { transform: none; }
   [sidebar-display] #mask { background: rgb(0 0 0 / 35%); }
