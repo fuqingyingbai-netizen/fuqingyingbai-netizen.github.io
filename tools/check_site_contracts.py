@@ -13,6 +13,7 @@ class Page(HTMLParser):
         super().__init__()
         self.ids = []
         self.visitor_comments = False
+        self.dependencies = []
         self.feed(text)
 
     def handle_starttag(self, tag, attrs):
@@ -21,9 +22,18 @@ class Page(HTMLParser):
             self.ids.append(values["id"])
         if "data-comments-server" in values:
             self.visitor_comments = True
+        if tag == "script" and values.get("src"):
+            self.dependencies.append(values["src"])
+        if tag == "link" and values.get("rel") == "stylesheet":
+            self.dependencies.append(values["href"])
 
 
 def check(site: Path, waline: bool | None):
+    home = Page((site / "index.html").read_text(encoding="utf-8"))
+    for dependency in home.dependencies:
+        parsed = urlsplit(dependency)
+        assert not parsed.netloc and not parsed.scheme, f"Home theme dependency is external: {dependency}"
+        assert (site / parsed.path.lstrip("/")).is_file(), f"Local dependency missing: {dependency}"
     entries = json.loads((site / "assets/js/data/search.json").read_text(encoding="utf-8"))
     assert isinstance(entries, list) and entries, "Search index is empty"
     projects = json.loads((ROOT / "_data/projects.json").read_text(encoding="utf-8"))["projects"]

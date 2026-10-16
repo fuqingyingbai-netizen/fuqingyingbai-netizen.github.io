@@ -1,0 +1,11 @@
+{
+  "source": "https://registry.npmjs.org/dayjs/-/dayjs-1.11.21.tgz",
+  "files": [
+    "locale/zh.js",
+    "locale/en.js"
+  ],
+  "license": "MIT",
+  "package": "dayjs",
+  "integrity": "sha512-98IT+HOahAisibz/yjKbzuOBwYcjJ7BCLPzARyHiyEBmRz4fatF+KPJszEHXsGYjUG234aH/cOjW1wwTbKUZlA==",
+  "version": "1.11.21"
+}

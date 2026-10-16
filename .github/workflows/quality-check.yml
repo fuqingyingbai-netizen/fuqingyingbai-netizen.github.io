@@ -23,6 +23,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          submodules: true
 
       - name: 准备 Ruby
         uses: ruby/setup-ruby@v1
@@ -50,6 +51,14 @@ jobs:
 
       - name: 检查搜索定位与当前评论模式
         run: python tools/check_site_contracts.py
+
+      - name: 保存 PR 预览页面
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-preview
+          path: _site
+          retention-days: 3
 
       - name: 检查 WebKit 手机菜单、放大文字与横屏切换
         env:
@@ -80,14 +89,6 @@ jobs:
           bundle exec jekyll build --config _config.yml,tools/tests/waline-preview.yml -d _site-waline
           python tools/check_site_contracts.py --site _site-waline --waline
           python tools/check_internal_links.py --site _site-waline
-
-      - name: 保存 PR 预览页面
-        if: github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v4
-        with:
-          name: site-preview
-          path: _site
-          retention-days: 3
 
       - name: 保存 Waline 适配预览
         if: github.event_name == 'pull_request'

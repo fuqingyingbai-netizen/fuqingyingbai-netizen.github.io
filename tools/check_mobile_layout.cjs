@@ -19,11 +19,28 @@ const base = process.env.LAYOUT_BASE_URL || 'http://127.0.0.1:4173';
       { width: 844, height: 390 }
     ]) {
       const context = await browser.newContext({ viewport, isMobile: true, hasTouch: true });
+      const external = [];
+      await context.route('**/*', route => {
+        if (new URL(route.request().url()).origin !== new URL(base).origin) {
+          external.push(route.request().url());
+          return route.abort();
+        }
+        return route.continue();
+      });
       const page = await context.newPage();
       try {
         const response = await page.goto(base, { waitUntil: 'networkidle' });
         assert.equal(response.status(), 200);
         await page.evaluate(() => document.fonts.ready);
+        assert.equal(await page.evaluate(() => dayjs.locale()), 'zh');
+        if (viewport.width === 390) {
+          const latestTop = await page.locator('#post-list').evaluate(el => el.getBoundingClientRect().top);
+          assert(latestTop < 1200, `Latest articles are too far down the mobile page: ${latestTop}`);
+          assert.equal(await page.locator('.featured-projects .project-card').count(), 3);
+          assert.equal(await page.locator('.featured-projects .project-preview:visible').count(), 0);
+        }
+        assert.equal(await page.locator('#sidebar-trigger').getAttribute('aria-expanded'), 'false');
+        assert(await page.locator('#sidebar').evaluate(el => el.inert));
         for (const fontScale of [100, 125, 200]) {
           await page.evaluate(scale => {
             document.documentElement.style.fontSize = `${scale}%`;
@@ -53,6 +70,8 @@ const base = process.env.LAYOUT_BASE_URL || 'http://127.0.0.1:4173';
             };
           });
           const label = `${engine} ${viewport.width}x${viewport.height} ${fontScale}%`;
+          assert.equal(await page.locator('#sidebar-trigger').getAttribute('aria-expanded'), 'true');
+          assert(await page.locator('#main-wrapper').evaluate(el => el.inert));
           assert(layout.textBottom <= layout.subtitleBottom + 1, `${label}: subtitle escapes its box`);
           assert(layout.textBottom <= layout.navTop, `${label}: subtitle overlaps navigation`);
           assert(layout.profileBottom <= layout.navTop + 1, `${label}: profile overlaps navigation`);
@@ -87,6 +106,16 @@ const base = process.env.LAYOUT_BASE_URL || 'http://127.0.0.1:4173';
         // Large iPhones cross the theme's desktop breakpoint when rotated.
         await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
         await page.locator('#sidebar-trigger').click();
+        await page.keyboard.press('Escape');
+        await page.waitForFunction(() => !document.body.hasAttribute('sidebar-display'));
+        assert(await page.locator('#sidebar-trigger').evaluate(el => document.activeElement === el));
+        assert.equal(await page.locator('#main-wrapper').evaluate(el => el.inert), false);
+        await page.locator('#sidebar-trigger').click();
+        await page.locator('#sidebar .sidebar-bottom > a').last().focus();
+        await page.keyboard.press('Tab');
+        assert(await page.locator('#sidebar a').first().evaluate(el => document.activeElement === el));
+        await page.keyboard.press('Shift+Tab');
+        assert(await page.locator('#sidebar .sidebar-bottom > a').last().evaluate(el => document.activeElement === el));
         await page.locator('#mode-toggle').click();
         await page.locator('button.dropdown-item[data-theme-mode="dark"]').click();
         await page.waitForFunction(() => document.documentElement.dataset.bsTheme === 'dark');
@@ -97,11 +126,17 @@ const base = process.env.LAYOUT_BASE_URL || 'http://127.0.0.1:4173';
         await page.waitForFunction(() => !document.body.hasAttribute('sidebar-display'));
         assert(await page.locator('#mask').evaluate(el => el.classList.contains('d-none')));
         await page.setViewportSize(viewport);
+        await page.locator('#search-trigger').click();
+        await page.locator('#search-input').fill('Coze');
+        await page.waitForFunction(() => document.querySelectorAll('#search-results article').length > 0);
+        assert(await page.locator('#search-results a[href="/projects/resume-evaluator-agent/"]').count());
+        await page.locator('#search-cancel').click();
         await page.locator('#sidebar-trigger').click();
         assert(await page.locator('body').evaluate(el => el.hasAttribute('sidebar-display')));
         await page.locator('#sidebar a[href="/projects/"]').click();
         await page.waitForURL('**/projects/');
         assert.equal(await page.locator('body').evaluate(el => el.hasAttribute('sidebar-display')), false);
+        assert.deepEqual(external, [], 'Core pages must not request external scripts, fonts or styles');
       } finally {
         await context.close();
       }
