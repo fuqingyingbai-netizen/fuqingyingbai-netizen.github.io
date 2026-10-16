@@ -64,7 +64,7 @@ class RenderProjectTests(unittest.TestCase):
         text = MODULE.render_project(self.project, make_repo(), "example")
         self.assertIn("[演示项目](https://github.com/example/demo)", text)
         self.assertIn("`Python` `测试`", text)
-        self.assertIn("语言：Python", text)
+        self.assertNotIn("语言：Python", text)  # 已在技术标签中展示
         self.assertIn("⭐ 3", text)
         self.assertIn("最近更新：2026-09-20", text)
 
@@ -83,9 +83,15 @@ class RenderProjectTests(unittest.TestCase):
         text = MODULE.render_project(project, make_repo(), "example")
         self.assertIn("> 来自上游项目", text)
 
-    def test_unknown_language_is_labelled(self):
-        text = MODULE.render_project(self.project, make_repo(language=None), "example")
-        self.assertIn("语言：未标注", text)
+    def test_missing_stats_do_not_leave_placeholder_noise(self):
+        text = MODULE.render_project(self.project, make_repo(language=None, stargazers_count=0, pushed_at=None), "example")
+        self.assertNotIn('class="project-stats"', text)
+        self.assertNotIn("未标注", text)
+        self.assertNotIn("未知", text)
+
+    def test_useful_language_not_in_tags_is_retained(self):
+        text = MODULE.render_project(self.project, make_repo(language="TypeScript"), "example")
+        self.assertIn("语言：TypeScript", text)
 
     def test_keeps_case_and_preview_when_regenerated(self):
         project = dict(self.project, group="all", cover="/assets/img/covers/demo.png",

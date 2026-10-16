@@ -204,6 +204,11 @@ defaults:
     values:
       layout: page
       permalink: /:title/
+      image:
+        path: /assets/img/covers/site.png
+        width: 1200
+        height: 630
+        alt: 沈郑毅的学习与实践
 
 sass:
   style: compressed

@@ -39,6 +39,7 @@ HEADER = """---
 icon: fas fa-laptop-code
 order: 2
 title: 项目
+description: 从 AI 简历评估、Dify 应用到电商问数，查看个人项目与开源学习实践的用途、实现说明和公开代码。
 ---
 
 <!-- 本文件由 tools/sync_projects.py 自动生成，请勿直接修改。 -->
@@ -120,16 +121,18 @@ def render_project(project: dict, repo: dict | None, user: str) -> str:
             lines.append("*暂时无法读取该仓库的实时信息，请在 GitHub 上查看。*")
             lines.append("")
         else:
-            language = repo.get("language") or "未标注"
+            language = repo.get("language")
             stars = repo.get("stargazers_count", 0)
             updated = format_date(repo.get("pushed_at"))
-            lines.append(
-                '<div class="project-stats">'
-                f'<span>语言：{escape(language)}</span>'
-                f'<span>最近更新：{updated}</span>'
-                f'<span>⭐ {stars}</span></div>'
-            )
-            lines.append("")
+            stats = []
+            if language and language not in tags:
+                stats.append(f'<span>语言：{escape(language)}</span>')
+            if updated != "未知":
+                stats.append(f'<span>最近更新：{updated}</span>')
+            if stars > 0:
+                stats.append(f'<span>⭐ {stars}</span>')
+            if stats:
+                lines.extend(['<div class="project-stats">' + "".join(stats) + '</div>', ""])
 
     note = project.get("note")
     if note:

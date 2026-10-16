@@ -30,9 +30,10 @@
   <section class="context-module">
     <h2 class="context-heading">标签入口</h2>
     <nav aria-label="按标签细找"><ul class="context-links">
-      {% assign panel_tags = site.tags | sort %}
-      {% for panel_tag in panel_tags limit: 8 %}
-      {% assign tag_slug = panel_tag[0] | slugify | url_encode %}<li><a href="{{ '/tags/' | append: tag_slug | append: '/' | relative_url }}">{{ panel_tag[0] | escape }}</a><small>{{ panel_tag[1].size }} 篇记录</small></li>
+      {% for name in site.data.content_navigation.topics %}
+      {% assign topic_posts = site.tags[name] %}{% if topic_posts.size > 0 %}
+      {% assign tag_slug = name | slugify | url_encode %}<li><a href="{{ '/tags/' | append: tag_slug | append: '/' | relative_url }}">{{ name | escape }}</a><small>{{ topic_posts.size }} 篇记录</small></li>
+      {% endif %}
       {% endfor %}
       <li><a href="{{ '/tags/' | relative_url }}">查看全部标签 →</a></li>
     </ul></nav>

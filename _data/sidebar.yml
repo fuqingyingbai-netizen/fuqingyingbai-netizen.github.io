@@ -4,9 +4,12 @@ notes:
     - label: 学习笔记
       url: /notes/#learning
       text: 概念、方法与代码理解
-    - label: 项目与随笔
+    - label: 项目复盘
       url: /notes/#practice
-      text: 工程实践与阶段思考
+      text: 实现过程与联调记录
+    - label: 随笔
+      url: /notes/#essays
+      text: 阶段思考与日常记录
     - label: 每周总结
       url: /notes/#weekly
       text: 公开活动与每周进展

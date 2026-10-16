@@ -2,6 +2,7 @@
 icon: fas fa-laptop-code
 order: 2
 title: 项目
+description: 从 AI 简历评估、Dify 应用到电商问数，查看个人项目与开源学习实践的用途、实现说明和公开代码。
 ---
 
 <!-- 本文件由 tools/sync_projects.py 自动生成，请勿直接修改。 -->
@@ -23,7 +24,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 `Python` `LangChain` `Coze`
 
-<div class="project-stats"><span>语言：Python</span><span>最近更新：2026-05-30</span><span>⭐ 0</span></div>
+<div class="project-stats"><span>最近更新：2026-05-30</span></div>
 
 <a class="project-reading" href="/projects/resume-evaluator-agent/">查看项目说明 →</a>
 
@@ -37,7 +38,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 `TypeScript` `前端应用`
 
-<div class="project-stats"><span>语言：TypeScript</span><span>最近更新：2026-05-26</span><span>⭐ 0</span></div>
+<div class="project-stats"><span>最近更新：2026-05-26</span></div>
 
 </article>
 
@@ -49,7 +50,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 `Python` `工具类应用`
 
-<div class="project-stats"><span>语言：Python</span><span>最近更新：2026-05-25</span><span>⭐ 0</span></div>
+<div class="project-stats"><span>最近更新：2026-05-25</span></div>
 
 </article>
 
@@ -73,7 +74,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 `Dify` `AI Agent` `LLM 应用`
 
-<div class="project-stats"><span>语言：未标注</span><span>最近更新：2026-09-28</span><span>⭐ 0</span></div>
+<div class="project-stats"><span>最近更新：2026-09-28</span></div>
 
 <a class="project-reading" href="/projects/dify-apps/">查看项目说明 →</a>
 
@@ -95,7 +96,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 `Python` `LangGraph` `FastAPI` `Qdrant` `Elasticsearch` `React`
 
-<div class="project-stats"><span>语言：Python</span><span>最近更新：2026-08-29</span><span>⭐ 0</span></div>
+<div class="project-stats"><span>最近更新：2026-08-29</span></div>
 
 > Fork 自 didilili 的开源教程项目，用于学习实践，详细复盘见[项目总结随笔](/posts/练习项目总结-电商问数智能Agent/)。
 
@@ -111,7 +112,7 @@ AI 简历评估助手：基于大语言模型对简历进行智能评估与分�
 
 `学习资料` `Fork`
 
-<div class="project-stats"><span>语言：未标注</span><span>最近更新：2026-08-06</span><span>⭐ 0</span></div>
+<div class="project-stats"><span>最近更新：2026-08-06</span></div>
 
 </article>
 

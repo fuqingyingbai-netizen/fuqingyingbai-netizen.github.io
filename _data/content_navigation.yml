@@ -1,0 +1,21 @@
+# 分类描述记录形式；标签描述主题。已有标签保留，常用主题只影响展示顺序。
+types:
+  - name: 学习笔记
+    description: 概念理解、方法整理与应用构想
+    anchor: learning
+  - name: 项目实践
+    description: 实现过程、联调问题与工程复盘
+    anchor: practice
+  - name: 随笔
+    description: 阶段思考、职业方向与日常记录
+    anchor: essays
+  - name: 每周总结
+    description: 每周公开 GitHub 活动与进展
+    anchor: weekly
+topics:
+  - LangGraph
+  - AI Agent
+  - AI 应用
+  - 工程实践
+  - 教育
+  - 职业规划
