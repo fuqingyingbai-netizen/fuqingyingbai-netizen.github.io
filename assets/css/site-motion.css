@@ -1,0 +1,38 @@
+/* Short transitions; the browser keeps normal links, history and scrolling. */
+@keyframes site-page-out { to { opacity: 0; } }
+@keyframes site-page-in { from { opacity: 0; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-group(root) { animation-duration: 220ms; }
+  ::view-transition-old(root) { animation: site-page-out 140ms ease-out both; }
+  ::view-transition-new(root) { animation: site-page-in 220ms ease-out both; }
+
+  .project-card, .reading-path li, #post-list .card-wrapper {
+    transition: transform 180ms ease-out, box-shadow 180ms ease-out, border-color 180ms ease-out;
+  }
+  .site-button { transition: transform 160ms ease-out, filter 160ms ease-out; }
+  #sidebar nav .nav-link { transition: color 160ms ease-out, background-color 160ms ease-out; }
+  .site-button:active { transform: scale(.98); }
+
+  @media (hover: hover) and (pointer: fine) {
+    .project-card:hover, .reading-path li:hover, #post-list .card-wrapper:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgb(0 0 0 / 6%);
+      border-color: var(--site-accent);
+    }
+    .site-button:hover { transform: translateY(-1px); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  #sidebar, #main-wrapper, #topbar-wrapper, .project-card, .reading-path li,
+  #post-list .card-wrapper, .site-button, #sidebar nav .nav-link {
+    transition: none !important;
+    animation: none !important;
+  }
+  ::view-transition-group(root), ::view-transition-old(root), ::view-transition-new(root) {
+    animation-duration: 0.01ms !important;
+  }
+}
