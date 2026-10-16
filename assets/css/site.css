@@ -9,7 +9,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC'
 /* The profile must grow with wrapped or enlarged text, even in a short drawer. */
 #sidebar .profile-wrapper, #sidebar > nav, #sidebar .sidebar-bottom { flex-shrink: 0; }
 #sidebar .site-subtitle { height: auto; min-height: 3rem; font-style: normal !important; line-height: 1.8; word-break: keep-all; overflow-wrap: anywhere; text-wrap: wrap; }
-#sidebar .nav-link { min-height: 44px; }
+#sidebar nav .nav-link { min-height: 44px; }
+#sidebar .sidebar-bottom #mode-toggle, #sidebar .sidebar-bottom > a { width: 2.75rem; height: 2.75rem; min-width: 44px; min-height: 44px; padding: 0; flex-shrink: 0; }
 a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); outline-offset: 4px; border-radius: 3px; }
 .home-intro { margin: .4rem 0 2.8rem; padding: 2.2rem; border: 1px solid var(--main-border-color); border-radius: var(--site-radius); background: linear-gradient(135deg, var(--site-tint), var(--main-bg)); }
 .eyebrow { margin: 0 0 1.2rem; color: var(--site-accent); font-size: .78rem; letter-spacing: .15em; font-weight: 600; }

@@ -36,7 +36,9 @@ jobs:
         run: bundle exec jekyll build -d _site
 
       - name: 运行单元测试
-        run: python -m unittest discover -s tools/tests -v
+        run: |
+          python -m unittest discover -s tools/tests -v
+          node --test tools/tests/moderation.test.cjs
 
       - name: 检查项目页是否与 GitHub 数据一致
         env:
