@@ -1,0 +1,25 @@
+/* React Bits website adaptations. Copyright (c) 2026 David Haz.
+ * MIT + Commons Clause; see /assets/licenses/react-bits.txt and docs/react-bits.md. */
+.rb-word { display: inline-block; max-width: 100%; }
+.rb-blur-letter { display: inline-block; }
+
+/* SpotlightCard: overlay never intercepts links or changes the card's layout. */
+.rb-spotlight { position: relative; isolation: isolate; }
+.rb-spotlight::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(240px circle at var(--rb-x, 50%) var(--rb-y, 50%),
+    color-mix(in srgb, var(--site-accent) 16%, transparent), transparent 75%);
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .rb-spotlight::after { transition: opacity 200ms ease-out; }
+  .rb-spotlight[data-spotlight-active]::after { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rb-spotlight::after { display: none; }
+}
