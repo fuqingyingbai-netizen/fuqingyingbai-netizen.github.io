@@ -13,6 +13,8 @@
 .reading-page .content a { text-underline-offset: .2em; }
 .reading-page .content blockquote { padding: 1rem 1.2rem; border-color: var(--site-accent); border-radius: 0 10px 10px 0; background: var(--site-tint); }
 .reading-page .content blockquote > :last-child { margin-bottom: 0; }
+.reading-page .post-tail-wrapper .share-wrapper { max-width: 100%; flex-wrap: wrap; row-gap: .5rem; }
+.reading-page .post-tail-wrapper .share-icons { max-width: 100%; flex-wrap: wrap; row-gap: .5rem; }
 .reading-map { display: none; }
 @media (max-width: 1199px) {
   .reading-map { display: block; padding: 1rem 1.1rem; margin: 0 .25rem 1.8rem; border: 1px solid var(--main-border-color); border-radius: 12px; }

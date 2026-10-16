@@ -9,10 +9,12 @@
   {% endif %}
 {% else %}
   {% assign panel_group = site.data.sidebar[panel_section] %}
+  {% unless panel_section == 'notes' or panel_section == 'career' %}
   <section class="context-module" data-context-toc hidden>
     <h2 class="context-heading">本页目录</h2>
     <nav aria-label="本页章节"><ol class="context-contents"></ol></nav>
   </section>
+  {% endunless %}
 {% endif %}
 <div data-panel-kind="{{ panel_kind | escape }}">
 {% if panel_section == 'projects' %}
