@@ -7,6 +7,9 @@ const heading = '沈郑毅';
 async function record(context) {
   await context.addInitScript(() => {
     window.effectEntrances = [];
+    window.effectFrames = 0;
+    const frame = window.requestAnimationFrame;
+    window.requestAnimationFrame = callback => { window.effectFrames++; return frame.call(window, callback); };
     const original = Element.prototype.animate;
     Element.prototype.animate = function (...args) {
       if (this.matches('.rb-blur-letter, .project-card, .reading-path li')) {
@@ -17,7 +20,84 @@ async function record(context) {
   });
 }
 async function settled(page) {
-  await page.waitForFunction(() => !document.getAnimations().some(a => a.playState === 'running'));
+  await page.waitForFunction(() => !document.getAnimations().some(a => a.playState === 'running' && a.effect.getTiming().iterations !== Infinity));
+}
+
+async function checkInteractions(browser, results) {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'no-preference' });
+  await record(context);
+  const page = await context.newPage();
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto(base, { waitUntil: 'networkidle' });
+  await settled(page);
+  const wrapper = page.locator('.rb-magnet').first();
+  const link = wrapper.locator('a');
+  const initialBox = await wrapper.boundingBox();
+  await wrapper.hover({ position: { x: 10, y: 10 } });
+  await page.waitForFunction(() => Math.abs(parseFloat(document.querySelector('.rb-magnet a').style.translate)) > .5);
+  const moved = await link.evaluate(el => el.style.translate.split(' ').map(parseFloat));
+  assert(Math.hypot(...moved) <= 4.05, 'Magnet moved too far');
+  assert.deepEqual(await wrapper.boundingBox(), initialBox, 'Magnet moved its hit area');
+  await page.mouse.move(5, 5);
+  await page.waitForFunction(() => !document.querySelector('.rb-magnet a').style.translate);
+  const frames = await page.evaluate(() => window.effectFrames);
+  await page.waitForTimeout(180);
+  assert.equal(await page.evaluate(() => window.effectFrames), frames, 'An interaction kept scheduling idle frames');
+  await link.focus();
+  assert.equal(await link.evaluate(el => el.style.translate), '');
+  await Promise.all([page.waitForURL('**/projects/'), link.press('Enter')]);
+
+  await page.goto(base + '/tags/', { waitUntil: 'networkidle' });
+  const topic = page.locator('.topic-link').first();
+  const rect = topic.locator('.rb-star-border rect');
+  assert.equal(await topic.locator('.rb-star-border').getAttribute('aria-hidden'), 'true');
+  await topic.hover();
+  await page.waitForFunction(() => document.querySelector('.rb-star-border rect').getAnimations().some(a => a.playState === 'running'));
+  assert.equal(await rect.getAttribute('pathLength'), '100');
+  await page.waitForFunction(() => document.querySelector('.rb-star-border rect').getAnimations().length === 0);
+  assert.equal(await rect.evaluate(el => getComputedStyle(el).opacity), '0', 'Border did not finish its single lap');
+  const summary = page.locator('#all-tags summary');
+  await summary.click();
+  assert(await page.locator('#all-tags').evaluate(el => el.open));
+  assert(await page.locator('.rb-click-spark').count());
+  assert.equal(await page.locator('.rb-click-spark').first().evaluate(el => getComputedStyle(el).pointerEvents), 'none');
+  await page.waitForFunction(() => document.querySelectorAll('.rb-click-spark').length === 0);
+  await summary.focus(); await summary.press('Enter');
+  assert.equal(await page.locator('#all-tags').evaluate(el => el.open), false, 'Click feedback changed native details behavior');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.waitForFunction(() => document.querySelectorAll('.rb-click-spark').length === 0, undefined, { timeout: 200 });
+  assert.equal(await page.locator('.rb-click-spark').count(), 0);
+  await topic.hover();
+  assert.equal(await rect.evaluate(el => el.getAnimations().length), 0);
+  await summary.click();
+  assert.equal(await page.locator('.rb-click-spark').count(), 0);
+  assert.deepEqual(errors, []);
+  await context.close();
+
+  const mobile = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, reducedMotion: 'no-preference' });
+  const phone = await mobile.newPage();
+  await phone.goto(base, { waitUntil: 'networkidle' });
+  await phone.locator('.rb-magnet').first().dispatchEvent('pointermove', { pointerType: 'touch', clientX: 100, clientY: 100 });
+  assert.equal(await phone.locator('[data-magnet-active]').count(), 0);
+  await phone.goto(base + '/tags/', { waitUntil: 'networkidle' });
+  await phone.locator('#all-tags summary').tap();
+  assert(await phone.locator('#all-tags').evaluate(el => el.open));
+  assert(await phone.locator('.rb-click-spark').count());
+  await phone.emulateMedia({ reducedMotion: 'reduce' });
+  await phone.waitForFunction(() => document.querySelectorAll('.rb-click-spark').length === 0, undefined, { timeout: 200 });
+  assert.equal(await phone.locator('.rb-click-spark').count(), 0);
+  assert(await phone.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+  await mobile.close();
+
+  const plain = await browser.newContext({ viewport: { width: 320, height: 568 }, javaScriptEnabled: false });
+  const noJs = await plain.newPage();
+  await noJs.goto(base + '/tags/', { waitUntil: 'networkidle' });
+  await noJs.locator('#all-tags summary').click();
+  assert(await noJs.locator('#all-tags').evaluate(el => el.open));
+  assert.equal(await noJs.locator('.rb-star-border, .rb-click-spark').count(), 0);
+  await plain.close();
+  results.push({ mode: 'interactions', magnetBounded: true, stableHitArea: true, noIdleFrames: true, borderSingleLap: true, nativeClicks: true, touch: true, reducedMotion: true, noJavaScript: true });
 }
 
 (async () => {
@@ -106,6 +186,7 @@ async function settled(page) {
       results.push({ mode, textVisible: true, zoom200: true });
       await context.close();
     }
+    await checkInteractions(browser, results);
     console.log(JSON.stringify({ base, engine, results }));
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exit(1); });

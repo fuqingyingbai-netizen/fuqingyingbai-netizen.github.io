@@ -84,6 +84,7 @@ jobs:
           node --check assets/js/site-accessibility.js
           node --check assets/js/site-motion.js
           node --check assets/js/react-bits.js
+          node --check assets/js/react-bits-interactions.js
           node --check assets/js/site-navigation.js
           node --check assets/js/home-scene.js
           node --check assets/js/context-panel.js
