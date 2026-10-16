@@ -1,4 +1,5 @@
 .context-module { margin-bottom: 1.5rem; padding: 1.1rem 1rem; border: 1px solid var(--main-border-color); border-radius: 12px; background: var(--main-bg); }
+#archives .year[id] { scroll-margin-top: 4rem; }
 #panel-wrapper .context-heading { margin: 0 0 .85rem; color: var(--heading-color); font-size: .82rem; font-weight: 650; line-height: 1.6; }
 .context-links, .context-contents { list-style: none; padding: 0; margin: 0; }
 .context-links li + li { margin-top: .8rem; padding-top: .8rem; border-top: 1px solid var(--main-border-color); }
