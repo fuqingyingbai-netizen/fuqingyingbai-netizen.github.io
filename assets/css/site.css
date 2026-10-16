@@ -99,6 +99,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); o
 .all-topics:target { scroll-margin-top: 4rem; }
 .all-topics #tags .tag { display: inline-flex; align-items: center; min-height: 44px; white-space: normal; overflow-wrap: anywhere; }
 @media (max-width: 849px) {
+  #topbar-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #topbar > button { flex-shrink: 0; }
   /* Keep the article in place while Chirpy's existing drawer/mask opens. */
   [sidebar-display] #main-wrapper { transform: none; }
   [sidebar-display] #mask { background: rgb(0 0 0 / 35%); }
