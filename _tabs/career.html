@@ -4,11 +4,13 @@ icon: fas fa-compass
 order: 4
 permalink: /career/
 toc: false
-description: 我的长期职业方向、13 周学习与实践计划，以及每周进度和复盘。
-search_content: 生涯规划 职业规划 长期路线 三个月计划 13周任务 每周复盘 AI应用 后端研发 数据智能 RAG 实习 智能控制 机器人 课题
+description: 我的长期职业方向、13 周学习与实践计划、英语六级备考，以及每周进度和复盘。
+search_content: 生涯规划 职业规划 长期路线 三个月计划 13周任务 每周复盘 AI应用 后端研发 数据智能 RAG 实习 智能控制 机器人 课题预备 英语六级 CET6 备考 听力 阅读 写作 翻译
 ---
 
 {% assign plan = site.data.career %}
+{% assign tasks_per_week = 4 %}
+{% assign total_tasks = plan.weeks.size | times: tasks_per_week %}
 <div class="career-page" data-career-planner data-plan-id="{{ plan.id }}" data-plan-title="{{ plan.title }}" data-plan-start="{{ plan.start }}" data-plan-end="{{ plan.end }}">
   <section class="career-hero" aria-labelledby="career-title">
     <p class="eyebrow">学习 · 实践 · 复盘</p>
@@ -18,14 +20,14 @@ search_content: 生涯规划 职业规划 长期路线 三个月计划 13周任�
   </section>
 
   <nav class="notes-nav career-nav" aria-label="生涯规划章节">
-    <a href="#career-direction">长期路线</a><a href="#career-weeks">13 周计划</a><a href="#career-review">阶段复盘</a><a href="{{ '/posts/生涯规划-先把工程能力做扎实/' | relative_url }}">规划随笔 ↗</a>
+    <a href="#career-direction">长期路线</a><a href="#career-english">六级备考</a><a href="#career-weeks">13 周计划</a><a href="#career-review">阶段复盘</a><a href="{{ '/posts/生涯规划-先把工程能力做扎实/' | relative_url }}">规划随笔 ↗</a>
   </nav>
 
   <section aria-labelledby="career-direction">
     <h2 id="career-direction">方向先明确，选择留给实践</h2>
     <div class="career-principles">
       <article><span class="career-kicker">当前主线</span><h3>AI 应用与工程研发</h3><p>围绕真实业务，把编程、检索与数据、模型评测和系统交付能力做扎实。下一段实习优先考虑技术指导、代码评审和明确的研发职责。</p></article>
-      <article><span class="career-kicker">持续探索</span><h3>智能控制与机器人</h3><p>从导师课题中的一个最小控制任务开始，建立模型、基线和对照实验，根据兴趣、实际结果和指导资源决定是否增加投入。</p></article>
+      <article><span class="career-kicker">启动前准备</span><h3>智能控制与机器人</h3><p>专利课题尚未正式启动，先了解反馈控制、基础数学与所需资源。正式启动后，再与导师确认控制对象、方法、基线和实验安排，根据实践决定是否增加投入。</p></article>
     </div>
     <ol class="career-roadmap">
       {% for stage in plan.roadmap %}<li><span class="career-period">{{ stage.period }}</span><h3>{{ stage.title }}</h3><p>{{ stage.text }}</p></li>{% endfor %}
@@ -33,14 +35,27 @@ search_content: 生涯规划 职业规划 长期路线 三个月计划 13周任�
     <p class="career-note">这是当前阶段的选择。工具、岗位和个人兴趣都会变化，后续会根据实践与招聘反馈修订。</p>
   </section>
 
+  <section class="career-english" aria-labelledby="career-english">
+    <h2 id="career-english">{{ plan.english.title }}</h2>
+    <p>{{ plan.english.target }}</p>
+    <p>{{ plan.english.routine }}</p>
+    <p>{{ plan.english.method }}</p>
+    <ol class="career-roadmap">
+      {% for stage in plan.english.stages %}<li><span class="career-period">{{ stage.period }}</span><h3>{{ stage.title }}</h3><p>{{ stage.text }}</p></li>{% endfor %}
+    </ol>
+    <p class="career-sources">官方信息（本次核对：{{ plan.updated }}）：{% for source in plan.english.sources %}<a href="{{ source.url }}">{{ source.title }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}</p>
+  </section>
+
   <section aria-labelledby="career-weeks">
-    <div class="section-heading career-section-heading"><h2 id="career-weeks">未来三个月，每周留下一点成果</h2><span class="career-period">13 周 · 39 项任务</span></div>
-    <p>公司项目按工作安排推进；课外每周先留约 10 小时：课题 7 小时、通用基础 2 小时、复盘 1 小时，另留少量缓冲。公司栏已有实现的内容，可改做复现、评测和文档。</p>
+    <div class="section-heading career-section-heading"><h2 id="career-weeks">未来三个月，每周留下一点成果</h2><span class="career-period">{{ plan.weeks.size }} 周 · {{ total_tasks }} 项任务</span></div>
+    <p>公司 RAG 项目按工作安排推进。课外每周先按约 10 小时安排：六级 5 小时、软件基础 3 小时、机器人预备 1 小时、复盘 1 小时。公司栏已有实现的内容，可改做复现、评测和文档；课题正式启动后重新分配时间。</p>
+    <p>{{ plan.english.fallback }}</p>
+    <p class="career-note">{{ plan.revision_note }}</p>
     <noscript><p class="career-note">完整计划可以直接阅读。开启 JavaScript 后可勾选进度、保存复盘和导出记录。</p></noscript>
 
     <div class="career-tools" data-career-tools hidden>
-      <div class="career-progress-heading"><strong data-progress-text>已完成 0 / 39 项任务</strong><span data-plan-status></span></div>
-      <progress data-career-progress max="39" value="0" aria-label="本期计划完成进度">0 / 39</progress>
+      <div class="career-progress-heading"><strong data-progress-text>已完成 0 / {{ total_tasks }} 项任务</strong><span data-plan-status></span></div>
+      <progress data-career-progress max="{{ total_tasks }}" value="0" aria-label="本期计划完成进度">0 / {{ total_tasks }}</progress>
       <div class="career-toolbar">
         <div class="career-filters" role="group" aria-label="筛选周计划"><button type="button" data-filter="all" aria-pressed="true">全部周次</button><button type="button" data-filter="current" aria-pressed="false">本周</button><button type="button" data-filter="unfinished" aria-pressed="false">未完成</button></div>
         <button type="button" data-export>导出复盘</button>
@@ -53,12 +68,13 @@ search_content: 生涯规划 职业规划 长期路线 三个月计划 13周任�
     <div class="career-weeks">
       {% for week in plan.weeks %}
       <details class="career-week" id="{{ week.id }}" data-week="{{ week.id }}" data-week-title="{{ week.title }}" data-start="{{ week.start }}" data-end="{{ week.end }}" {% if forloop.first %}open{% endif %}>
-        <summary><span class="career-week-number">{{ week.number | prepend: '0' | slice: -2, 2 }}</span><span class="career-week-heading"><span class="career-week-meta">{{ week.start | date: '%m.%d' }} — {{ week.end | date: '%m.%d' }} · {{ week.phase }}</span><strong>{{ week.title }}</strong></span><span class="career-week-count" data-week-count hidden>0 / 3</span><span class="career-chevron" aria-hidden="true">⌄</span></summary>
+        <summary><span class="career-week-number">{{ week.number | prepend: '0' | slice: -2, 2 }}</span><span class="career-week-heading"><span class="career-week-meta">{{ week.start | date: '%m.%d' }} — {{ week.end | date: '%m.%d' }} · {{ week.phase }}</span><strong>{{ week.title }}</strong></span><span class="career-week-count" data-week-count hidden>0 / {{ tasks_per_week }}</span><span class="career-chevron" aria-hidden="true">⌄</span></summary>
         <div class="career-week-body">
           <ul class="career-task-list">
-            <li><input type="checkbox" id="{{ week.id }}-learning" data-task="{{ week.id }}-learning" disabled><label for="{{ week.id }}-learning"><span class="career-task-kind">学习</span><span>{{ week.learning }}</span></label></li>
+            <li><input type="checkbox" id="{{ week.id }}-learning" data-task="{{ week.id }}-learning" disabled><label for="{{ week.id }}-learning"><span class="career-task-kind">软件基础</span><span>{{ week.learning }}</span></label></li>
             <li><input type="checkbox" id="{{ week.id }}-rag" data-task="{{ week.id }}-rag" disabled><label for="{{ week.id }}-rag"><span class="career-task-kind">RAG 实习</span><span>{{ week.rag }}</span></label></li>
-            <li><input type="checkbox" id="{{ week.id }}-robot" data-task="{{ week.id }}-robot" disabled><label for="{{ week.id }}-robot"><span class="career-task-kind">导师课题</span><span>{{ week.robot }}</span></label></li>
+            <li><input type="checkbox" id="{{ week.id }}-robot" data-task="{{ week.id }}-robot" disabled><label for="{{ week.id }}-robot"><span class="career-task-kind">机器人预备</span><span>{{ week.robot }}</span></label></li>
+            <li><input type="checkbox" id="{{ week.id }}-english" data-task="{{ week.id }}-english" disabled><label for="{{ week.id }}-english"><span class="career-task-kind">英语六级</span><span>{{ week.english }}</span></label></li>
           </ul>
           <p class="career-deliverable"><strong>本周交付</strong>{{ week.output }}</p>
           {% if week.checkpoint %}<p class="career-checkpoint"><strong>阶段检查</strong>{{ week.checkpoint }}</p>{% endif %}
@@ -72,9 +88,9 @@ search_content: 生涯规划 职业规划 长期路线 三个月计划 13周任�
   <section class="career-review-section" aria-labelledby="career-review">
     <h2 id="career-review">三次检查，把计划慢慢修正</h2>
     <div class="career-checkpoints">
-      <article><span class="career-kicker">第 4 周 · 11 月 11 日</span><h3>先确认基线可信</h3><p>能否解释负责模块？控制模型与基线是否可复现？任务范围是否适合当前时间与资源？</p><a href="#week-04" data-open-week="week-04">查看第 4 周 →</a></article>
-      <article><span class="career-kicker">第 8 周 · 12 月 9 日</span><h3>再看改进是否成立</h3><p>是否有公平的对照与验证？机器人实验是否值得继续？哪些问题需要有经验的人帮助判断？</p><a href="#week-08" data-open-week="week-08">查看第 8 周 →</a></article>
-      <article><span class="career-kicker">第 13 周 · 1 月 13 日</span><h3>决定下一季度投入</h3><p>整理实习贡献和课题结果，明确毕业任务；结合岗位与面试反馈，选择下阶段的学习重点。</p><a href="#week-13" data-open-week="week-13">查看第 13 周 →</a></article>
+      <article><span class="career-kicker">第 4 周 · 11 月 11 日</span><h3>先检查节奏能否持续</h3><p>能否解释负责模块？英语是否形成稳定习惯？课题预备学习的难度是否合适？忙碌时先缩小任务。</p><a href="#week-04" data-open-week="week-04">查看第 4 周 →</a></article>
+      <article><span class="career-kicker">第 8 周 · 12 月 9 日</span><h3>再检查改进和弱项</h3><p>RAG 改进是否经过验证？六级听读与写译是否都练过？导师课题有哪些启动条件仍需确认？</p><a href="#week-08" data-open-week="week-08">查看第 8 周 →</a></article>
+      <article><span class="career-kicker">第 13 周 · 1 月 13 日</span><h3>决定下一季度投入</h3><p>整理实习贡献与英语诊断结果，核对报名通知和课题状态；结合实际安排，确定后续学习与实验任务。</p><a href="#week-13" data-open-week="week-13">查看第 13 周 →</a></article>
     </div>
     <p class="career-note">公司项目按约定范围交付，对外展示以允许公开的内容为准。课题的具体算法、对象与验收要求，以导师确认的方案为准；本期计划不预设论文录用或专利授权时间。</p>
   </section>
