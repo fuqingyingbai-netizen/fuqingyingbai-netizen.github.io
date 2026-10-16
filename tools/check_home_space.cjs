@@ -68,8 +68,17 @@ async function collapsed(page, expected) {
       assert.equal(await page.locator('#main-wrapper').evaluate(el => el.inert), false);
       assert(await page.locator('#mask').evaluate(el => el.classList.contains('d-none')));
       assert(await page.locator('#desktop-nav-toggle').evaluate(el => document.activeElement === el));
+      // Native table-of-contents jumps must clear the sticky desktop bar.
+      await page.goto(base + '/posts/LangGraph学习笔记-用问数工作流理解图式智能体/', { waitUntil: 'networkidle' });
+      const anchor = await page.locator('.content h2[id]').first().getAttribute('id');
+      await page.evaluate(id => { document.documentElement.style.scrollBehavior = 'auto'; location.hash = id; }, anchor);
+      await page.waitForFunction(id => {
+        const heading = document.getElementById(id).getBoundingClientRect();
+        const bar = document.querySelector('#topbar-wrapper').getBoundingClientRect();
+        return scrollY > 0 && heading.top >= bar.bottom + 4 && heading.top < bar.bottom + 100;
+      }, anchor);
       assert.deepEqual(errors, []);
-      results.push({ width, before, after, persistence: true, keyboard: true, mobileDrawer: true });
+      results.push({ width, before, after, persistence: true, keyboard: true, mobileDrawer: true, anchorsClear: true });
       await context.close();
     }
 
