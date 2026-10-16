@@ -19,16 +19,18 @@
   -webkit-mask-image: linear-gradient(to right, transparent, #000 35%);
 }
 .home-scene-art { width: 100%; height: 100%; transform: translate(var(--scene-x, 0px), var(--scene-y, 0px)); }
-.home-intro .intro-meta { margin-top: .25rem; }
+.home-intro h1 { font-size: clamp(2.8rem, 11vw, 4rem); font-weight: 650; line-height: 1.12; letter-spacing: -.055em; margin-bottom: 1.1rem; }
+.home-intro .intro-actions { margin: 1.8rem 0 0; }
+.intro-mark { display: inline-block; width: .12em; height: .12em; border-radius: 50%; margin-left: .12em; background: var(--site-accent); }
 
 @media (min-width: 850px) {
   #main-wrapper main { flex: 0 0 100%; max-width: 100%; }
   #panel-wrapper { display: none; }
   .home-intro { padding: clamp(2rem, 4vw, 3.5rem); margin-top: 1rem; }
   .intro-copy { max-width: 72%; }
-  .home-intro h1 { font-size: clamp(2rem, 3.1vw, 3rem); line-height: 1.35; }
+  .home-intro h1 { font-size: clamp(3.5rem, 6.5vw, 5.5rem); }
   .intro-description { max-width: 33rem; }
-  .home-intro .intro-meta { margin-top: 2rem; }
+  .home-intro .intro-actions { margin-top: 2rem; }
   .section-heading h2 { font-size: 1.35rem; }
   .featured-projects .project-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
 }

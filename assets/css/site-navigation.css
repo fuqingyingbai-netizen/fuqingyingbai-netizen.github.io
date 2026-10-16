@@ -1,6 +1,10 @@
 /* Desktop preference is independent of Chirpy's mobile drawer state. */
 .desktop-nav-toggle { display: none; }
+.sidebar-tools { display: none; }
 @media (min-width: 850px) {
+  .sidebar-tools { display: flex; position: absolute; top: 4px; right: 8px; z-index: 1; }
+  .sidebar-tools .desktop-nav-toggle { border-color: transparent; background: transparent; color: var(--sidebar-muted-color); }
+  .sidebar-tools .desktop-nav-toggle:hover { color: var(--site-accent); background: var(--sidebar-hover-bg); }
   #topbar-wrapper { position: sticky; top: 0; z-index: 1000; }
   #main-wrapper main :is(h1, h2, h3, h4, h5, h6)[id] { scroll-margin-top: 4rem; }
   #topbar { gap: .8rem; }

@@ -11,11 +11,17 @@ document.addEventListener('DOMContentLoaded', () => {
   button.className = 'desktop-nav-toggle';
   button.setAttribute('aria-controls', 'sidebar');
   button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/><path class="nav-toggle-arrow"/></svg><span></span>';
-  breadcrumb.before(button);
+  const tools = document.createElement('div');
+  tools.className = 'sidebar-tools';
+  sidebar.prepend(tools);
 
   function update(collapsed) {
-    if (desktop.matches && collapsed && sidebar.contains(document.activeElement)) button.focus({ preventScroll: true });
+    const keepFocus = document.activeElement === button || (collapsed && sidebar.contains(document.activeElement));
     root.toggleAttribute('data-sidebar-collapsed', collapsed);
+    if (collapsed) breadcrumb.before(button);
+    else tools.append(button);
+    // The inert state is synchronized by site-accessibility's mutation observer.
+    if (desktop.matches && keepFocus) queueMicrotask(() => button.focus({ preventScroll: true }));
     const label = collapsed ? '展开导航' : '收起导航';
     button.setAttribute('aria-expanded', String(!collapsed));
     button.setAttribute('aria-label', label);

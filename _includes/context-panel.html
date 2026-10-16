@@ -1,0 +1,76 @@
+{% assign panel_section = page.url | split: '/' | slice: 1 | first %}
+{% assign panel_kind = panel_section %}
+{% if page.layout == 'post' %}
+  {% assign panel_kind = 'post' %}
+  {% if page.categories contains '生涯规划' %}
+    {% assign panel_group = site.data.sidebar.career %}
+  {% else %}
+    {% assign panel_group = site.data.sidebar.notes %}
+  {% endif %}
+{% else %}
+  {% assign panel_group = site.data.sidebar[panel_section] %}
+  <section class="context-module" data-context-toc hidden>
+    <h2 class="context-heading">本页目录</h2>
+    <nav aria-label="本页章节"><ol class="context-contents"></ol></nav>
+  </section>
+{% endif %}
+<div data-panel-kind="{{ panel_kind | escape }}">
+{% if panel_section == 'projects' %}
+  <section class="context-module">
+    <h2 class="context-heading">项目索引</h2>
+    <nav aria-label="项目索引"><ul class="context-links">
+      {% for project in site.data.projects.projects %}
+      <li><a href="{{ '/projects/#project-' | append: project.repo | relative_url }}">{{ project.short_title | default: project.title | escape }}</a><small>{% if project.group == 'learning' %}学习与实践{% else %}个人项目{% endif %}</small></li>
+      {% endfor %}
+    </ul></nav>
+  </section>
+{% elsif panel_group %}
+  <section class="context-module">
+    <h2 class="context-heading">{{ panel_group.title | escape }}</h2>
+    <nav aria-label="{{ panel_group.title | escape }}"><ul class="context-links">
+      {% for link in panel_group.links %}
+      <li><a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>{% if link.text %}<small>{{ link.text | escape }}</small>{% endif %}</li>
+      {% endfor %}
+    </ul></nav>
+  </section>
+{% else %}
+  <section class="context-module">
+    <h2 class="context-heading">按类型阅读</h2>
+    <nav aria-label="按类型阅读"><ul class="context-links">
+      {% assign panel_categories = site.categories | sort %}
+      {% for category in panel_categories %}
+      {% assign category_slug = category[0] | slugify | url_encode %}<li><a href="{{ '/categories/' | append: category_slug | append: '/' | relative_url }}">{{ category[0] | escape }}</a><small>{{ category[1].size }} 篇记录</small></li>
+      {% endfor %}
+    </ul></nav>
+  </section>
+{% endif %}
+
+{% if page.layout == 'post' %}
+  {% assign panel_related_count = 0 %}
+  {% capture panel_related %}
+    {% for candidate in site.posts %}
+      {% unless candidate.url == page.url or candidate.hidden == true %}
+        {% assign panel_match = false %}
+        {% for tag in page.tags %}{% unless tag == 'AI' or tag == '学习笔记' or tag == '开始' %}{% if candidate.tags contains tag %}{% assign panel_match = true %}{% endif %}{% endunless %}{% endfor %}
+        {% if panel_match and panel_related_count < 3 %}
+          <li><a href="{{ candidate.url | relative_url }}">{{ candidate.card_title | default: candidate.title | escape }}</a><small>{{ candidate.date | date: '%Y/%m/%d' }}</small></li>
+          {% assign panel_related_count = panel_related_count | plus: 1 %}
+        {% endif %}
+      {% endunless %}
+    {% endfor %}
+  {% endcapture %}
+  {% if panel_related_count > 0 %}
+  <section class="context-module">
+    <h2 class="context-heading">同主题阅读</h2>
+    <nav aria-label="同主题阅读"><ul class="context-links">{{ panel_related }}</ul></nav>
+  </section>
+  {% endif %}
+{% elsif panel_section == 'notes' %}
+  <section class="context-module">
+    <h2 class="context-heading">换一种方式查找</h2>
+    <nav aria-label="查找记录"><ul class="context-links"><li><a href="{{ '/archives/' | relative_url }}">按时间归档</a></li><li><a href="{{ '/categories/' | relative_url }}">按分类浏览</a></li><li><a href="{{ '/tags/' | relative_url }}">按标签查找</a></li></ul></nav>
+  </section>
+{% elsif panel_section == 'career' %}
+  <section class="context-module"><h2 class="context-heading">规划背后的思考</h2><a class="context-feature" href="{{ '/posts/生涯规划-先把工程能力做扎实/' | relative_url }}">先把工程能力做扎实 <span aria-hidden="true">↗</span></a></section>
+{% endif %}
+</div>

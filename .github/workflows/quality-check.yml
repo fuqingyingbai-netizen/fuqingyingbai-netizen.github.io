@@ -77,6 +77,7 @@ jobs:
           node tools/check_page_motion.cjs
           node tools/check_react_bits.cjs
           node tools/check_home_space.cjs
+          node tools/check_contextual_reading.cjs
 
       - name: 校验前端与评论服务入口语法
         run: |
@@ -85,6 +86,7 @@ jobs:
           node --check assets/js/react-bits.js
           node --check assets/js/site-navigation.js
           node --check assets/js/home-scene.js
+          node --check assets/js/context-panel.js
           node --check assets/js/career.js
           node --check assets/js/visitor-comments.js
           node --check tools/waline-server/api/index.js

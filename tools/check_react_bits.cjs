@@ -2,7 +2,7 @@
 const assert = require('node:assert/strict');
 const playwright = require('playwright');
 const base = process.env.LAYOUT_BASE_URL || 'http://127.0.0.1:4173';
-const heading = '你好，我是沈郑毅。';
+const heading = '沈郑毅';
 
 async function record(context) {
   await context.addInitScript(() => {
@@ -36,8 +36,8 @@ async function settled(page) {
     await page.getByRole('heading', { name: heading, exact: true }).waitFor();
     await settled(page);
     assert.equal(await page.locator('#intro-title').textContent(), heading);
-    assert((await page.evaluate(() => window.effectEntrances.filter(e => !e.card).length)) >= 9, 'Title did not animate');
-    assert.equal(await page.locator('#intro-title').evaluate(el => el.getBoundingClientRect().height < 80), true);
+    assert((await page.evaluate(() => window.effectEntrances.filter(e => !e.card).length)) >= 3, 'Title did not animate');
+    assert.equal(await page.locator('#intro-title').evaluate(el => el.getBoundingClientRect().height < parseFloat(getComputedStyle(el).fontSize) * 1.5), true);
     const card = page.locator('.project-card').first();
     await card.hover();
     await page.waitForFunction(() => {
