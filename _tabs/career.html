@@ -88,9 +88,9 @@ search_content: 生涯规划 职业规划 长期路线 三个月计划 13周任�
   <section class="career-review-section" aria-labelledby="career-review">
     <h2 id="career-review">三次检查，把计划慢慢修正</h2>
     <div class="career-checkpoints">
-      <article><span class="career-kicker">第 4 周 · 11 月 11 日</span><h3>先检查节奏能否持续</h3><p>能否解释负责模块？英语是否形成稳定习惯？课题预备学习的难度是否合适？忙碌时先缩小任务。</p><a href="#week-04" data-open-week="week-04">查看第 4 周 →</a></article>
-      <article><span class="career-kicker">第 8 周 · 12 月 9 日</span><h3>再检查改进和弱项</h3><p>RAG 改进是否经过验证？六级听读与写译是否都练过？导师课题有哪些启动条件仍需确认？</p><a href="#week-08" data-open-week="week-08">查看第 8 周 →</a></article>
-      <article><span class="career-kicker">第 13 周 · 1 月 13 日</span><h3>决定下一季度投入</h3><p>整理实习贡献与英语诊断结果，核对报名通知和课题状态；结合实际安排，确定后续学习与实验任务。</p><a href="#week-13" data-open-week="week-13">查看第 13 周 →</a></article>
+      <article><span class="career-kicker">第 4 周 · {{ plan.weeks[3].end | date: '%-m 月 %-d 日' }}</span><h3>先检查节奏能否持续</h3><p>能否解释负责模块？英语是否形成稳定习惯？课题预备学习的难度是否合适？忙碌时先缩小任务。</p><a href="#week-04" data-open-week="week-04">查看第 4 周 →</a></article>
+      <article><span class="career-kicker">第 8 周 · {{ plan.weeks[7].end | date: '%-m 月 %-d 日' }}</span><h3>再检查改进和弱项</h3><p>RAG 改进是否经过验证？六级听读与写译是否都练过？导师课题有哪些启动条件仍需确认？</p><a href="#week-08" data-open-week="week-08">查看第 8 周 →</a></article>
+      <article><span class="career-kicker">第 13 周 · {{ plan.weeks[12].end | date: '%-m 月 %-d 日' }}</span><h3>决定下一季度投入</h3><p>整理实习贡献与英语诊断结果，核对报名通知和课题状态；结合实际安排，确定后续学习与实验任务。</p><a href="#week-13" data-open-week="week-13">查看第 13 周 →</a></article>
     </div>
     <p class="career-note">公司项目按约定范围交付，对外展示以允许公开的内容为准。课题的具体算法、对象与验收要求，以导师确认的方案为准；本期计划不预设论文录用或专利授权时间。</p>
   </section>

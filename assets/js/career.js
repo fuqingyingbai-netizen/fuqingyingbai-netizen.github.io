@@ -49,9 +49,10 @@
     currentWeek.classList.add('is-current');
   }
 
-  root.querySelector('[data-plan-status]').textContent = currentWeek
+  const planStatus = currentWeek
     ? `本周：${currentWeek.querySelector('.career-week-number').textContent} 周`
     : today < root.dataset.planStart ? '本期计划尚未开始' : '本期已结束，可继续复盘';
+  root.querySelector('[data-plan-status]').textContent = `今天 ${today} · ${planStatus}`;
 
   function state() {
     return {
