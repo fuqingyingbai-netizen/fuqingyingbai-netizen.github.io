@@ -42,7 +42,10 @@ async function observe(context, fallback = false) {
     }
     await page.locator('#sidebar nav a[href="/projects/"]').click();
     await page.waitForURL('**/projects/');
-    await page.evaluate(() => scrollTo(0, 500));
+    await page.waitForFunction(() => !document.getAnimations().some(a =>
+      a.animationName?.startsWith('site-page-') && a.playState === 'running'));
+    await page.evaluate(() => scrollTo({ top: 500, behavior: 'instant' }));
+    await page.waitForFunction(() => scrollY === 500);
     const position = await page.evaluate(() => scrollY);
     await page.goBack({ waitUntil: 'load' });
     await page.waitForURL('**/about/');
