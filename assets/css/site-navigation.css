@@ -1,0 +1,31 @@
+/* Desktop preference is independent of Chirpy's mobile drawer state. */
+.desktop-nav-toggle { display: none; }
+@media (min-width: 850px) {
+  #topbar-wrapper { position: sticky; top: 0; z-index: 1000; }
+  #topbar { gap: .8rem; }
+  #breadcrumb { flex: 1; }
+  .desktop-nav-toggle {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    gap: .45rem;
+    min-height: 44px;
+    padding: .35rem .65rem;
+    border: 1px solid var(--main-border-color);
+    border-radius: 8px;
+    background: var(--main-bg);
+    color: var(--text-muted-color);
+    font: inherit;
+    font-size: .8rem;
+  }
+  .desktop-nav-toggle svg { width: 18px; height: 18px; }
+  .desktop-nav-toggle:hover { color: var(--site-accent); background: var(--site-tint); }
+  [data-sidebar-collapsed] #sidebar { transform: translateX(-100%); visibility: hidden; }
+  [data-sidebar-collapsed] #main-wrapper { margin-left: 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    #sidebar { transition: transform 240ms ease, visibility 0s; }
+    [data-sidebar-collapsed] #sidebar { transition: transform 240ms ease, visibility 0s 240ms; }
+    #main-wrapper { transition: margin-left 240ms ease; }
+  }
+}
