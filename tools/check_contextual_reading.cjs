@@ -7,7 +7,10 @@ const cases = [
   ['/resources/', 'resources', '配套阅读'],
   ['/notes/', 'notes', '记录类型'],
   ['/career/', 'career', '计划入口'],
-  ['/about/', 'about', '继续了解']
+  ['/about/', 'about', '继续了解'],
+  ['/categories/', 'categories', '标签入口'],
+  ['/tags/', 'tags', '按类型阅读'],
+  ['/archives/', 'archives', '按年份浏览']
 ];
 
 (async () => {
@@ -69,12 +72,12 @@ const cases = [
       assert((await phone.locator('.intro-description').innerText()).length < 30);
       assert(await phone.locator('#intro-title').evaluate(el => parseFloat(getComputedStyle(el).fontSize) >= 40));
       await phone.goto(base + article, { waitUntil: 'networkidle' });
-      const map = phone.locator('.reading-map');
-      assert(await map.isVisible());
-      await map.locator('summary').click();
-      const link = map.locator('a').first();
+      await phone.locator('#toc-solo-trigger').click();
+      await phone.locator('#toc-popup[open]').waitFor();
+      const link = phone.locator('#toc-popup-content a[href^="#"]').first();
       const id = decodeURIComponent((await link.getAttribute('href')).slice(1));
       await link.click();
+      await phone.waitForFunction(() => !document.querySelector('#toc-popup').open);
       await phone.waitForFunction(target => document.getElementById(target).getBoundingClientRect().top >= 0, id);
       for (const scale of [100, 200]) {
         await phone.evaluate(size => document.documentElement.style.fontSize = size + '%', scale);

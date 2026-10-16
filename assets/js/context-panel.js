@@ -25,21 +25,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     addEventListener('hashchange', active); active();
   }
-  const content = document.querySelector('.reading-page article[data-toc] > .content');
-  if (content && headings.length > 1) {
-    const map = document.createElement('details');
-    map.className = 'reading-map';
-    const label = document.createElement('summary'); label.textContent = `阅读路线 · ${headings.length} 个章节`;
-    const navigation = document.createElement('nav'); navigation.setAttribute('aria-label', '文章章节');
-    const list = document.createElement('ol');
-    headings.forEach((heading, index) => {
-      const item = document.createElement('li');
-      const link = chapterLink(heading);
-      const number = document.createElement('span');
-      number.className = 'chapter-number'; number.setAttribute('aria-hidden', 'true');
-      number.textContent = String(index + 1).padStart(2, '0');
-      link.prepend(number); item.append(link); list.append(item);
-    });
-    navigation.append(list); map.append(label, navigation); content.before(map);
-  }
 });
