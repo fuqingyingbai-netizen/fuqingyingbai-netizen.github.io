@@ -66,6 +66,15 @@ const base = process.env.LAYOUT_BASE_URL || 'http://127.0.0.1:4173';
           });
           assert(lastBounds.top >= -1 && lastBounds.bottom <= lastBounds.height + 1,
             `${label}: bottom navigation cannot be reached: ${JSON.stringify(lastBounds)}`);
+          const controls = await page.locator('#sidebar .sidebar-bottom #mode-toggle, #sidebar .sidebar-bottom > a').evaluateAll(elements => elements.map(el => {
+            const rect = el.getBoundingClientRect();
+            return { width: rect.width, height: rect.height };
+          }));
+          assert.equal(controls.length, 3);
+          for (const control of controls) {
+            assert(Math.abs(control.width - control.height) < 1, `${label}: footer control is stretched`);
+            assert(control.width >= 44 && control.height >= 44, `${label}: footer control is too small to tap`);
+          }
           if (process.env.LAYOUT_SCREENSHOTS && viewport.width === 390 && fontScale === 100) {
             await page.locator('#sidebar').evaluate(el => { el.scrollTop = 0; });
             fs.mkdirSync(process.env.LAYOUT_SCREENSHOTS, { recursive: true });
@@ -78,6 +87,12 @@ const base = process.env.LAYOUT_BASE_URL || 'http://127.0.0.1:4173';
         // Large iPhones cross the theme's desktop breakpoint when rotated.
         await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
         await page.locator('#sidebar-trigger').click();
+        await page.locator('#mode-toggle').click();
+        await page.locator('button.dropdown-item[data-theme-mode="dark"]').click();
+        await page.waitForFunction(() => document.documentElement.dataset.bsTheme === 'dark');
+        await page.locator('#mode-toggle').click();
+        await page.locator('button.dropdown-item[data-theme-mode="light"]').click();
+        await page.waitForFunction(() => document.documentElement.dataset.bsTheme === 'light');
         await page.setViewportSize({ width: 932, height: 430 });
         await page.waitForFunction(() => !document.body.hasAttribute('sidebar-display'));
         assert(await page.locator('#mask').evaluate(el => el.classList.contains('d-none')));

@@ -33,7 +33,7 @@ if (container) {
         lang: 'zh-CN', login: 'enable', meta: ['nick', 'mail'], requiredMeta: ['nick'],
         wordLimit: 1000, imageUploader: false, search: false, emoji: false,
         pageview: false, comment: false, dark: isDark(),
-        locale: { placeholder: '欢迎交流、提问或补充。留言审核后显示，请勿填写私人信息。' },
+        locale: { placeholder: '欢迎交流、提问或补充。普通留言自动显示，可疑留言待审核，请勿填写私人信息。' },
       });
       status.textContent = '';
     } catch {
