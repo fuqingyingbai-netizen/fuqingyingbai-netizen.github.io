@@ -4,8 +4,11 @@ html[data-bs-theme='dark'] { --site-accent: #8dcece; --site-tint: #202f31; }
 @media (prefers-color-scheme: dark) {
   html:not([data-bs-theme]) { --site-accent: #8dcece; --site-tint: #202f31; }
 }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-#sidebar .site-subtitle { font-style: normal !important; line-height: 1.8; word-break: keep-all; text-wrap: balance; }
+/* The profile must grow with wrapped or enlarged text, even in a short drawer. */
+#sidebar .profile-wrapper, #sidebar > nav, #sidebar .sidebar-bottom { flex-shrink: 0; }
+#sidebar .site-subtitle { height: auto; min-height: 3rem; font-style: normal !important; line-height: 1.8; word-break: keep-all; overflow-wrap: anywhere; text-wrap: wrap; }
 #sidebar .nav-link { min-height: 44px; }
 a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); outline-offset: 4px; border-radius: 3px; }
 .home-intro { margin: .4rem 0 2.8rem; padding: 2.2rem; border: 1px solid var(--main-border-color); border-radius: var(--site-radius); background: linear-gradient(135deg, var(--site-tint), var(--main-bg)); }
@@ -77,6 +80,14 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); o
 .note-list li { display: grid; grid-template-columns: 6rem 1fr; gap: .8rem; align-items: baseline; padding: .9rem 0; border-bottom: 1px solid var(--main-border-color); }
 .note-list time { color: var(--text-muted-color); font-size: .8rem; font-variant-numeric: tabular-nums; }
 .empty-note { color: var(--text-muted-color); padding: 1rem; background: var(--site-tint); border-radius: 8px; }
+@media (max-width: 849px) {
+  /* Keep the article in place while Chirpy's existing drawer/mask opens. */
+  [sidebar-display] #main-wrapper { transform: none; }
+  [sidebar-display] #mask { background: rgb(0 0 0 / 35%); }
+  #sidebar { height: 100vh; height: 100dvh; overscroll-behavior-y: contain; }
+  #sidebar .profile-wrapper { padding-top: env(safe-area-inset-top, 0px); }
+  #sidebar .sidebar-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+}
 @media (max-width: 1199px) { .featured-projects .project-grid { grid-template-columns: 1fr; } }
 @media (max-width: 575px) {
   .home-intro { padding: 1.4rem; margin-bottom: 2rem; }
