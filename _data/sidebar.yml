@@ -1,0 +1,47 @@
+notes:
+  title: 记录类型
+  links:
+    - label: 学习笔记
+      url: /notes/#learning
+      text: 概念、方法与代码理解
+    - label: 项目与随笔
+      url: /notes/#practice
+      text: 工程实践与阶段思考
+    - label: 每周总结
+      url: /notes/#weekly
+      text: 公开活动与每周进展
+resources:
+  title: 配套阅读
+  links:
+    - label: LangGraph 入门笔记
+      url: /posts/LangGraph学习笔记-用问数工作流理解图式智能体/
+      text: 从状态和节点理解流程
+    - label: 电商问数项目复盘
+      url: /posts/练习项目总结-电商问数智能Agent/
+      text: 把资料对应到工程链路
+    - label: Dify 应用说明
+      url: /projects/dify-apps/
+      text: 对照配置与导入前提
+career:
+  title: 计划入口
+  links:
+    - label: 长期路线
+      url: /career/#career-direction
+    - label: 英语六级
+      url: /career/#career-english
+    - label: 13 周计划
+      url: /career/#career-weeks
+    - label: 阶段复盘
+      url: /career/#career-review
+about:
+  title: 继续了解
+  links:
+    - label: 项目实践
+      url: /projects/
+      text: 做过什么、怎样实现
+    - label: 学习记录
+      url: /notes/
+      text: 笔记、复盘与随笔
+    - label: 生涯规划
+      url: /career/
+      text: 长期方向与阶段安排

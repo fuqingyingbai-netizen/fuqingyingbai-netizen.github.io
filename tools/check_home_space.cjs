@@ -33,6 +33,7 @@ async function collapsed(page, expected) {
       assert.equal(await page.locator('#panel-wrapper').isVisible(), false);
       const before = (await page.locator('.home-intro').boundingBox()).width;
       const toggle = page.locator('#desktop-nav-toggle');
+      assert(await toggle.evaluate(el => document.querySelector('#sidebar').contains(el)), 'Collapse control must be inside the left navigation');
       await toggle.focus();
       await page.keyboard.press('Enter');
       await collapsed(page, true);
@@ -117,7 +118,7 @@ async function collapsed(page, expected) {
     await noJs.goto(base, { waitUntil: 'networkidle' });
     assert(await noJs.locator('#sidebar nav a[href="/projects/"]').isVisible());
     assert.equal(await noJs.locator('#desktop-nav-toggle').count(), 0);
-    assert(await noJs.getByRole('heading', { name: '你好，我是沈郑毅。', exact: true }).isVisible());
+    assert(await noJs.getByRole('heading', { name: '沈郑毅', exact: true }).isVisible());
     await plain.close();
     console.log(JSON.stringify({ base, engine, results, reducedMotion: true, blockedStorage: true, noJavaScript: true }));
   } finally { await browser.close(); }

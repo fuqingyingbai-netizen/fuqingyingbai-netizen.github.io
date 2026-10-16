@@ -1,0 +1,16 @@
+.context-module { margin-bottom: 1.5rem; padding: 1.1rem 1rem; border: 1px solid var(--main-border-color); border-radius: 12px; background: var(--main-bg); }
+#archives .year[id] { scroll-margin-top: 4rem; }
+#panel-wrapper .context-heading { margin: 0 0 .85rem; color: var(--heading-color); font-size: .82rem; font-weight: 650; line-height: 1.6; }
+.context-links, .context-contents { list-style: none; padding: 0; margin: 0; }
+.context-links li + li { margin-top: .8rem; padding-top: .8rem; border-top: 1px solid var(--main-border-color); }
+.context-links a, .context-feature { display: block; color: var(--text-color); font-size: .83rem; line-height: 1.7; overflow-wrap: anywhere; }
+.context-links small { display: block; margin-top: .15rem; color: var(--text-muted-color); font-size: .7rem; line-height: 1.65; }
+.context-links a:hover, .context-feature:hover { color: var(--site-accent); }
+.context-contents li + li { margin-top: .35rem; }
+.context-contents a { display: block; padding: .3rem .5rem; border-left: 2px solid var(--main-border-color); color: var(--text-muted-color); font-size: .8rem; line-height: 1.65; overflow-wrap: anywhere; }
+.context-contents a:hover, .context-contents a[aria-current] { color: var(--site-accent); border-color: var(--site-accent); background: var(--site-tint); }
+@media (min-width: 1200px) {
+  .context-panel { position: sticky; top: 4.5rem; max-height: calc(100dvh - 5.5rem); padding-right: .25rem; overflow-y: auto; scrollbar-width: thin; overscroll-behavior-y: contain; }
+  #panel-wrapper #toc-wrapper { position: static !important; padding-right: .5rem !important; margin-bottom: 1.5rem; }
+  #panel-wrapper .toc-border-cover { display: none; }
+}
