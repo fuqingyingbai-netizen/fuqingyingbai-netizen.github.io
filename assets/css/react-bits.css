@@ -2,6 +2,12 @@
  * MIT + Commons Clause; see /assets/licenses/react-bits.txt and docs/react-bits.md. */
 .rb-word { display: inline-block; max-width: 100%; }
 .rb-blur-letter { display: inline-block; }
+.rb-magnet { display: inline-flex; max-width: 100%; min-width: 0; }
+.rb-magnet > a { max-width: 100%; }
+.rb-border-target { position: relative; }
+.rb-star-border { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; border-radius: inherit; pointer-events: none; }
+.rb-star-border rect { fill: none; stroke: var(--site-accent); stroke-width: 1.5px; opacity: 0; }
+.rb-click-spark { position: fixed; width: 44px; height: 44px; z-index: 1100; pointer-events: none; }
 
 /* SpotlightCard: overlay never intercepts links or changes the card's layout. */
 .rb-spotlight { position: relative; isolation: isolate; }
@@ -22,4 +28,6 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .rb-spotlight::after { display: none; }
+  .rb-star-border, .rb-click-spark { display: none; }
+  .rb-magnet > a { translate: none !important; }
 }
