@@ -88,6 +88,15 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); o
   #sidebar { height: 100vh; height: 100dvh; overscroll-behavior-y: contain; }
   #sidebar .profile-wrapper { padding-top: env(safe-area-inset-top, 0px); }
   #sidebar .sidebar-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  #mask { touch-action: none; }
+  .featured-projects { margin-bottom: 1.8rem; }
+  .featured-projects .project-grid { gap: .65rem; margin-bottom: 0; }
+  .featured-projects .project-card { padding: .9rem 1rem; }
+  .featured-projects .project-preview, .featured-projects .project-tags, .featured-projects .project-actions { display: none; }
+  .featured-projects .project-kind { margin-bottom: 0; font-size: .75rem; }
+  .featured-projects .project-card h3 { margin-bottom: .25rem; }
+  .featured-projects .project-card h3 a { display: flex; align-items: center; min-height: 44px; gap: .4rem; }
+  .featured-projects .project-card > p:not(.project-kind) { margin: 0; line-height: 1.7; }
 }
 @media (max-width: 1199px) { .featured-projects .project-grid { grid-template-columns: 1fr; } }
 @media (max-width: 575px) {
