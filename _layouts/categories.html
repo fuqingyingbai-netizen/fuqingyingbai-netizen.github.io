@@ -18,7 +18,7 @@ layout: page
 <section aria-labelledby="more-categories">
   <h2 id="more-categories">专题分类</h2>
   <nav class="topic-links" aria-label="专题分类">
-    {% assign sorted_categories = site.categories | sort_natural %}
+    {% assign sorted_categories = site.categories | sort %}
     {% for item in sorted_categories %}
       {% assign name = item[0] %}
       {% unless primary_names contains name %}

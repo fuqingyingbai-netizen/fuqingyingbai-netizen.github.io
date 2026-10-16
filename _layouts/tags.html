@@ -19,7 +19,7 @@ layout: page
   <summary>全部标签 <span class="text-muted">{{ site.tags.size }}</span></summary>
   <p class="text-muted">按名称排列，保留每个细分主题的阅读入口。</p>
   <div id="tags" class="d-flex flex-wrap">
-    {% assign sorted_tags = site.tags | sort_natural %}
+    {% assign sorted_tags = site.tags | sort %}
     {% for item in sorted_tags %}
       {% assign name = item[0] %}
       <div><a class="tag" href="{{ name | slugify | url_encode | prepend: '/tags/' | append: '/' | relative_url }}">{{ name | escape }} <span class="text-muted">{{ item[1].size }}</span></a></div>
