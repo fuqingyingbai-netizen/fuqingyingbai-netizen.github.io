@@ -2,6 +2,8 @@
 # the default layout is 'page'
 icon: fas fa-info-circle
 order: 1
+title: 关于
+permalink: /about/
 description: 沈郑毅，浙江理工大学人工智能硕士研究生。围绕 AI 应用与工程实践，整理智能体工作流、智能问数项目和阶段学习计划。
 ---
 
