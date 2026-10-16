@@ -203,6 +203,8 @@ bundle exec jekyll serve
 
 然后访问 `http://localhost:4000`。没有本地环境也不影响线上更新。
 
+质量检查还会用 WebKit 检查手机菜单：覆盖 320–430px 竖屏、844px 横屏、100%/125%/200% 字号、底部菜单滚动及跨桌面断点旋转。对应脚本为 `tools/check_mobile_layout.cjs`，使用安装了 WebKit 的 Playwright；可通过 `LAYOUT_BASE_URL` 指向本地预览或线上站点。
+
 ## 常见问题
 
 **网站改动后多久生效？**
