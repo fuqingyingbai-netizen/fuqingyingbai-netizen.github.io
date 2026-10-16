@@ -2,6 +2,7 @@
 .desktop-nav-toggle { display: none; }
 @media (min-width: 850px) {
   #topbar-wrapper { position: sticky; top: 0; z-index: 1000; }
+  #main-wrapper main :is(h1, h2, h3, h4, h5, h6)[id] { scroll-margin-top: 4rem; }
   #topbar { gap: .8rem; }
   #breadcrumb { flex: 1; }
   .desktop-nav-toggle {
