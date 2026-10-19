@@ -71,6 +71,10 @@ const base = process.env.LAYOUT_BASE_URL || 'http://127.0.0.1:4173';
           });
           const label = `${engine} ${viewport.width}x${viewport.height} ${fontScale}%`;
           assert.equal(await page.locator('#sidebar-trigger').getAttribute('aria-expanded'), 'true');
+          const currentLink = page.locator('#sidebar nav [aria-current="page"]');
+          assert.equal(await currentLink.count(), 1);
+          assert(await currentLink.evaluate(el => document.activeElement === el));
+          assert.equal(await currentLink.evaluate(el => getComputedStyle(el).backgroundColor), 'rgba(0, 0, 0, 0)', `${label}: current row still has a filled background`);
           assert(await page.locator('#main-wrapper').evaluate(el => el.inert));
           assert(layout.textBottom <= layout.subtitleBottom + 1, `${label}: subtitle escapes its box`);
           assert(layout.textBottom <= layout.navTop, `${label}: subtitle overlaps navigation`);
@@ -136,12 +140,36 @@ const base = process.env.LAYOUT_BASE_URL || 'http://127.0.0.1:4173';
         await page.locator('#sidebar a[href="/projects/"]').click();
         await page.waitForURL('**/projects/');
         assert.equal(await page.locator('body').evaluate(el => el.hasAttribute('sidebar-display')), false);
+        if (viewport.width === 390) {
+          for (const route of ['/projects/', '/about/']) {
+            await page.goto(base + route, { waitUntil: 'networkidle' });
+            await page.locator('#sidebar-trigger').tap();
+            const selected = page.locator('#sidebar nav [aria-current="page"]');
+            assert.equal(await selected.getAttribute('href'), route);
+            assert(await selected.evaluate(el => document.activeElement === el), 'Opening the drawer focused Home instead of the current section');
+            assert.equal(await selected.evaluate(el => getComputedStyle(el).backgroundColor), 'rgba(0, 0, 0, 0)');
+            const home = page.locator('#sidebar nav a[href="/"]');
+            assert.equal(await home.evaluate(el => getComputedStyle(el).backgroundColor), 'rgba(0, 0, 0, 0)');
+            // Sticky touch hover and keyboard focus are separate visual states.
+            await home.hover();
+            assert.equal(await home.evaluate(el => getComputedStyle(el).backgroundColor), 'rgba(0, 0, 0, 0)');
+            await page.keyboard.press('Escape');
+            await page.locator('#sidebar-trigger').focus();
+            await page.keyboard.press('Enter');
+            assert(await selected.evaluate(el => el.matches(':focus-visible') && getComputedStyle(el).outlineStyle === 'solid'), 'Keyboard focus indicator was lost');
+          }
+        }
         assert.deepEqual(external, [], 'Core pages must not request external scripts, fonts or styles');
       } finally {
         await context.close();
       }
     }
-    console.log(JSON.stringify({ base, results, rotationAndNavigation: 'passed' }));
+    const desktop = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+    const page = await desktop.newPage();
+    await page.goto(base, { waitUntil: 'networkidle' });
+    assert.notEqual(await page.locator('#sidebar .nav-item.active .nav-link').evaluate(el => getComputedStyle(el).backgroundColor), 'rgba(0, 0, 0, 0)', 'Desktop current-page style changed');
+    await desktop.close();
+    console.log(JSON.stringify({ base, results, rotationAndNavigation: 'passed', mobileCurrentTextOnly: true, desktopCurrentStyle: true }));
   } finally {
     await browser.close();
   }

@@ -99,6 +99,12 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); o
 .all-topics:target { scroll-margin-top: 4rem; }
 .all-topics #tags .tag { display: inline-flex; align-items: center; min-height: 44px; white-space: normal; overflow-wrap: anywhere; }
 @media (max-width: 849px) {
+  /* Current location uses text color on phones; touch hover must not leave a filled row. */
+  #sidebar ul li.nav-item.active a.nav-link,
+  #sidebar ul li.nav-item a.nav-link:hover { background-color: transparent; }
+  #sidebar ul li.nav-item.active a.nav-link { color: var(--site-accent); }
+  #sidebar nav .nav-link:focus-visible { outline: 2px solid var(--site-accent); outline-offset: 2px; }
+  .post-navigation .btn p { overflow-wrap: anywhere; }
   #topbar-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   #topbar > button { flex-shrink: 0; }
   /* Keep the article in place while Chirpy's existing drawer/mask opens. */
