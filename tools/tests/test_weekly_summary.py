@@ -1,8 +1,10 @@
 """Privacy, time-window, pagination and safe rendering checks for auto-publication."""
 import importlib.util
+import tempfile
 import unittest
 from datetime import datetime, timedelta
 from pathlib import Path
+from unittest.mock import patch
 
 spec = importlib.util.spec_from_file_location("weekly_summary", Path(__file__).resolve().parents[1] / "weekly_summary.py")
 MODULE = importlib.util.module_from_spec(spec)
@@ -73,6 +75,18 @@ class PrivacyTests(unittest.TestCase):
 
 
 class DigestTests(unittest.TestCase):
+    def test_scheduled_rerun_preserves_published_post_without_fetching(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "_posts").mkdir()
+            output = root / "_posts/2026-10-18-weekly-2026-10-18.md"
+            output.write_text("Already reviewed public snapshot", encoding="utf-8")
+            with patch.object(MODULE, "ROOT", root), patch.object(MODULE, "scheduled_end", return_value=END), \
+                    patch.object(MODULE, "fetch_events", side_effect=AssertionError("Must not fetch")), \
+                    patch("sys.argv", ["weekly_summary.py"]):
+                self.assertEqual(MODULE.main(), 0)
+            self.assertEqual(output.read_text(encoding="utf-8"), "Already reviewed public snapshot")
+
     def test_repeated_pr_actions_share_one_entry_and_all_sources_remain_in_details(self):
         items = [event(str(i), type="PullRequestEvent", payload={"action": action, "number": 7})
                  for i, action in enumerate(["opened", "reopened", "closed"])] + [event("9")]

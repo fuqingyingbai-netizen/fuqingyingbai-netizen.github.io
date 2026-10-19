@@ -104,8 +104,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); o
 .weekly-details > ul { margin-top: .8rem; font-size: .9rem; }
 @media (max-width: 849px) {
   /* Give standalone actions their own touch area without changing inline prose links. */
-  .intro-actions .text-link, .section-heading > a, .reading-path a,
-  .project-card h3 a, .project-reading, .project-actions > a,
+  .intro-actions .text-link, .section-heading > a, .reading-path a:not(.anchor),
+  .project-card h3 a:not(.anchor), .project-reading, .project-actions > a,
   .project-card > p > a:only-child, .notes-nav a, .note-list a {
     display: inline-flex; align-items: center; min-height: 44px; padding-top: .45rem; padding-bottom: .45rem;
   }

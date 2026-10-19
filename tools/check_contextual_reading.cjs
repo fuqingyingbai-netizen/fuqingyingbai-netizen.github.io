@@ -13,9 +13,9 @@ const cases = [
   ['/archives/', 'archives', '按年份浏览']
 ];
 const touchEntries = [
-  ['/', '.intro-actions a, .section-heading > a, .featured-projects h3 a'],
-  ['/notes/', '.reading-path a, .notes-nav a, .note-list a'],
-  ['/projects/', '.project-card h3 a, .project-reading']
+  ['/', '.intro-actions a, .section-heading > a, .featured-projects h3 a:not(.anchor)'],
+  ['/notes/', '.reading-path a:not(.anchor), .notes-nav a, .note-list a'],
+  ['/projects/', '.project-card h3 a:not(.anchor), .project-reading']
 ];
 
 (async () => {
