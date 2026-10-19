@@ -1,8 +1,10 @@
 """Privacy, time-window, pagination and safe rendering checks for auto-publication."""
 import importlib.util
+import tempfile
 import unittest
 from datetime import datetime, timedelta
 from pathlib import Path
+from unittest.mock import patch
 
 spec = importlib.util.spec_from_file_location("weekly_summary", Path(__file__).resolve().parents[1] / "weekly_summary.py")
 MODULE = importlib.util.module_from_spec(spec)
@@ -70,6 +72,75 @@ class PrivacyTests(unittest.TestCase):
     def test_duplicate_events_appear_once(self):
         items, _ = MODULE.fetch_events("example", END - timedelta(days=7), END, lambda _: [event(), event()])
         self.assertEqual(len(items), 1)
+
+
+class DigestTests(unittest.TestCase):
+    def test_scheduled_rerun_preserves_published_post_without_fetching(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "_posts").mkdir()
+            output = root / "_posts/2026-10-18-weekly-2026-10-18.md"
+            output.write_text("Already reviewed public snapshot", encoding="utf-8")
+            with patch.object(MODULE, "ROOT", root), patch.object(MODULE, "scheduled_end", return_value=END), \
+                    patch.object(MODULE, "fetch_events", side_effect=AssertionError("Must not fetch")), \
+                    patch("sys.argv", ["weekly_summary.py"]):
+                self.assertEqual(MODULE.main(), 0)
+            self.assertEqual(output.read_text(encoding="utf-8"), "Already reviewed public snapshot")
+
+    def test_repeated_pr_actions_share_one_entry_and_all_sources_remain_in_details(self):
+        items = [event(str(i), type="PullRequestEvent", payload={"action": action, "number": 7})
+                 for i, action in enumerate(["opened", "reopened", "closed"])] + [event("9")]
+        paths = []
+        def fetch(path):
+            paths.append(path)
+            return {"private": False, "visibility": "public"} if path == "/repos/example/demo" else {"title": "Improve search"}
+        result = MODULE.render_summary("example", END, items, False, fetch)
+        main, details = result.split('<details class="weekly-details" markdown="1">')
+        self.assertIn("4 条公开活动，涉及 1 个项目", main)
+        self.assertIn("代码推送 1 条、PR 活动 3 条", main)
+        self.assertEqual(main.count("https://github.com/example/demo/pull/7"), 1)
+        self.assertIn("Improve search", main)
+        self.assertIn("关闭 PR #7", main)
+        self.assertNotIn("合并 PR", main)
+        self.assertEqual(details.count("https://github.com/example/demo/pull/7"), 3)
+        self.assertIn("/commit/" + "a" * 40, details)
+        self.assertEqual(paths.count("/repos/example/demo/pulls/7"), 1)
+        self.assertIn("card_title:", result)
+        self.assertIn("description:", result)
+
+    def test_representative_links_are_bounded_and_public_titles_are_escaped(self):
+        items = [event(str(i), type="IssuesEvent", payload={"action": "opened", "issue": {"number": i + 1}}) for i in range(8)]
+        lookups = []
+        def fetch(path):
+            if path == "/repos/example/demo":
+                return {"private": False, "visibility": "public"}
+            lookups.append(path)
+            return {"title": '<script>{{site.secret}}</script> [x](https://bad.example)'}
+        result = MODULE.render_summary("example", END, items, False, fetch)
+        main = result.split("<details")[0]
+        self.assertEqual(len(lookups), 3)
+        self.assertEqual(main.count("https://github.com/example/demo/issues/"), 3)
+        self.assertNotIn("<script>", result)
+        self.assertNotIn("{{site.secret}}", result)
+        self.assertIn("展开 8 条活动明细", result)
+
+    def test_optional_title_failure_keeps_numbered_link_without_empty_colon(self):
+        def fetch(path):
+            if path == "/repos/example/demo":
+                return {"private": False, "visibility": "public"}
+            raise RuntimeError("Rate limit")
+        result = MODULE.render_summary("example", END, [event(type="PullRequestEvent", payload={"number": 2})], False, fetch)
+        self.assertIn("[更新 PR #2](https://github.com/example/demo/pull/2)", result)
+        self.assertNotIn("PR #2：", result)
+
+    def test_non_public_repository_never_fetches_item_titles(self):
+        paths = []
+        def fetch(path):
+            paths.append(path)
+            return {"private": True, "visibility": "private"}
+        result = MODULE.render_summary("example", END, [event(type="PullRequestEvent", payload={"number": 2})], False, fetch)
+        self.assertEqual(paths, ["/repos/example/demo"])
+        self.assertNotIn("example/demo", result)
 
 
 if __name__ == "__main__":

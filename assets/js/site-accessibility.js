@@ -8,8 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let wasOpen = false;
     sidebarTrigger.setAttribute('aria-controls', 'sidebar');
     sidebar.setAttribute('aria-label', '网站导航');
-    const currentLink = sidebar.querySelector('nav .nav-item.active a');
-    currentLink?.setAttribute('aria-current', 'page');
+    const parentPath = document.body.dataset.navParent;
+    const currentLink = sidebar.querySelector('nav .nav-item.active a') ||
+      [...sidebar.querySelectorAll('nav a')].find(link => new URL(link.href).pathname === parentPath);
+    if (currentLink) {
+      currentLink.closest('.nav-item')?.classList.add('active');
+      currentLink.setAttribute('aria-current', new URL(currentLink.href).pathname === location.pathname ? 'page' : 'location');
+    }
     function syncMenu() {
       const open = mobileMenu.matches && document.body.hasAttribute('sidebar-display');
       sidebarTrigger.setAttribute('aria-expanded', String(open));

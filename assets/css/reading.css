@@ -2,7 +2,7 @@
 .reading-taxonomy a { color: var(--site-accent); font-size: .74rem; font-weight: 600; letter-spacing: .04em; }
 .reading-taxonomy a + a::before { content: '/'; margin-right: .5rem; color: var(--text-muted-color); }
 .reading-page article[data-toc] > header { padding: clamp(1.1rem, 2.5vw, 2rem); border: 1px solid var(--main-border-color); border-radius: 16px; background: linear-gradient(130deg, var(--site-tint), var(--main-bg) 80%); margin-bottom: 2rem; }
-.reading-page article[data-toc] > header h1 { margin-top: 0; font-size: clamp(1.65rem, 2.6vw, 2.35rem); font-weight: 650; line-height: 1.45; letter-spacing: -.025em; }
+.reading-page article[data-toc] > header h1 { margin-top: 0; font-size: clamp(1.65rem, 2.6vw, 2.35rem); font-weight: 650; line-height: 1.45; letter-spacing: -.025em; overflow-wrap: anywhere; }
 .reading-page article[data-toc] .post-desc { margin-top: .85rem; font-size: .98rem; line-height: 1.9; color: var(--text-muted-color); font-weight: 400 !important; }
 .reading-page article[data-toc] > header .post-meta { padding-top: 1rem; border-top: 1px solid var(--main-border-color); font-size: .75rem; line-height: 1.9; }
 .reading-page article[data-toc] > .content { max-width: 43rem; margin-inline: auto; font-size: 1.05rem; line-height: 2; }
