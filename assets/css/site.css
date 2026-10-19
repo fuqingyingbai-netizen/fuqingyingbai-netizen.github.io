@@ -112,6 +112,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); o
   .section-heading { align-items: center; }
   .section-heading > a, .intro-actions .text-link { padding-inline: .35rem; }
   .note-list li { padding: .45rem 0; }
+  .project-stats span { white-space: normal; overflow-wrap: anywhere; }
   /* Current location uses text color on phones; touch hover must not leave a filled row. */
   #sidebar ul li.nav-item.active a.nav-link,
   #sidebar ul li.nav-item a.nav-link:hover { background-color: transparent; }

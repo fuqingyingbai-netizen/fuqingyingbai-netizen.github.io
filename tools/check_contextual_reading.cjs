@@ -15,7 +15,8 @@ const cases = [
 const touchEntries = [
   ['/', '.intro-actions a, .section-heading > a, .featured-projects h3 a:not(.anchor)'],
   ['/notes/', '.reading-path a:not(.anchor), .notes-nav a, .note-list a'],
-  ['/projects/', '.project-card h3 a:not(.anchor), .project-reading']
+  ['/projects/', '.project-card h3 a:not(.anchor), .project-reading'],
+  ['/posts/weekly-2026-10-18/', '.weekly-details > summary']
 ];
 
 (async () => {
@@ -88,6 +89,12 @@ const touchEntries = [
           for (const target of targets) assert(target.height >= 44 && target.width >= 44,
             `${route} ${width}/${scale}% touch target too small: ${JSON.stringify(target)}`);
           assert(await phone.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${route} ${width}/${scale}% overflowed`);
+          if (route === '/projects/' && scale === 200) {
+            // A wider fallback font must not make dates overflow narrow cards.
+            await phone.evaluate(() => { document.body.style.fontFamily = 'monospace'; });
+            assert(await phone.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Enlarged project metadata overflowed with a wider font');
+            await phone.evaluate(() => { document.body.style.fontFamily = ''; });
+          }
         }
       }
       await phone.goto(base + '/posts/weekly-2026-10-18/', { waitUntil: 'networkidle' });
