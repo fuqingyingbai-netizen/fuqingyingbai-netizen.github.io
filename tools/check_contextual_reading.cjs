@@ -12,6 +12,11 @@ const cases = [
   ['/tags/', 'tags', '按类型阅读'],
   ['/archives/', 'archives', '按年份浏览']
 ];
+const touchEntries = [
+  ['/', '.intro-actions a, .section-heading > a, .featured-projects h3 a'],
+  ['/notes/', '.reading-path a, .notes-nav a, .note-list a'],
+  ['/projects/', '.project-card h3 a, .project-reading']
+];
 
 (async () => {
   const engine = process.env.LAYOUT_BROWSER || 'webkit';
@@ -71,6 +76,29 @@ const cases = [
       assert.equal(await phone.locator('.intro-topics, .intro-meta').count(), 0);
       assert((await phone.locator('.intro-description').innerText()).length < 30);
       assert(await phone.locator('#intro-title').evaluate(el => parseFloat(getComputedStyle(el).fontSize) >= 40));
+      for (const [route, selector] of touchEntries) {
+        await phone.goto(base + route, { waitUntil: 'networkidle' });
+        for (const scale of [100, 200]) {
+          await phone.evaluate(size => document.documentElement.style.fontSize = size + '%', scale);
+          const targets = await phone.locator(selector).evaluateAll(elements => elements.map(el => {
+            const rect = el.getBoundingClientRect();
+            return { text: el.textContent.trim(), width: rect.width, height: rect.height };
+          }));
+          assert(targets.length > 0);
+          for (const target of targets) assert(target.height >= 44 && target.width >= 44,
+            `${route} ${width}/${scale}% touch target too small: ${JSON.stringify(target)}`);
+          assert(await phone.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${route} ${width}/${scale}% overflowed`);
+        }
+      }
+      await phone.goto(base + '/posts/weekly-2026-10-18/', { waitUntil: 'networkidle' });
+      const details = phone.locator('.weekly-details').first();
+      assert.equal(await details.getAttribute('open'), null);
+      const source = details.locator('ul a').first();
+      assert.equal(await source.isVisible(), false);
+      await details.locator('summary').tap();
+      assert(await source.isVisible());
+      await details.locator('summary').tap();
+      assert.equal(await source.isVisible(), false);
       await phone.goto(base + article, { waitUntil: 'networkidle' });
       await phone.locator('#toc-solo-trigger').click();
       await phone.locator('#toc-popup[open]').waitFor();
@@ -99,7 +127,11 @@ const cases = [
     await noJs.goto(base + '/resources/', { waitUntil: 'networkidle' });
     assert(await noJs.locator('#panel-wrapper').getByRole('heading', { name: '配套阅读', exact: true }).isVisible());
     assert.equal(await noJs.locator('[data-context-toc]').isVisible(), false);
+    await noJs.goto(base + '/posts/weekly-2026-10-18/', { waitUntil: 'networkidle' });
+    const plainDetails = noJs.locator('.weekly-details').first();
+    await plainDetails.locator('summary').click();
+    assert(await plainDetails.locator('ul a').first().isVisible(), 'Weekly sources require JavaScript');
     await plain.close();
-    console.log(JSON.stringify({ base, engine, results, articleReading: true, mobileZoom: true, noJavaScript: true }));
+    console.log(JSON.stringify({ base, engine, results, articleReading: true, mobileZoom: true, mobileTouchTargets: true, weeklyDetails: true, noJavaScript: true }));
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exit(1); });

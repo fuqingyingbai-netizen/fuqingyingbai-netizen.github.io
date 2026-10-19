@@ -17,7 +17,13 @@ layout: compress
 >
   {% include head.html lang=lang %}
 
-  <body>
+  {% assign nav_section = page.url | split: '/' | slice: 1 | first %}
+  {% if page.layout == 'post' %}
+    {% assign nav_section = 'notes' %}
+    {% if page.categories contains '生涯规划' %}{% assign nav_section = 'career' %}{% endif %}
+  {% endif %}
+  {% assign nav_parent = '/' | append: nav_section | append: '/' | replace: '//', '/' %}
+  <body data-nav-parent="{{ nav_parent | relative_url }}">
     {% include sidebar.html lang=lang %}
 
     <div id="main-wrapper" class="d-flex justify-content-center">

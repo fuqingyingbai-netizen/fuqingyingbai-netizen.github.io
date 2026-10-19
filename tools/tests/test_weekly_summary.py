@@ -72,5 +72,62 @@ class PrivacyTests(unittest.TestCase):
         self.assertEqual(len(items), 1)
 
 
+class DigestTests(unittest.TestCase):
+    def test_repeated_pr_actions_share_one_entry_and_all_sources_remain_in_details(self):
+        items = [event(str(i), type="PullRequestEvent", payload={"action": action, "number": 7})
+                 for i, action in enumerate(["opened", "reopened", "closed"])] + [event("9")]
+        paths = []
+        def fetch(path):
+            paths.append(path)
+            return {"private": False, "visibility": "public"} if path == "/repos/example/demo" else {"title": "Improve search"}
+        result = MODULE.render_summary("example", END, items, False, fetch)
+        main, details = result.split('<details class="weekly-details" markdown="1">')
+        self.assertIn("4 条公开活动，涉及 1 个项目", main)
+        self.assertIn("代码推送 1 条、PR 活动 3 条", main)
+        self.assertEqual(main.count("https://github.com/example/demo/pull/7"), 1)
+        self.assertIn("Improve search", main)
+        self.assertIn("关闭 PR #7", main)
+        self.assertNotIn("合并 PR", main)
+        self.assertEqual(details.count("https://github.com/example/demo/pull/7"), 3)
+        self.assertIn("/commit/" + "a" * 40, details)
+        self.assertEqual(paths.count("/repos/example/demo/pulls/7"), 1)
+        self.assertIn("card_title:", result)
+        self.assertIn("description:", result)
+
+    def test_representative_links_are_bounded_and_public_titles_are_escaped(self):
+        items = [event(str(i), type="IssuesEvent", payload={"action": "opened", "issue": {"number": i + 1}}) for i in range(8)]
+        lookups = []
+        def fetch(path):
+            if path == "/repos/example/demo":
+                return {"private": False, "visibility": "public"}
+            lookups.append(path)
+            return {"title": '<script>{{site.secret}}</script> [x](https://bad.example)'}
+        result = MODULE.render_summary("example", END, items, False, fetch)
+        main = result.split("<details")[0]
+        self.assertEqual(len(lookups), 3)
+        self.assertEqual(main.count("https://github.com/example/demo/issues/"), 3)
+        self.assertNotIn("<script>", result)
+        self.assertNotIn("{{site.secret}}", result)
+        self.assertIn("展开 8 条活动明细", result)
+
+    def test_optional_title_failure_keeps_numbered_link_without_empty_colon(self):
+        def fetch(path):
+            if path == "/repos/example/demo":
+                return {"private": False, "visibility": "public"}
+            raise RuntimeError("Rate limit")
+        result = MODULE.render_summary("example", END, [event(type="PullRequestEvent", payload={"number": 2})], False, fetch)
+        self.assertIn("[更新 PR #2](https://github.com/example/demo/pull/2)", result)
+        self.assertNotIn("PR #2：", result)
+
+    def test_non_public_repository_never_fetches_item_titles(self):
+        paths = []
+        def fetch(path):
+            paths.append(path)
+            return {"private": True, "visibility": "private"}
+        result = MODULE.render_summary("example", END, [event(type="PullRequestEvent", payload={"number": 2})], False, fetch)
+        self.assertEqual(paths, ["/repos/example/demo"])
+        self.assertNotIn("example/demo", result)
+
+
 if __name__ == "__main__":
     unittest.main()

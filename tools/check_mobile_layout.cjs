@@ -141,11 +141,20 @@ const base = process.env.LAYOUT_BASE_URL || 'http://127.0.0.1:4173';
         await page.waitForURL('**/projects/');
         assert.equal(await page.locator('body').evaluate(el => el.hasAttribute('sidebar-display')), false);
         if (viewport.width === 390) {
-          for (const route of ['/projects/', '/about/']) {
+          for (const [route, parent] of [
+            ['/projects/', '/projects/'], ['/about/', '/about/'],
+            ['/projects/dify-apps/', '/projects/'], ['/projects/resume-evaluator-agent/', '/projects/'],
+            ['/posts/LangGraph学习笔记-用问数工作流理解图式智能体/', '/notes/'],
+            ['/posts/weekly-2026-10-18/', '/notes/'],
+            ['/posts/生涯规划-先把工程能力做扎实/', '/career/'],
+            ['/tags/langgraph/', '/tags/'], ['/categories/学习笔记/', '/categories/']
+          ]) {
             await page.goto(base + route, { waitUntil: 'networkidle' });
             await page.locator('#sidebar-trigger').tap();
-            const selected = page.locator('#sidebar nav [aria-current="page"]');
-            assert.equal(await selected.getAttribute('href'), route);
+            const selected = page.locator('#sidebar nav [aria-current]');
+            assert.equal(await selected.count(), 1);
+            assert.equal(await selected.getAttribute('href'), parent);
+            assert.equal(await selected.getAttribute('aria-current'), route === parent ? 'page' : 'location');
             assert(await selected.evaluate(el => document.activeElement === el), 'Opening the drawer focused Home instead of the current section');
             assert.equal(await selected.evaluate(el => getComputedStyle(el).backgroundColor), 'rgba(0, 0, 0, 0)');
             const home = page.locator('#sidebar nav a[href="/"]');
