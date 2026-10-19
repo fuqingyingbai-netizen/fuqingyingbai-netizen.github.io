@@ -8,13 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let wasOpen = false;
     sidebarTrigger.setAttribute('aria-controls', 'sidebar');
     sidebar.setAttribute('aria-label', '网站导航');
+    const currentLink = sidebar.querySelector('nav .nav-item.active a');
+    currentLink?.setAttribute('aria-current', 'page');
     function syncMenu() {
       const open = mobileMenu.matches && document.body.hasAttribute('sidebar-display');
       sidebarTrigger.setAttribute('aria-expanded', String(open));
       sidebarTrigger.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单');
       sidebar.inert = mobileMenu.matches ? !open : document.documentElement.hasAttribute('data-sidebar-collapsed');
       main.inert = open;
-      if (open && !wasOpen) sidebar.querySelector('nav a')?.focus({ preventScroll: true });
+      if (open && !wasOpen) (currentLink || sidebar.querySelector('nav a'))?.focus({ preventScroll: true });
       if (!open && wasOpen && mobileMenu.matches) sidebarTrigger.focus({ preventScroll: true });
       wasOpen = open;
     }
