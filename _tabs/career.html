@@ -58,9 +58,14 @@ search_content: 生涯规划 职业规划 长期路线 三个月计划 13周任�
       <progress data-career-progress max="{{ total_tasks }}" value="0" aria-label="本期计划完成进度">0 / {{ total_tasks }}</progress>
       <div class="career-toolbar">
         <div class="career-filters" role="group" aria-label="筛选周计划"><button type="button" data-filter="all" aria-pressed="true">全部周次</button><button type="button" data-filter="current" aria-pressed="false">本周</button><button type="button" data-filter="unfinished" aria-pressed="false">未完成</button></div>
-        <button type="button" data-export>导出复盘</button>
+        <div class="career-backup-actions"><button type="button" data-export>导出 Markdown</button><button type="button" data-backup>下载备份</button><button type="button" data-import>恢复备份</button><button type="button" data-undo-import hidden>撤销本次恢复</button></div>
       </div>
-      <p class="career-storage-note">进度与复盘仅保存在当前浏览器，不会公开或同步到其他设备。清理浏览器数据前，可导出 Markdown 记录。</p>
+      <input type="file" accept=".json,application/json" data-import-file hidden aria-label="选择生涯规划备份文件">
+      <div class="career-import-preview" data-import-preview hidden role="region" aria-label="确认恢复备份">
+        <p data-import-summary></p><p>恢复会替换当前浏览器的进度与复盘。你可以先下载当前备份；恢复后、再次编辑前，也可以撤销。</p>
+        <div class="career-backup-actions"><button type="button" data-confirm-import>确认恢复</button><button type="button" data-cancel-import>取消</button></div>
+      </div>
+      <p class="career-storage-note">进度与复盘仅保存在当前浏览器，不会公开或自动同步。下载 JSON 备份后，可在其他设备的本页恢复；Markdown 用于阅读与留存。备份可能包含个人复盘，请自行保管。</p>
       <p class="career-save-status" role="status" aria-live="polite" data-save-status></p>
     </div>
     <p class="career-empty" data-empty hidden>当前筛选下没有周计划。</p>

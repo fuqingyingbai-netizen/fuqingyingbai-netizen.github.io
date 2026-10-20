@@ -1,0 +1,11 @@
+<form class="project-filters" data-project-filters hidden aria-label="筛选项目">
+  <div class="project-filter-fields">
+    <label>项目分组<select name="group"><option value="">全部分组</option>{% for group in site.data.projects.groups %}<option value="{{ group.key | escape }}">{{ group.title | escape }}</option>{% endfor %}</select></label>
+    {% assign project_tags = site.data.projects.projects | map: 'tags' | join: '|' | split: '|' | uniq | sort %}
+    <label>技术与方向<select name="tag"><option value="">全部技术与方向</option>{% for tag in project_tags %}<option value="{{ tag | escape }}">{{ tag | escape }}</option>{% endfor %}</select></label>
+    <button type="reset">清除筛选</button>
+  </div>
+  <p data-project-result role="status" aria-live="polite"></p>
+  <small>可复制当前页面地址，分享筛选结果。</small>
+</form>
+<p data-project-empty hidden>没有符合条件的项目，可以更换条件或清除筛选。</p>

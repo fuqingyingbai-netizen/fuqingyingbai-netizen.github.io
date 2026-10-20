@@ -16,6 +16,11 @@
 <script defer src="{{ '/assets/js/context-panel.js' | relative_url }}"></script>
 {% if page.layout == 'post' %}
 <link rel="stylesheet" href="{{ '/assets/css/reading.css' | relative_url }}">
+<script defer src="{{ '/assets/js/reading-resume.js' | relative_url }}"></script>
+{% endif %}
+{% if page.url == '/projects/' %}
+<link rel="stylesheet" href="{{ '/assets/css/project-filters.css' | relative_url }}">
+<script defer src="{{ '/assets/js/project-filters.js' | relative_url }}"></script>
 {% endif %}
 {% if page.mermaid %}
 <link rel="stylesheet" href="{{ '/assets/css/diagram-viewer.css' | relative_url }}">

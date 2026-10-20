@@ -34,6 +34,7 @@ layout: compress
           <main aria-label="Main Content" class="col-12 col-lg-11 col-xl-9 px-md-4{% if page.layout == 'post' %} reading-page{% endif %}">
             {% if page.layout == 'post' %}
               <nav class="reading-taxonomy" aria-label="文章分类">{% for category in page.categories %}{% assign category_slug = category | slugify | url_encode %}<a href="{{ '/categories/' | append: category_slug | append: '/' | relative_url }}">{{ category | escape }}</a>{% endfor %}</nav>
+              {% include reading-resume.html %}
             {% endif %}
             {% if layout.layout == 'default' %}
               {% include refactor-content.html content=content lang=lang %}

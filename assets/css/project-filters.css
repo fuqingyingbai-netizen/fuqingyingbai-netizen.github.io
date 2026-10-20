@@ -1,0 +1,9 @@
+.project-filters { margin: 1.5rem 0; padding: 1rem; border: 1px solid var(--main-border-color); border-radius: 12px; background: var(--site-tint); }
+.project-filters[hidden], [data-project-section][hidden], .project-card[hidden] { display: none; }
+.project-filter-fields { display: flex; flex-wrap: wrap; align-items: end; gap: .75rem; }
+.project-filter-fields label { display: flex; flex: 1 1 12rem; flex-direction: column; gap: .35rem; min-width: 0; font-size: .8rem; }
+.project-filter-fields select, .project-filter-fields button { min-height: 44px; max-width: 100%; border: 1px solid var(--main-border-color); border-radius: 7px; padding: .4rem .65rem; color: var(--text-color); background: var(--main-bg); font: inherit; }
+.project-filter-fields button { font-size: .8rem; }
+.project-filters p { margin: .75rem 0 .2rem; font-size: .84rem; }
+.project-filters small { color: var(--text-muted-color); font-size: .73rem; }
+[data-project-empty] { padding: 1rem; border-radius: 9px; background: var(--site-tint); }
