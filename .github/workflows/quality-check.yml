@@ -64,7 +64,7 @@ jobs:
         env:
           NODE_PATH: ${{ runner.temp }}/mobile-layout/node_modules
         run: |
-          npm install --prefix "$RUNNER_TEMP/mobile-layout" --no-save playwright@1.62.1 @waline/client@3.16.1
+          npm install --prefix "$RUNNER_TEMP/mobile-layout" --no-save playwright@1.62.1
           node "$RUNNER_TEMP/mobile-layout/node_modules/playwright/cli.js" install --with-deps webkit
           python -m http.server 4173 --bind 127.0.0.1 --directory _site > "$RUNNER_TEMP/mobile-layout-server.log" 2>&1 &
           server_pid=$!
@@ -79,6 +79,7 @@ jobs:
           node tools/check_home_space.cjs
           node tools/check_contextual_reading.cjs
           node tools/check_reading_tools.cjs
+          node tools/check_comment_submit.cjs
 
       - name: 校验前端与评论服务入口语法
         run: |

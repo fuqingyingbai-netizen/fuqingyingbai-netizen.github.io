@@ -5,7 +5,7 @@ const path = require('node:path');
 const playwright = require('playwright');
 const base = process.env.LAYOUT_BASE_URL || 'http://127.0.0.1:4173';
 const article = '/posts/LangGraph学习笔记-用问数工作流理解图式智能体/';
-const clientDir = process.env.WALINE_CLIENT_DIR || path.dirname(require.resolve('@waline/client'));
+const clientDir = path.join(__dirname, '../assets/third-party/waline/3.16.1');
 const client = fs.readFileSync(path.join(clientDir, 'waline.js'), 'utf8');
 const css = fs.readFileSync(path.join(clientDir, 'waline.css'), 'utf8');
 
@@ -82,12 +82,12 @@ const css = fs.readFileSync(path.join(clientDir, 'waline.css'), 'utf8');
       const pendingStyle = new Promise(resolve => { releaseStyle = resolve; });
       await context.route('**/*', async route => {
         const url = new URL(route.request().url());
-        if (url.origin === new URL(base).origin) return route.continue();
-        if (url.hostname === 'cdn.jsdelivr.net' && url.pathname.includes('@waline/client@3.16.1/')) {
+        if (url.pathname.includes('/assets/third-party/waline/3.16.1/')) {
           if ((mode === 'module' && url.pathname.endsWith('waline.js')) || (mode === 'style' && url.pathname.endsWith('waline.css'))) return route.abort();
           if (initial === 'module' && url.pathname.endsWith('waline.css')) await pendingStyle;
           return route.fulfill({ status: 200, headers: { 'access-control-allow-origin': '*' }, contentType: url.pathname.endsWith('.css') ? 'text/css' : 'application/javascript', body: url.pathname.endsWith('.css') ? css : client });
         }
+        if (url.origin === new URL(base).origin) return route.continue();
         if (url.pathname === '/api/comment') {
           assert.equal(route.request().method(), 'GET', 'Tests must never submit a comment'); reads++;
           const headers = { 'access-control-allow-origin': '*', 'content-type': 'application/json' };

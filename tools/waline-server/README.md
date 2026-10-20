@@ -17,6 +17,27 @@ Vercel Hobby 中已创建同名独立项目，Node.js 24，函数区域 `sin1`�
 生产域名已公开，预览及独立部署地址继续受 Vercel 身份验证保护；网站配置已切换到 Waline。
 测试留言使用独立路径 `/__comment-healthcheck__/2026-10-15`，不会出现在正式文章评论中。
 
+## 手机访问排查（2026-10-20）
+
+当前环境直连正式 `vercel.app` 评论域名时解析到错误 IP，连接失败；通过系统代理读取返回
+HTTP 200，跨域响应正常。手机 WebKit 通过同一代理，在独立路径
+`/__comment-healthcheck__/2026-10-20-mobile` 免登录、不填邮箱提交成功，普通评论自动公开。
+这说明该次测试的表单和后端提交链路可用，不代表手机运营商网络的直连已恢复。
+
+前端已将 Waline 3.16.1 客户端及样式随站点发布，并修复窄屏放大文字后提交按钮溢出。
+这些修改减少外部 CDN 依赖，但无法修复评论 API 域名的 DNS 或线路问题。
+没有可管理的域名时，保留现有服务、数据库和 GitHub 评论入口，不自动购买域名或切换付费方案。
+
+后续取得域名后：
+
+1. 在现有 Vercel `personal-site-comments` 项目的 Domains 添加评论子域名，按平台给出的记录配置 DNS，等待 HTTPS 生效。
+2. 将生产 `COMMENTS_HOST` 设为该子域名（不含协议），重新部署现有服务；不新建或重置数据库，也不改管理员凭据。
+3. 实测该地址的匿名读取、手机提交、待审核及回复，再将网站 `_config.yml` 的 `comments.waline.server_url` 改为新 HTTPS 地址并构建部署。
+4. 保持所有文章的 `data-comments-path` 不变，以继续读取原评论；后台也使用新域名登录。测试 Wi-Fi 与移动网络，确认不依赖代理。
+
+域名注册通常有年度费用，按实际选择确认；不能保证更换域名后所有线路均可达。
+参考：[Vercel 关于中国大陆访问的说明](https://vercel.com/kb/guide/accessing-vercel-hosted-sites-from-mainland-china)。
+
 ## 部署顺序
 
 1. 登录并连接 Vercel 与 Neon，创建独立的免费 PostgreSQL 项目。
