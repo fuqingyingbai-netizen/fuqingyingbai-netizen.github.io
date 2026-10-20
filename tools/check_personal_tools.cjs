@@ -85,6 +85,16 @@ async function downloaded(download) {
     await projects.goto(base + '/projects/?group=personal&tag=Python#project-shopkeeper-agent', { waitUntil: 'networkidle' });
     assert(await projects.locator('#project-shopkeeper-agent').isVisible(), 'Old project anchors must remain reachable');
     assert.equal(await form.locator('[name=group]').inputValue(), '');
+    await projects.setViewportSize({ width: 1413, height: 871 });
+    await projects.goto(base + '/projects/?group=personal&tag=Python', { waitUntil: 'networkidle' });
+    const sectionLink = projects.locator('.context-contents a').last();
+    const sectionId = decodeURIComponent((await sectionLink.getAttribute('href')).slice(1));
+    await sectionLink.click();
+    await projects.waitForFunction(id => {
+      const top = document.getElementById(id).getBoundingClientRect().top;
+      return top >= 0 && top < innerHeight - 30;
+    }, sectionId);
+    assert.equal(await form.locator('[name=group]').inputValue(), '', 'A hidden directory target must reveal and scroll into view');
     await projects.goto(base + '/projects/?group=unknown&tag=%3Cimg%20src=x%3E', { waitUntil: 'networkidle' });
     assert.equal(await projects.locator('.project-card:visible').count(), total);
     assert.equal(new URL(projects.url()).searchParams.has('tag'), false);

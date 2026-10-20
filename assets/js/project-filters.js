@@ -13,7 +13,17 @@
     const card = target?.closest('.project-card');
     const section = target?.closest('[data-project-section]');
     if ((cards.includes(card) && !matches(card)) ||
-        (section && !cards.some(item => section.contains(item) && matches(item)))) group.value = tag.value = '';
+        (section && !cards.some(item => section.contains(item) && matches(item)))) {
+      group.value = tag.value = '';
+      return target;
+    }
+  }
+  function focusTarget(target) {
+    if (!target) return;
+    // Fragment navigation ran while this target was hidden; finish it after rendering.
+    target.scrollIntoView({ block: 'start', behavior: 'instant' });
+    target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
   }
   function render() {
     cards.forEach(card => { card.hidden = !matches(card); });
@@ -33,9 +43,10 @@
   function readURL() {
     const params = new URLSearchParams(location.search);
     for (const field of [group, tag]) field.value = [...field.options].some(option => option.value === params.get(field.name)) ? params.get(field.name) : '';
-    revealTarget();
+    const target = revealTarget();
     render();
     writeURL();
+    focusTarget(target);
   }
   form.addEventListener('submit', event => event.preventDefault());
   form.addEventListener('change', () => {
@@ -50,7 +61,7 @@
     render(); writeURL('pushState');
   });
   window.addEventListener('popstate', readURL);
-  window.addEventListener('hashchange', () => { revealTarget(); render(); writeURL(); });
+  window.addEventListener('hashchange', () => { const target = revealTarget(); render(); writeURL(); focusTarget(target); });
   readURL();
   form.hidden = false;
 })();
