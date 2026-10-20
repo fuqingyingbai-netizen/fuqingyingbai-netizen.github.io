@@ -32,6 +32,14 @@
     stage = document.createElement('div'); stage.className = 'diagram-stage'; stage.tabIndex = 0;
     stage.setAttribute('role', 'region'); stage.setAttribute('aria-label', '放大的流程图，可滚动查看');
     dialog.append(toolbar, stage); document.body.append(dialog);
+    dialog.addEventListener('keydown', event => {
+      if (event.key !== 'Tab') return;
+      const items = [...dialog.querySelectorAll('button:not([disabled]), a[href], [tabindex="0"]')];
+      if (!items.length) return;
+      const index = items.indexOf(document.activeElement);
+      event.preventDefault();
+      items[(index + (event.shiftKey ? -1 : 1) + items.length) % items.length].focus();
+    });
     dialog.addEventListener('close', () => {
       const previous = active;
       if (previous) {

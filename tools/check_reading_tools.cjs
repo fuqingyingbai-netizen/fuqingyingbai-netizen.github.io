@@ -46,6 +46,7 @@ const css = fs.readFileSync(path.join(clientDir, 'waline.css'), 'utf8');
       await page.setViewportSize({ width, height: 844 });
       for (const scale of [100, 200]) {
         await page.evaluate(percent => document.documentElement.style.fontSize = percent + '%', scale);
+        await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Diagram widened the document');
         const diagram = await measure(); assert(diagram.scale >= .9 && diagram.scroll > diagram.width);
       }
@@ -89,7 +90,8 @@ const css = fs.readFileSync(path.join(clientDir, 'waline.css'), 'utf8');
           if (mode === 'http') return route.fulfill({ status: 503, headers, body: 'unavailable' });
           if (mode === 'invalid') return route.fulfill({ status: 200, headers, body: 'invalid JSON' });
           if (mode === 'json') return route.fulfill({ status: 200, headers, json: { errno: 500, errmsg: 'temporary read failure' } });
-          return route.fulfill({ status: 200, headers, json: { errno: 0, errmsg: '', data: { page: 1, pageSize: 10, totalPages: 0, count: 0, data: [] } } });
+          const data = mode === 'ready' ? [{ objectId: 1, time: 1792425600000, comment: '<p>模拟公开留言</p>', orig: '模拟公开留言', nick: '测试访客', link: '', avatar: '', like: 0, sticky: false, children: [], status: 'approved' }] : [];
+          return route.fulfill({ status: 200, headers, json: { errno: 0, errmsg: '', data: { page: 1, pageSize: 10, totalPages: data.length, count: data.length, data } } });
         }
         return route.abort();
       });
@@ -104,6 +106,7 @@ const css = fs.readFileSync(path.join(clientDir, 'waline.css'), 'utf8');
       if (await draft.count()) {
         await draft.fill('尚未提交的测试草稿');
         await comments.locator('#waline input').first().fill('测试访客');
+        await comments.locator('#waline input').nth(1).fill('reader@example.invalid');
       }
       mode = 'empty';
       await comments.locator('.comment-retry').click();
@@ -112,6 +115,13 @@ const css = fs.readFileSync(path.join(clientDir, 'waline.css'), 'utf8');
       if (!['module', 'style'].includes(initial)) {
         assert.equal(await draft.inputValue(), '尚未提交的测试草稿');
         assert.equal(await comments.locator('#waline input').first().inputValue(), '测试访客');
+        assert.equal(await comments.locator('#waline input').nth(1).inputValue(), 'reader@example.invalid');
+      }
+      if (initial === 'network') {
+        mode = 'ready';
+        await comments.locator('.wl-sort li').first().click();
+        await comments.locator('[data-comments-state="ready"]').waitFor();
+        assert((await comments.locator('#waline').innerText()).includes('模拟公开留言'));
       }
       assert(await comments.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
       assert(reads > 0);
