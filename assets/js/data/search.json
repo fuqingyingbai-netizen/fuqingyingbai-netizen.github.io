@@ -8,7 +8,9 @@ swcache: true
   {% for post in visible_posts %}
   {% unless first %},{% endunless %}{% assign first = false %}
   {
-    "title": {{ post.title | jsonify }},
+    "title": {{ post.card_title | default: post.title | jsonify }},
+    "aliases": {{ post.title | jsonify }},
+    "summary": {{ post.description | default: '' | jsonify }},
     "url": {{ post.url | relative_url | jsonify }},
     "categories": {{ post.categories | join: ', ' | jsonify }},
     "tags": {{ post.tags | join: ', ' | jsonify }},
@@ -25,6 +27,7 @@ swcache: true
     "title": {{ site.data.locales[site.lang].tabs[tab_key] | default: tab.title | jsonify }},
     "url": {{ tab.url | relative_url | jsonify }},
     "categories": "页面",
+    "summary": {{ tab.description | default: '' | jsonify }},
     "tags": "",
     "content": {{ tab.search_content | default: tab.content | markdownify | strip_html | normalize_whitespace | jsonify }}
   }
@@ -37,6 +40,7 @@ swcache: true
     "title": {{ item.title | jsonify }},
     "url": {{ item.url | relative_url | jsonify }},
     "categories": "项目说明",
+    "summary": {{ item.description | default: '' | jsonify }},
     "tags": {{ item.tags | join: ', ' | jsonify }},
     "content": {{ item.content | markdownify | strip_html | normalize_whitespace | jsonify }}
   }
@@ -47,6 +51,9 @@ swcache: true
     "title": {{ project.short_title | default: project.title | jsonify }},
     {% capture project_url %}/projects/#project-{{ project.repo }}{% endcapture %}
     "url": {{ project_url | relative_url | jsonify }},
+    "canonical_url": {{ project.detail_url | default: project_url | relative_url | jsonify }},
+    "aliases": {{ project.repo | jsonify }},
+    "summary": {{ project.summary | default: project.description | jsonify }},
     "categories": "项目",
     "tags": {{ project.tags | join: ', ' | jsonify }},
     {% capture project_content %}{{ project.repo }} {{ project.description }} {{ project.note | markdownify | strip_html }}{% endcapture %}

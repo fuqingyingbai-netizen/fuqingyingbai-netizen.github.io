@@ -17,6 +17,10 @@
 {% if page.layout == 'post' %}
 <link rel="stylesheet" href="{{ '/assets/css/reading.css' | relative_url }}">
 {% endif %}
+{% if page.mermaid %}
+<link rel="stylesheet" href="{{ '/assets/css/diagram-viewer.css' | relative_url }}">
+<script defer src="{{ '/assets/js/diagram-viewer.js' | relative_url }}"></script>
+{% endif %}
 {% if page.layout == 'home' %}
 <link rel="stylesheet" href="{{ '/assets/css/home.css' | relative_url }}">
 <script defer src="{{ '/assets/js/home-scene.js' | relative_url }}"></script>

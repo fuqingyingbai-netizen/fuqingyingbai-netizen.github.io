@@ -63,7 +63,9 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); o
 .project-card:target { border-color: var(--site-accent); box-shadow: 0 0 0 2px var(--site-tint); }
 .visitor-comments { margin: 2.5rem 0; --waline-theme-color: var(--site-accent); --waline-active-color: var(--site-accent); }
 .comment-help, .comment-status, .legacy-comments { color: var(--text-muted-color); font-size: .85rem; }
+[data-comments-state='error'] .comment-status { color: var(--site-accent); padding: .7rem 1rem; border-left: 3px solid var(--site-accent); background: var(--site-tint); }
 .comment-retry { border: 1px solid var(--main-border-color); border-radius: 8px; padding: .5rem .9rem; color: var(--site-accent); background: var(--main-bg); }
+#search-results .search-excerpt { -webkit-line-clamp: 3; }
 #post-list .card-wrapper { border: 1px solid var(--main-border-color); box-shadow: none; border-radius: var(--site-radius); margin-bottom: 1rem; }
 #post-list .card-title { font-size: 1.15rem; line-height: 1.6; }
 #post-list .card-body { padding: 1.5rem; }
