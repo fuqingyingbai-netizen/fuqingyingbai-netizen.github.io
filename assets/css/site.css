@@ -73,6 +73,9 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); o
   .visitor-comments .wl-info { min-width: 0; flex: 1 1 100%; flex-wrap: wrap; gap: .5rem; }
   .visitor-comments .wl-info button { margin-inline-start: 0; min-height: 44px; }
   .visitor-comments .wl-text-number { margin-inline-end: auto; }
+  .visitor-comments .wl-meta-head { flex-wrap: wrap; gap: .4rem; }
+  .visitor-comments .wl-count { flex: 1 0 auto; }
+  .visitor-comments .wl-sort { margin-inline-start: auto; }
 }
 #search-results .search-excerpt { -webkit-line-clamp: 3; }
 #post-list .card-wrapper { border: 1px solid var(--main-border-color); box-shadow: none; border-radius: var(--site-radius); margin-bottom: 1rem; }

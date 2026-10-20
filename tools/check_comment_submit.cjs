@@ -64,6 +64,8 @@ const article = '/posts/LangGraph学习笔记-用问数工作流理解图式智�
         await page.waitForFunction(() => !document.querySelector('#waline textarea').value);
         assert.equal(posts, 2, 'Only a second user action may resubmit');
         assert.equal(dialogs.length, 1);
+        const count = await page.locator('#waline .wl-count').evaluate(el => ({ height: el.getBoundingClientRect().height, font: parseFloat(getComputedStyle(el).fontSize) }));
+        assert(count.height <= count.font * 1.8, 'The comment count must not collapse into a vertical column');
         const layout = await page.evaluate(() => ({ width: innerWidth, scroll: document.documentElement.scrollWidth,
           x: scrollX, visualWidth: visualViewport.width, outside: [...document.querySelectorAll('body *')].filter(el => !el.closest('svg') && el.getBoundingClientRect().right + scrollX > innerWidth + 1)
             .slice(0, 12).map(el => ({ tag: el.tagName, class: el.className, width: el.getBoundingClientRect().width, left: el.getBoundingClientRect().left })) }));
