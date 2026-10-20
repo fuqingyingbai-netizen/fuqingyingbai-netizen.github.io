@@ -11,6 +11,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC'
 #sidebar .site-subtitle { height: auto; min-height: 3rem; font-style: normal !important; line-height: 1.8; word-break: keep-all; overflow-wrap: anywhere; text-wrap: wrap; }
 #sidebar nav .nav-link { min-height: 44px; }
 #sidebar .sidebar-bottom #mode-toggle, #sidebar .sidebar-bottom > a { width: 2.75rem; height: 2.75rem; min-width: 44px; min-height: 44px; padding: 0; flex-shrink: 0; }
+/* Match the theme-button separator between each pair of social links too. */
+#sidebar .sidebar-bottom > a:not(:last-child) { position: relative; margin-right: calc(1.2rem + 3px); }
+#sidebar .sidebar-bottom > a:not(:last-child)::after { content: ''; position: absolute; left: calc(100% + .6rem); top: calc(50% - 1.5px); width: 3px; height: 3px; border-radius: 50%; background-color: var(--sidebar-btn-color); pointer-events: none; }
 a:focus-visible, button:focus-visible { outline: 3px solid var(--site-accent); outline-offset: 4px; border-radius: 3px; }
 .home-intro { margin: .4rem 0 2.8rem; padding: 2.2rem; border: 1px solid var(--main-border-color); border-radius: var(--site-radius); background: linear-gradient(135deg, var(--site-tint), var(--main-bg)); }
 .eyebrow { margin: 0 0 1.2rem; color: var(--site-accent); font-size: .78rem; letter-spacing: .15em; font-weight: 600; }

@@ -1,6 +1,6 @@
 <section class="reading-path" aria-labelledby="reading-path-title">
   <h2 id="reading-path-title">从这里开始读</h2>
-  <ol>
+  <ol class="reading-path-list">
     {% for step in site.data.reading_path %}
     <li><h3>{{ step.title | escape }}</h3><p>{{ step.text | escape }}</p><a href="{{ step.url | relative_url }}">{{ step.label | escape }} <span aria-hidden="true">→</span></a></li>
     {% endfor %}
