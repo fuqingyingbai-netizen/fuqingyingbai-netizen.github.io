@@ -3,8 +3,7 @@ if (container) {
   // Chirpy emits comment providers with its scripts; mount beside the article footer.
   const footer = document.querySelector('#tail-wrapper footer');
   if (footer) footer.before(container);
-  const version = '3.16.1';
-  const base = `https://cdn.jsdelivr.net/npm/@waline/client@${version}/dist/`;
+  const base = new URL('../third-party/waline/3.16.1/', import.meta.url).href;
   const status = container.querySelector('.comment-status');
   const retry = container.querySelector('.comment-retry');
   const mount = container.querySelector('#waline');
@@ -28,7 +27,7 @@ if (container) {
   function syncReadState() {
     // Adapter for the pinned Waline 3.16.1 list states. Do not remount the form:
     // its built-in refresh retries the read while preserving the user's draft.
-    if (refreshButton()) state('error', '评论列表读取失败，请重试。你填写的内容仍保留在输入框中。');
+    if (refreshButton()) state('error', '评论服务暂时无法读取。若提交也失败，请保留输入内容，切换网络后重试；也可使用下方原 GitHub 评论入口。');
     else if (mount.querySelector('.wl-cards ~ .wl-loading')) state('loading', '正在读取评论列表…');
     else if (mount.querySelector('.wl-empty')) state('empty', '暂无公开评论，欢迎留言交流。');
     else if (mount.querySelector('.wl-card')) state('ready', '评论已加载。');
