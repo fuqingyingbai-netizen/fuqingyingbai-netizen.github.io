@@ -28,7 +28,7 @@ if (container) {
     // Adapter for the pinned Waline 3.16.1 list states. Do not remount the form:
     // its built-in refresh retries the read while preserving the user's draft.
     if (refreshButton()) state('error', '评论列表读取失败，请重试。你填写的内容仍保留在输入框中。');
-    else if (mount.querySelector('.wl-cards .wl-loading')) state('loading', '正在读取评论列表…');
+    else if (mount.querySelector('.wl-cards ~ .wl-loading')) state('loading', '正在读取评论列表…');
     else if (mount.querySelector('.wl-empty')) state('empty', '暂无公开评论，欢迎留言交流。');
     else if (mount.querySelector('.wl-card')) state('ready', '评论已加载。');
   }

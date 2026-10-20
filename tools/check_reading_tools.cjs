@@ -76,6 +76,8 @@ const css = fs.readFileSync(path.join(clientDir, 'waline.css'), 'utf8');
     for (const initial of ['network', 'http', 'json', 'invalid', 'module', 'style']) {
       const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce' });
       let mode = initial, reads = 0;
+      let releaseRead;
+      const pendingRead = new Promise(resolve => { releaseRead = resolve; });
       await context.route('**/*', async route => {
         const url = new URL(route.request().url());
         if (url.origin === new URL(base).origin) return route.continue();
@@ -90,6 +92,7 @@ const css = fs.readFileSync(path.join(clientDir, 'waline.css'), 'utf8');
           if (mode === 'http') return route.fulfill({ status: 503, headers, body: 'unavailable' });
           if (mode === 'invalid') return route.fulfill({ status: 200, headers, body: 'invalid JSON' });
           if (mode === 'json') return route.fulfill({ status: 200, headers, json: { errno: 500, errmsg: 'temporary read failure' } });
+          if (mode === 'hold') await pendingRead;
           const data = mode === 'ready' ? [{ objectId: 1, time: 1792425600000, comment: '<p>模拟公开留言</p>', orig: '模拟公开留言', nick: '测试访客', link: '', avatar: '', like: 0, sticky: false, children: [], status: 'approved' }] : [];
           return route.fulfill({ status: 200, headers, json: { errno: 0, errmsg: '', data: { page: 1, pageSize: 10, totalPages: data.length, count: data.length, data } } });
         }
@@ -108,8 +111,13 @@ const css = fs.readFileSync(path.join(clientDir, 'waline.css'), 'utf8');
         await comments.locator('#waline input').first().fill('测试访客');
         await comments.locator('#waline input').nth(1).fill('reader@example.invalid');
       }
-      mode = 'empty';
+      mode = initial === 'network' ? 'hold' : 'empty';
       await comments.locator('.comment-retry').click();
+      if (initial === 'network') {
+        await comments.locator('[data-comments-state="loading"]').waitFor();
+        assert((await comments.locator('.comment-status').innerText()).includes('正在读取'));
+        releaseRead();
+      }
       await comments.locator('[data-comments-state="empty"]').waitFor();
       assert.equal(await comments.locator('.comment-retry').isVisible(), false);
       if (!['module', 'style'].includes(initial)) {
@@ -119,7 +127,7 @@ const css = fs.readFileSync(path.join(clientDir, 'waline.css'), 'utf8');
       }
       if (initial === 'network') {
         mode = 'ready';
-        await comments.locator('.wl-sort li').first().click();
+        await comments.locator('.wl-sort li:not(.active)').first().click();
         await comments.locator('[data-comments-state="ready"]').waitFor();
         assert((await comments.locator('#waline').innerText()).includes('模拟公开留言'));
       }
