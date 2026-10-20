@@ -15,6 +15,7 @@ const cases = [
 const touchEntries = [
   ['/', '.intro-actions a, .section-heading > a, .featured-projects h3 a:not(.anchor)'],
   ['/notes/', '.reading-path a:not(.anchor), .notes-nav a, .note-list a'],
+  ['/resources/', '.reading-path a:not(.anchor)'],
   ['/projects/', '.project-card h3 a:not(.anchor), .project-reading'],
   ['/posts/weekly-2026-10-18/', '.weekly-details > summary']
 ];
@@ -69,6 +70,26 @@ const touchEntries = [
     assert.deepEqual(errors, []);
     await context.close();
 
+    const tablet = await browser.newContext({ viewport: { width: 1024, height: 900 }, reducedMotion: 'reduce' });
+    const medium = await tablet.newPage();
+    await medium.goto(base + article, { waitUntil: 'networkidle' });
+    for (const width of [900, 1024, 1199]) {
+      await medium.setViewportSize({ width, height: 900 });
+      for (const scale of [100, 200]) {
+        await medium.evaluate(size => { document.documentElement.style.fontSize = size + '%'; window.scrollTo(0, 1400); }, scale);
+        await medium.locator('#toc-bar:not(.invisible)').waitFor();
+        await medium.waitForFunction(() => document.querySelector('#toc-bar').getBoundingClientRect().top >= document.querySelector('#topbar-wrapper').getBoundingClientRect().bottom - 1);
+        assert(await medium.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${width}/${scale}% tablet overflowed`);
+        // A directory link must leave its heading below both sticky rows.
+        await medium.locator('#toc-bar button').click();
+        const target = medium.locator('#toc-popup-content a[href^="#"]').last();
+        const id = decodeURIComponent((await target.getAttribute('href')).slice(1));
+        await target.click();
+        await medium.waitForFunction(heading => document.getElementById(heading).getBoundingClientRect().top >= document.querySelector('#toc-bar').getBoundingClientRect().bottom - 1, id);
+      }
+    }
+    await tablet.close();
+
     for (const width of [320, 390]) {
       const mobile = await browser.newContext({ viewport: { width, height: 844 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce' });
       const phone = await mobile.newPage();
@@ -88,6 +109,14 @@ const touchEntries = [
           assert(targets.length > 0);
           for (const target of targets) assert(target.height >= 44 && target.width >= 44,
             `${route} ${width}/${scale}% touch target too small: ${JSON.stringify(target)}`);
+          const pathAlignment = await phone.locator('.reading-path').evaluateAll(sections => sections.every(section => {
+            const bounds = section.getBoundingClientRect();
+            return [...section.querySelectorAll('ol > li')].every(card => {
+              const rect = card.getBoundingClientRect();
+              return Math.abs(rect.left - bounds.left) <= 1 && Math.abs(rect.right - bounds.right) <= 1;
+            });
+          }));
+          assert(pathAlignment, `${route} ${width}/${scale}% reading cards are indented`);
           assert(await phone.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${route} ${width}/${scale}% overflowed`);
           if (route === '/projects/' && scale === 200) {
             // A wider fallback font must not make dates overflow narrow cards.

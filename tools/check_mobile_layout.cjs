@@ -98,6 +98,20 @@ const base = process.env.LAYOUT_BASE_URL || 'http://127.0.0.1:4173';
             assert(Math.abs(control.width - control.height) < 1, `${label}: footer control is stretched`);
             assert(control.width >= 44 && control.height >= 44, `${label}: footer control is too small to tap`);
           }
+          const separators = await page.locator('#sidebar .sidebar-bottom').evaluate(el => {
+            const native = [...el.querySelectorAll(':scope > .icon-border')];
+            const links = [...el.querySelectorAll(':scope > a')];
+            return {
+              count: native.length + links.slice(0, -1).length,
+              nativeVisible: native.every(dot => dot.getBoundingClientRect().width === 3 && dot.getBoundingClientRect().height === 3),
+              addedVisible: links.slice(0, -1).every(link => {
+                const dot = getComputedStyle(link, '::after');
+                return dot.content === '""' && parseFloat(dot.width) === 3 && parseFloat(dot.height) === 3 && dot.backgroundColor !== 'rgba(0, 0, 0, 0)';
+              })
+            };
+          });
+          assert.equal(separators.count, controls.length - 1, `${label}: footer separator missing`);
+          assert(separators.nativeVisible && separators.addedVisible, `${label}: footer separator is invisible`);
           if (process.env.LAYOUT_SCREENSHOTS && viewport.width === 390 && fontScale === 100) {
             await page.locator('#sidebar').evaluate(el => { el.scrollTop = 0; });
             fs.mkdirSync(process.env.LAYOUT_SCREENSHOTS, { recursive: true });

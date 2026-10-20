@@ -34,3 +34,8 @@
     #main-wrapper { transition: margin-left 240ms ease; }
   }
 }
+/* Both bars are sticky at tablet widths; give the article TOC its own row. */
+@media (min-width: 850px) and (max-width: 1199px) {
+  #toc-bar:not(.invisible) { top: 3rem; }
+  #main-wrapper main :is(h1, h2, h3, h4, h5, h6)[id] { scroll-margin-top: 7rem; }
+}
