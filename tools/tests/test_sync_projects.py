@@ -8,6 +8,8 @@
 from __future__ import annotations
 
 import importlib.util
+import json
+from html.parser import HTMLParser
 import unittest
 from pathlib import Path
 
@@ -72,6 +74,19 @@ class RenderProjectTests(unittest.TestCase):
         text = MODULE.render_project(self.project, None, "example")
         self.assertIn("https://github.com/example/demo", text)
         self.assertIn("暂时无法读取", text)
+
+    def test_filter_metadata_roundtrips_without_creating_html_attributes(self):
+        class Article(HTMLParser):
+            def handle_starttag(self, tag, attrs):
+                if tag == "article":
+                    self.attrs = dict(attrs)
+        tags = ['A "quoted" tag', '<img src=x onerror=alert(1)>', 'RAG & SQL']
+        page = Article()
+        page.feed(MODULE.render_project(dict(self.project, tags=tags, group="personal"), None, "example"))
+        self.assertEqual(json.loads(page.attrs["data-project-tags"]), tags)
+        self.assertEqual(page.attrs["data-project-group"], "personal")
+        self.assertEqual(page.attrs["id"], "project-demo")
+        self.assertNotIn("onerror", page.attrs)
 
     def test_skips_stats_when_disabled(self):
         project = dict(self.project, show_stats=False)

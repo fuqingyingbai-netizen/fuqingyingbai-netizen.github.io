@@ -1,4 +1,10 @@
 .reading-taxonomy { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem .25rem .85rem; }
+.reading-resume { margin: 0 0 1rem; padding: .9rem 1rem; border: 1px solid var(--main-border-color); border-radius: 10px; background: var(--site-tint); overflow-wrap: anywhere; }
+.reading-resume[hidden] { display: none; }
+.reading-resume p { margin: 0 0 .4rem; font-size: .85rem; }
+.reading-resume div { display: flex; flex-wrap: wrap; gap: .5rem; }
+.reading-resume button { min-height: 44px; padding: .4rem .75rem; border: 1px solid var(--main-border-color); border-radius: 7px; color: var(--site-accent); background: var(--main-bg); font: inherit; font-size: .8rem; }
+.reading-resume small { display: block; margin-top: .4rem; color: var(--text-muted-color); font-size: .73rem; }
 .reading-taxonomy a { color: var(--site-accent); font-size: .74rem; font-weight: 600; letter-spacing: .04em; }
 .reading-taxonomy a + a::before { content: '/'; margin-right: .5rem; color: var(--text-muted-color); }
 .reading-page article[data-toc] > header { padding: clamp(1.1rem, 2.5vw, 2rem); border: 1px solid var(--main-border-color); border-radius: 16px; background: linear-gradient(130deg, var(--site-tint), var(--main-bg) 80%); margin-bottom: 2rem; }

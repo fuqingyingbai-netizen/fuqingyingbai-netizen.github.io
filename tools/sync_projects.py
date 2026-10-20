@@ -97,7 +97,9 @@ def render_project(project: dict, repo: dict | None, user: str) -> str:
     emoji = project.get("emoji", "📦")
     title = project.get("title", name)
 
-    lines = [f'<article class="project-card" id="project-{escape(name, quote=True)}" markdown="1">', "", f"### {emoji} [{title}]({url})", ""]
+    group = escape(project.get("group", ""), quote=True)
+    filter_tags = escape(json.dumps(project.get("tags") or [], ensure_ascii=False), quote=True)
+    lines = [f'<article class="project-card" id="project-{escape(name, quote=True)}" data-project-group="{group}" data-project-tags="{filter_tags}" markdown="1">', "", f"### {emoji} [{title}]({url})", ""]
     if project.get("cover"):
         lines.extend([
             '<figure class="project-preview">'
@@ -158,18 +160,18 @@ def render_page(meta: dict, repos: dict[str, dict]) -> str:
     groups = meta.get("groups") or [{"key": "all", "title": "项目"}]
     projects = meta.get("projects") or []
 
-    blocks = [HEADER.strip(), ""]
+    blocks = [HEADER.strip(), "", "{% include project-filters.html %}", ""]
     for group in groups:
         members = [p for p in projects if p.get("group") == group["key"]]
         if not members:
             continue
-        blocks.append(f"## {group['title']}")
+        blocks.extend([f'<section data-project-section="{escape(group["key"], quote=True)}" markdown="1">', "", f"## {group['title']}"])
         blocks.append("")
         blocks.extend(['<div class="project-grid" markdown="1">', ""])
         for project in members:
             blocks.append(render_project(project, repos.get(project["repo"]), user))
             blocks.append("")
-        blocks.extend(["</div>", ""])
+        blocks.extend(["</div>", "", "</section>", ""])
 
     blocks.append("---")
     blocks.append("")

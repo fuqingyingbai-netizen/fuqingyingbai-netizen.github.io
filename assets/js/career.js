@@ -13,6 +13,10 @@
   let filter = 'all';
   let saved = { completed: [], reviews: {} };
   let storageAvailable = true;
+  const preview = root.querySelector('[data-import-preview]');
+  const fileInput = root.querySelector('[data-import-file]');
+  const undoButton = root.querySelector('[data-undo-import]');
+  let pendingBackup, previousState, importAttempt = 0;
 
   try {
     const raw = localStorage.getItem(key);
@@ -103,8 +107,13 @@
     }
   }
 
-  tasks.forEach(task => task.addEventListener('change', () => { persist(); renderProgress(); }));
-  reviews.forEach(review => review.addEventListener('input', persist));
+  function edited() {
+    previousState = null;
+    undoButton.hidden = true;
+    persist();
+  }
+  tasks.forEach(task => task.addEventListener('change', () => { edited(); renderProgress(); }));
+  reviews.forEach(review => review.addEventListener('input', edited));
   root.querySelectorAll('[data-filter]').forEach(button => button.addEventListener('click', () => {
     filter = button.dataset.filter;
     applyFilter();
@@ -124,6 +133,88 @@
   root.querySelectorAll('[data-open-week]').forEach(link => link.addEventListener('click', () => openWeek(link.dataset.openWeek)));
   window.addEventListener('hashchange', followHash);
 
+  function download(content, type, filename) {
+    const url = URL.createObjectURL(new Blob(['\ufeff', content], { type }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+  root.querySelector('[data-backup]').addEventListener('click', () => {
+    const backup = { format: 'career-planner-backup', version: 1, planId: root.dataset.planId, exportedAt: new Date().toISOString(), data: state() };
+    download(JSON.stringify(backup, null, 2), 'application/json;charset=utf-8', `生涯规划备份-${root.dataset.planId}-${today}.json`);
+    status.textContent = '已下载可恢复的备份文件，请自行保管。';
+  });
+  function validateBackup(value) {
+    if (!value || value.format !== 'career-planner-backup' || value.version !== 1 || value.planId !== root.dataset.planId) throw new Error('这不是当前计划支持的备份文件，请核对计划与备份版本。');
+    const data = value.data;
+    const taskIds = new Set(tasks.map(task => task.dataset.task));
+    const reviewIds = new Set(reviews.map(review => review.dataset.review));
+    if (!data || !Array.isArray(data.completed) || data.completed.length > tasks.length ||
+        data.completed.some(id => typeof id !== 'string' || !taskIds.has(id)) || new Set(data.completed).size !== data.completed.length ||
+        !data.reviews || typeof data.reviews !== 'object' || Array.isArray(data.reviews) ||
+        Object.entries(data.reviews).some(([id, text]) => !reviewIds.has(id) || typeof text !== 'string' || text.length > 2000)) {
+      throw new Error('备份中的任务或复盘格式不匹配，当前记录未修改。');
+    }
+    return { completed: [...data.completed], reviews: Object.fromEntries(Object.entries(data.reviews)) };
+  }
+  function restore(data) {
+    tasks.forEach(task => { task.checked = data.completed.includes(task.dataset.task); });
+    reviews.forEach(review => { review.value = data.reviews[review.dataset.review] || ''; });
+    persist();
+    renderProgress();
+  }
+  root.querySelector('[data-import]').addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+    const attempt = ++importAttempt;
+    preview.hidden = true;
+    pendingBackup = null;
+    try {
+      if (file.size > 256 * 1024) throw new Error('备份文件超过 256 KB，请选择本页导出的 JSON 备份。');
+      const text = await file.text();
+      if (attempt !== importAttempt) return;
+      let value;
+      try { value = JSON.parse(text.replace(/^\ufeff/, '')); } catch { throw new Error('无法读取 JSON 备份，当前记录未修改。'); }
+      pendingBackup = validateBackup(value);
+      const count = Object.values(pendingBackup.reviews).filter(text => text.trim()).length;
+      root.querySelector('[data-import-summary]').textContent = `备份已读取：${pendingBackup.completed.length} 项已完成任务，${count} 周复盘。尚未修改当前记录。`;
+      preview.hidden = false;
+      root.querySelector('[data-confirm-import]').focus();
+      status.textContent = '请核对备份摘要，再确认恢复或取消。';
+    } catch (error) {
+      if (attempt === importAttempt) status.textContent = error.message;
+    } finally { if (attempt === importAttempt) fileInput.value = ''; }
+  });
+  root.querySelector('[data-cancel-import]').addEventListener('click', () => {
+    pendingBackup = null;
+    preview.hidden = true;
+    status.textContent = '已取消恢复，当前记录未修改。';
+    root.querySelector('[data-import]').focus();
+  });
+  root.querySelector('[data-confirm-import]').addEventListener('click', () => {
+    if (!pendingBackup) return;
+    previousState = state();
+    restore(pendingBackup);
+    pendingBackup = null;
+    preview.hidden = true;
+    undoButton.hidden = false;
+    undoButton.focus();
+    status.textContent = storageAvailable ? '备份已恢复并保存在当前浏览器；再次编辑前可撤销。' : '备份已恢复到本页，但浏览器未能保存；离开前请下载备份。';
+  });
+  undoButton.addEventListener('click', () => {
+    if (!previousState) return;
+    restore(previousState);
+    previousState = null;
+    undoButton.hidden = true;
+    root.querySelector('[data-import]').focus();
+    status.textContent = storageAvailable ? '已撤销恢复，原记录已保存在当前浏览器。' : '已撤销恢复，原记录已回到本页；离开前请下载备份。';
+  });
+
   root.querySelector('[data-export]').addEventListener('click', () => {
     const lines = [
       `# 生涯规划复盘：${root.dataset.planTitle}`,
@@ -140,15 +231,7 @@
       lines.push('', week.querySelector('.career-deliverable').textContent.trim(), '', '### 本周复盘', '',
         week.querySelector('[data-review]').value || '尚未填写', '');
     });
-    const blob = new Blob(['\ufeff', lines.join('\n')], { type: 'text/markdown;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `生涯规划复盘-${root.dataset.planId}-${today}.md`;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    download(lines.join('\n'), 'text/markdown;charset=utf-8', `生涯规划复盘-${root.dataset.planId}-${today}.md`);
     status.textContent = storageAvailable ? '已导出复盘；记录仍保留在当前浏览器' : '已导出本次记录；当前浏览器未能保存';
   });
 
