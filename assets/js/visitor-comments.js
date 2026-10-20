@@ -13,6 +13,7 @@ if (container) {
   let loading = false;
   let attempt = 0;
   let slowTimer;
+  let stylePromise;
   function state(kind, text) {
     clearTimeout(slowTimer);
     container.dataset.commentsState = kind;
@@ -34,16 +35,18 @@ if (container) {
   }
   new MutationObserver(syncReadState).observe(mount, { childList: true, subtree: true });
   function loadStyle() {
+    if (stylePromise) return stylePromise;
     let style = document.getElementById('waline-style');
     if (style?.sheet) return Promise.resolve();
-    return new Promise((resolve, reject) => {
+    stylePromise = new Promise((resolve, reject) => {
       style ||= Object.assign(document.createElement('link'), { id: 'waline-style', rel: 'stylesheet', href: base + 'waline.css' });
       const timer = setTimeout(() => fail(), 15000);
       const fail = () => { clearTimeout(timer); style.remove(); reject(new Error('Comment stylesheet unavailable')); };
       style.onload = () => { clearTimeout(timer); resolve(); };
       style.onerror = fail;
       if (!style.isConnected) document.head.append(style);
-    });
+    }).catch(error => { stylePromise = undefined; throw error; });
+    return stylePromise;
   }
   const isDark = () => {
     const mode = document.documentElement.dataset.bsTheme;

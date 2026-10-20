@@ -78,11 +78,14 @@ const css = fs.readFileSync(path.join(clientDir, 'waline.css'), 'utf8');
       let mode = initial, reads = 0;
       let releaseRead;
       const pendingRead = new Promise(resolve => { releaseRead = resolve; });
+      let releaseStyle;
+      const pendingStyle = new Promise(resolve => { releaseStyle = resolve; });
       await context.route('**/*', async route => {
         const url = new URL(route.request().url());
         if (url.origin === new URL(base).origin) return route.continue();
         if (url.hostname === 'cdn.jsdelivr.net' && url.pathname.includes('@waline/client@3.16.1/')) {
           if ((mode === 'module' && url.pathname.endsWith('waline.js')) || (mode === 'style' && url.pathname.endsWith('waline.css'))) return route.abort();
+          if (initial === 'module' && url.pathname.endsWith('waline.css')) await pendingStyle;
           return route.fulfill({ status: 200, headers: { 'access-control-allow-origin': '*' }, contentType: url.pathname.endsWith('.css') ? 'text/css' : 'application/javascript', body: url.pathname.endsWith('.css') ? css : client });
         }
         if (url.pathname === '/api/comment') {
@@ -99,6 +102,7 @@ const css = fs.readFileSync(path.join(clientDir, 'waline.css'), 'utf8');
         return route.abort();
       });
       const comments = await context.newPage();
+      if (initial === 'module') await comments.clock.install();
       await comments.goto(base + article, { waitUntil: 'networkidle' });
       assert.equal(reads, 0, 'Comment API was read before scrolling');
       await comments.locator('.visitor-comments').scrollIntoViewIfNeeded();
@@ -113,6 +117,7 @@ const css = fs.readFileSync(path.join(clientDir, 'waline.css'), 'utf8');
       }
       mode = initial === 'network' ? 'hold' : 'empty';
       await comments.locator('.comment-retry').click();
+      if (initial === 'module') releaseStyle();
       if (initial === 'network') {
         await comments.locator('[data-comments-state="loading"]').waitFor();
         assert((await comments.locator('.comment-status').innerText()).includes('正在读取'));
@@ -120,6 +125,10 @@ const css = fs.readFileSync(path.join(clientDir, 'waline.css'), 'utf8');
       }
       await comments.locator('[data-comments-state="empty"]').waitFor();
       assert.equal(await comments.locator('.comment-retry').isVisible(), false);
+      if (initial === 'module') {
+        await comments.clock.fastForward(16000);
+        assert(await comments.locator('#waline-style').evaluate(el => Boolean(el.sheet)), 'A stale stylesheet timer removed loaded comment styles');
+      }
       if (!['module', 'style'].includes(initial)) {
         assert.equal(await draft.inputValue(), '尚未提交的测试草稿');
         assert.equal(await comments.locator('#waline input').first().inputValue(), '测试访客');
