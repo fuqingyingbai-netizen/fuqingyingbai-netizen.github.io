@@ -10,7 +10,10 @@
   function revealTarget() {
     let target;
     try { target = document.getElementById(decodeURIComponent(location.hash.slice(1))); } catch { return; }
-    if (cards.includes(target) && !matches(target)) group.value = tag.value = '';
+    const card = target?.closest('.project-card');
+    const section = target?.closest('[data-project-section]');
+    if ((cards.includes(card) && !matches(card)) ||
+        (section && !cards.some(item => section.contains(item) && matches(item)))) group.value = tag.value = '';
   }
   function render() {
     cards.forEach(card => { card.hidden = !matches(card); });

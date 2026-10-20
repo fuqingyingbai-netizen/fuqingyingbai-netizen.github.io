@@ -46,7 +46,8 @@ async function downloaded(download) {
     await page.locator('[data-resume-clear]').click();
     assert.equal(await page.evaluate(k => localStorage.getItem(k), key), null);
     await page.evaluate(({ k, value }) => localStorage.setItem(k, JSON.stringify(value)), { k: key, value: record });
-    await page.goto(base + article + '#' + encodeURIComponent(record.heading), { waitUntil: 'networkidle' });
+    const headingId = await page.locator('.reading-page article > .content h2[id]').first().getAttribute('id');
+    await page.goto(base + article + '#' + encodeURIComponent(headingId), { waitUntil: 'networkidle' });
     assert.equal(await page.locator('[data-reading-resume]').isVisible(), false, 'An explicit heading link takes precedence');
     await page.goto(base + article, { waitUntil: 'networkidle' });
     await page.locator('[data-resume-continue]').click();
