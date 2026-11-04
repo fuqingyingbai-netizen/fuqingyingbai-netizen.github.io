@@ -1,0 +1,9 @@
+{% assign sidebar_current = false %}
+{% if nav_parent == include.item.url or page.url == include.item.url %}{% assign sidebar_current = true %}{% endif %}
+{% if include.item.url == '/' and page.layout == 'home' %}{% assign sidebar_current = true %}{% endif %}
+<li class="nav-item{% if sidebar_current %} active{% endif %}">
+  <a href="{{ include.item.url | relative_url }}" class="nav-link"{% if sidebar_current %} aria-current="{% if page.url == include.item.url %}page{% else %}location{% endif %}"{% endif %}>
+    <i class="fa-fw {{ include.item.icon }}" aria-hidden="true"></i>
+    <span>{{ include.item.title | escape }}</span>
+  </a>
+</li>
