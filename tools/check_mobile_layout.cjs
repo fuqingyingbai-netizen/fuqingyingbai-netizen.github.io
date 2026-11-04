@@ -41,6 +41,11 @@ const base = process.env.LAYOUT_BASE_URL || 'http://127.0.0.1:4173';
         }
         assert.equal(await page.locator('#sidebar-trigger').getAttribute('aria-expanded'), 'false');
         assert(await page.locator('#sidebar').evaluate(el => el.inert));
+        assert.deepEqual(await page.locator('#sidebar .sidebar-primary a').evaluateAll(links => links.map(a => a.getAttribute('href'))),
+          ['/', '/projects/', '/notes/', '/career/', '/about/']);
+        assert.equal(await page.locator('#sidebar-browse').evaluate(el => el.open), false, 'Home must start with secondary browsing collapsed');
+        assert.deepEqual(await page.locator('#sidebar .sidebar-secondary a').evaluateAll(links => links.map(a => a.getAttribute('href'))),
+          ['/resources/', '/categories/', '/tags/', '/archives/']);
         for (const fontScale of [100, 125, 200]) {
           await page.evaluate(scale => {
             document.documentElement.style.fontSize = `${scale}%`;
@@ -81,6 +86,9 @@ const base = process.env.LAYOUT_BASE_URL || 'http://127.0.0.1:4173';
           assert(layout.profileBottom <= layout.navTop + 1, `${label}: profile overlaps navigation`);
           assert(Math.abs(layout.mainLeft) < 1 && layout.mainRight <= layout.width + 1, `${label}: menu shifts the article`);
           assert(layout.maskOnTop, `${label}: outside tap cannot dismiss the menu`);
+          // Secondary destinations remain reachable after opening the native group.
+          const more = page.locator('#sidebar-browse');
+          if (!(await more.evaluate(el => el.open))) await more.locator('summary').tap();
           const lastLink = page.locator('#sidebar nav a').last();
           await lastLink.scrollIntoViewIfNeeded();
           const lastBounds = await lastLink.evaluate(el => {
@@ -157,6 +165,8 @@ const base = process.env.LAYOUT_BASE_URL || 'http://127.0.0.1:4173';
         if (viewport.width === 390) {
           for (const [route, parent] of [
             ['/projects/', '/projects/'], ['/about/', '/about/'],
+            ['/resources/', '/resources/'], ['/archives/', '/archives/'],
+            ['/categories/', '/categories/'], ['/tags/', '/tags/'],
             ['/projects/dify-apps/', '/projects/'], ['/projects/resume-evaluator-agent/', '/projects/'],
             ['/posts/LangGraph学习笔记-用问数工作流理解图式智能体/', '/notes/'],
             ['/posts/weekly-2026-10-18/', '/notes/'],
@@ -169,6 +179,9 @@ const base = process.env.LAYOUT_BASE_URL || 'http://127.0.0.1:4173';
             assert.equal(await selected.count(), 1);
             assert.equal(await selected.getAttribute('href'), parent);
             assert.equal(await selected.getAttribute('aria-current'), route === parent ? 'page' : 'location');
+            if (['/resources/', '/archives/', '/categories/', '/tags/'].includes(parent)) {
+              assert(await page.locator('#sidebar-browse').evaluate(el => el.open), 'Current secondary destinations must be revealed');
+            }
             assert(await selected.evaluate(el => document.activeElement === el), 'Opening the drawer focused Home instead of the current section');
             assert.equal(await selected.evaluate(el => getComputedStyle(el).backgroundColor), 'rgba(0, 0, 0, 0)');
             const home = page.locator('#sidebar nav a[href="/"]');
@@ -192,6 +205,20 @@ const base = process.env.LAYOUT_BASE_URL || 'http://127.0.0.1:4173';
     await page.goto(base, { waitUntil: 'networkidle' });
     assert.notEqual(await page.locator('#sidebar .nav-item.active .nav-link').evaluate(el => getComputedStyle(el).backgroundColor), 'rgba(0, 0, 0, 0)', 'Desktop current-page style changed');
     await desktop.close();
+    const plain = await browser.newContext({ viewport: { width: 1440, height: 900 }, javaScriptEnabled: false });
+    const noJs = await plain.newPage();
+    await noJs.goto(base, { waitUntil: 'networkidle' });
+    const more = noJs.locator('#sidebar-browse');
+    assert.equal(await more.evaluate(el => el.open), false);
+    await more.locator('summary').focus();
+    await noJs.keyboard.press('Enter');
+    assert(await more.evaluate(el => el.open), 'The browse group must work with keyboard and without JavaScript');
+    await more.locator('a[href="/resources/"]').click();
+    await noJs.waitForURL('**/resources/');
+    assert(await noJs.locator('#sidebar-browse').evaluate(el => el.open));
+    assert.equal(await noJs.locator('#sidebar nav [aria-current]').count(), 1);
+    assert.equal(await noJs.locator('#sidebar nav [aria-current]').getAttribute('href'), '/resources/');
+    await plain.close();
     console.log(JSON.stringify({ base, results, rotationAndNavigation: 'passed', mobileCurrentTextOnly: true, desktopCurrentStyle: true }));
   } finally {
     await browser.close();

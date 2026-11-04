@@ -1,0 +1,29 @@
+primary:
+  - title: 首页
+    url: /
+    icon: fas fa-home
+  - title: 项目
+    url: /projects/
+    icon: fas fa-laptop-code
+  - title: 学习记录
+    url: /notes/
+    icon: fas fa-pen-nib
+  - title: 生涯规划
+    url: /career/
+    icon: fas fa-compass
+  - title: 关于
+    url: /about/
+    icon: fas fa-info-circle
+secondary:
+  - title: 资源
+    url: /resources/
+    icon: fas fa-bookmark
+  - title: 分类
+    url: /categories/
+    icon: fas fa-stream
+  - title: 标签
+    url: /tags/
+    icon: fas fa-tags
+  - title: 归档
+    url: /archives/
+    icon: fas fa-archive

@@ -21,7 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
       sidebarTrigger.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单');
       sidebar.inert = mobileMenu.matches ? !open : document.documentElement.hasAttribute('data-sidebar-collapsed');
       main.inert = open;
-      if (open && !wasOpen) (currentLink || sidebar.querySelector('nav a'))?.focus({ preventScroll: true });
+      if (open && !wasOpen) {
+        const group = currentLink?.closest('details');
+        if (group) group.open = true;
+        (currentLink || sidebar.querySelector('nav a'))?.focus({ preventScroll: true });
+      }
       if (!open && wasOpen && mobileMenu.matches) sidebarTrigger.focus({ preventScroll: true });
       wasOpen = open;
     }
@@ -40,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         sidebarTrigger.click();
       } else if (event.key === 'Tab') {
-        const items = [...sidebar.querySelectorAll('a[href], button:not([disabled]), [tabindex="0"]')]
+        const items = [...sidebar.querySelectorAll('a[href], button:not([disabled]), summary, [tabindex="0"]')]
           .filter(el => el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden');
         const first = items[0], last = items[items.length - 1];
         if (event.shiftKey && document.activeElement === first) {
