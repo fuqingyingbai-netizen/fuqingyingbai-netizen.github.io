@@ -16,13 +16,13 @@ sitemap: false
   <title>本周计划 · {{ site.title | escape }}</title>
   <link rel="icon" href="{{ '/assets/img/plan-window.svg' | relative_url }}" type="image/svg+xml">
   <link rel="manifest" href="{{ '/career-window.webmanifest' | relative_url }}">
-  <link rel="stylesheet" href="{{ '/assets/css/career-window.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/career-window.css' | relative_url }}?v=2">
   <script defer src="{{ '/assets/js/career.js' | relative_url }}"></script>
-  <script defer src="{{ '/assets/js/career-window.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/js/career-window.js' | relative_url }}?v=2"></script>
 </head>
 <body>
 <main class="plan-window" data-career-planner data-plan-window data-plan-id="{{ plan.id }}" data-plan-title="{{ plan.title | escape }}" data-plan-start="{{ plan.start }}" data-plan-end="{{ plan.end }}">
-  <header class="window-header"><div><p class="window-eyebrow">学习 · 实践 · 复盘</p><h1>本周计划</h1></div><a href="{{ '/career/' | relative_url }}" target="_blank" rel="noopener">完整规划 <span aria-hidden="true">↗</span></a></header>
+  <header class="window-header"><div class="window-brand"><img src="{{ '/assets/img/plan-window.svg' | relative_url }}" width="34" height="34" alt=""><h1>本周计划</h1></div><a href="{{ '/career/' | relative_url }}" target="_blank" rel="noopener">完整规划 <span aria-hidden="true">↗</span></a></header>
   <p class="window-plan-title">{{ plan.title }}</p>
   <div class="window-week-nav" data-window-nav hidden>
     <button type="button" data-window-prev aria-label="前一周">←</button>
@@ -31,7 +31,11 @@ sitemap: false
     <button type="button" data-window-next aria-label="后一周">→</button>
     <button type="button" class="window-current" data-window-current>本周</button>
   </div>
-  <div class="window-progress" data-window-progress-wrap hidden><div><strong data-window-progress-text></strong><span data-window-date></span></div><progress data-window-progress max="{{ plan.lanes.size }}" value="0" aria-label="当前周完成进度"></progress></div>
+  <div class="window-progress" data-window-progress-wrap hidden>
+    <div class="window-progress-meta"><span data-window-progress-label>本周进度</span><span data-window-date></span></div>
+    <div class="window-progress-numbers"><div><strong data-window-progress-text></strong><span>项已完成</span></div><span class="window-progress-percent" data-window-percent></span></div>
+    <progress data-window-progress max="{{ plan.lanes.size }}" value="0" aria-label="所选周完成进度"></progress>
+  </div>
   <p class="window-context" role="status" aria-live="polite" data-window-context></p>
   <noscript><p>开启 JavaScript 后可以自动显示本周并保存勾选；也可以直接阅读下方计划。</p></noscript>
   <div class="career-weeks">
@@ -39,21 +43,26 @@ sitemap: false
     <section class="career-week" id="{{ week.id }}" data-week="{{ week.id }}" data-week-title="{{ week.title | escape }}" data-start="{{ week.start }}" data-end="{{ week.end }}">
       <header class="window-week-heading"><span class="career-week-number">{{ week.number | prepend: '0' | slice: -2, 2 }}</span><h2>{{ week.title }}</h2><span data-week-count hidden></span></header>
       <ul class="career-task-list">
-        {% for lane in plan.lanes %}<li><input type="checkbox" id="{{ week.id }}-{{ lane.id }}" data-task="{{ week.id }}-{{ lane.id }}" disabled><label for="{{ week.id }}-{{ lane.id }}"><span class="career-task-kind">{{ lane.label }}</span><span>{{ week[lane.id] }}</span></label></li>{% endfor %}
+        {% for lane in plan.lanes %}<li data-lane="{{ lane.id }}"><input type="checkbox" id="{{ week.id }}-{{ lane.id }}" data-task="{{ week.id }}-{{ lane.id }}" disabled><label for="{{ week.id }}-{{ lane.id }}"><span class="career-task-kind">{{ lane.label }}</span><span>{{ week[lane.id] }}</span></label></li>{% endfor %}
       </ul>
+      <div class="window-week-extras">
       <details class="window-output"><summary>本周交付{% if week.checkpoint %}与阶段检查{% endif %}</summary><p class="career-deliverable">{{ week.output }}</p>{% if week.checkpoint %}<p>{{ week.checkpoint }}</p>{% endif %}</details>
       <details class="career-week-review" data-review-box hidden><summary>写本周复盘</summary><label for="{{ week.id }}-review" class="sr-only">第 {{ week.number }} 周复盘</label><textarea id="{{ week.id }}-review" data-review="{{ week.id }}" rows="3" maxlength="2000" placeholder="完成了什么？证据、问题和下一步……"></textarea></details>
+      </div>
     </section>
     {% endfor %}
   </div>
   <p class="career-empty" data-empty hidden></p>
   <footer class="window-footer">
-    <p><span data-progress-text>已完成 0 / {{ task_count }} 项任务</span><span data-plan-status class="sr-only"></span></p>
+    <div class="window-footer-row"><p><span class="window-period-label">本期</span><span data-progress-text>已完成 0 / {{ task_count }} 项任务</span><span data-plan-status class="sr-only"></span></p>
     <progress data-career-progress max="{{ task_count }}" value="0" class="sr-only" aria-label="本期计划完成进度"></progress>
+    <details class="window-more"><summary><span aria-hidden="true">···</span> 更多</summary><div class="window-more-body">
     <div class="window-backups" data-career-tools hidden><button type="button" data-backup>下载备份</button><button type="button" data-import>恢复备份</button><button type="button" data-export>导出复盘</button><button type="button" data-undo-import hidden>撤销恢复</button></div>
+    <div class="window-appearance"><label for="window-appearance">显示外观</label><select id="window-appearance" data-window-appearance><option value="system">跟随系统</option><option value="light">浅色</option><option value="dark">深色</option></select></div>
+    <p class="window-storage">与同一 Edge 配置下的网站共用本地进度。</p>
+    </div></details></div>
     <input type="file" accept=".json,application/json" data-import-file hidden aria-label="选择计划备份文件">
     <div class="career-import-preview" data-import-preview hidden role="region" aria-label="确认恢复备份"><p data-import-summary></p><p>恢复会替换当前进度与复盘。可以先下载备份；恢复后再次编辑前可撤销。</p><div class="window-backups"><button type="button" data-confirm-import>确认恢复</button><button type="button" data-cancel-import>取消</button></div></div>
-    <p class="window-storage">与同一 Edge 配置下的网站共用本地进度。</p>
     <p class="career-save-status" role="status" aria-live="polite" data-save-status></p>
   </footer>
 </main>

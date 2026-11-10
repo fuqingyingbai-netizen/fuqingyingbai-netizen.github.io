@@ -14,6 +14,23 @@
   if (typeof document === 'undefined') return;
   const root = document.querySelector('[data-plan-window]');
   if (!root) return;
+  const appearanceSelect = root.querySelector('[data-window-appearance]');
+  const appearanceKey = 'career-window:appearance:v1';
+  function applyAppearance(value) {
+    const appearance = ['light','dark'].includes(value) ? value : 'system';
+    document.documentElement.dataset.appearance = appearance;
+    if (appearanceSelect) appearanceSelect.value = appearance;
+  }
+  try { applyAppearance(localStorage.getItem(appearanceKey)); } catch { applyAppearance('system'); }
+  appearanceSelect?.addEventListener('change', () => {
+    applyAppearance(appearanceSelect.value);
+    try { localStorage.setItem(appearanceKey,appearanceSelect.value); } catch { /* Appearance still works for this window. */ }
+  });
+  const more = root.querySelector('.window-more');
+  more?.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && more.open) { event.preventDefault(); more.open = false; more.querySelector('summary').focus(); }
+  });
+  document.addEventListener('click', event => { if (more?.open && !more.contains(event.target)) more.open = false; });
   const weeks = [...root.querySelectorAll('[data-week]')];
   const dates = weeks.map(week => ({start:week.dataset.start,end:week.dataset.end}));
   const select = root.querySelector('[data-window-select]');
@@ -31,12 +48,16 @@
     next.disabled = selected === weeks.length - 1;
     const tasks = [...weeks[selected].querySelectorAll('[data-task]')];
     const done = tasks.filter(task => task.checked).length;
-    root.querySelector('[data-window-progress-text]').textContent = `本周完成 ${done} / ${tasks.length}`;
+    root.querySelector('[data-window-progress-text]').textContent = `${done} / ${tasks.length}`;
+    const percent = root.querySelector('[data-window-percent]');
+    if (percent) percent.textContent = `${Math.round(done / tasks.length * 100)}%`;
     const progress = root.querySelector('[data-window-progress]');
     progress.max = tasks.length;
     progress.value = done;
     root.querySelector('[data-window-date]').textContent = today;
     const inCurrent = today >= dates[selected].start && today <= dates[selected].end;
+    const progressLabel = root.querySelector('[data-window-progress-label]');
+    if (progressLabel) progressLabel.textContent = inCurrent ? '本周进度' : '所选周进度';
     root.querySelector('[data-window-context]').textContent = today < root.dataset.planStart
       ? '本期尚未开始，先查看第 1 周。'
       : today > root.dataset.planEnd ? '本期已结束，仍可回顾与复盘。'
