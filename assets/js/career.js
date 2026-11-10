@@ -1,5 +1,24 @@
 (() => {
   'use strict';
+  function parseStored(raw) {
+    if (!raw) return { completed: [], reviews: {} };
+    const value = JSON.parse(raw);
+    if (!value || typeof value !== 'object' || !Array.isArray(value.completed) ||
+        !value.reviews || typeof value.reviews !== 'object' || Array.isArray(value.reviews)) throw new Error('Invalid saved record');
+    return { completed: [...new Set(value.completed.filter(item => typeof item === 'string'))],
+      reviews: Object.fromEntries(Object.entries(value.reviews).filter(([, text]) => typeof text === 'string').map(([id, text]) => [id, text.slice(0, 2000)])) };
+  }
+  function mergeEdit(latest, edit) {
+    const next = { completed: [...latest.completed], reviews: { ...latest.reviews } };
+    if (edit.kind === 'task') {
+      const completed = new Set(next.completed);
+      if (edit.checked) completed.add(edit.id); else completed.delete(edit.id);
+      next.completed = [...completed];
+    } else if (edit.kind === 'review') next.reviews[edit.id] = edit.text.slice(0, 2000);
+    return next;
+  }
+  if (typeof module !== 'undefined' && module.exports) module.exports = { parseStored, mergeEdit };
+  if (typeof document === 'undefined') return;
   const root = document.querySelector('[data-career-planner]');
   if (!root) return;
 
@@ -65,6 +84,13 @@
     };
   }
 
+  function applyStored(data) {
+    tasks.forEach(task => { task.checked = data.completed.includes(task.dataset.task); });
+    reviews.forEach(review => {
+      if (review !== document.activeElement) review.value = data.reviews[review.dataset.review] || '';
+    });
+  }
+
   function applyFilter() {
     let visible = 0;
     weeks.forEach(week => {
@@ -96,10 +122,15 @@
     applyFilter();
   }
 
-  function persist() {
+  function persist(event) {
     if (!storageAvailable) return;
     try {
-      localStorage.setItem(key, JSON.stringify(state()));
+      let updated = state();
+      const field = event?.target;
+      if (field?.matches('[data-task]')) updated = mergeEdit(parseStored(localStorage.getItem(key)), {kind:'task', id:field.dataset.task, checked:field.checked});
+      else if (field?.matches('[data-review]')) updated = mergeEdit(parseStored(localStorage.getItem(key)), {kind:'review', id:field.dataset.review, text:field.value});
+      localStorage.setItem(key, JSON.stringify(updated));
+      applyStored(updated);
       status.textContent = '已保存在当前浏览器';
     } catch {
       storageAvailable = false;
@@ -107,13 +138,25 @@
     }
   }
 
-  function edited() {
+  function edited(event) {
     previousState = null;
     undoButton.hidden = true;
-    persist();
+    persist(event);
   }
-  tasks.forEach(task => task.addEventListener('change', () => { edited(); renderProgress(); }));
+  tasks.forEach(task => task.addEventListener('change', event => { edited(event); renderProgress(); }));
   reviews.forEach(review => review.addEventListener('input', edited));
+  window.addEventListener('storage', event => {
+    if (event.key !== key || event.storageArea !== localStorage) return;
+    try {
+      applyStored(parseStored(event.newValue));
+      previousState = null;
+      undoButton.hidden = true;
+      renderProgress();
+      status.textContent = '已同步同一浏览器中另一窗口的更新';
+    } catch {
+      status.textContent = '另一窗口的记录格式无法读取，当前页面保留原内容。';
+    }
+  });
   root.querySelectorAll('[data-filter]').forEach(button => button.addEventListener('click', () => {
     filter = button.dataset.filter;
     applyFilter();

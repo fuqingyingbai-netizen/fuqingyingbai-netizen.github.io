@@ -92,6 +92,8 @@ jobs:
           node --check assets/js/home-scene.js
           node --check assets/js/context-panel.js
           node --check assets/js/career.js
+          node --check assets/js/career-window.js
+          node --test tools/tests/test_career_window.cjs
           node --check assets/js/reading-resume.js
           node --check assets/js/project-filters.js
           node --check assets/js/visitor-comments.js

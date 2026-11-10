@@ -1,0 +1,15 @@
+---
+layout: null
+---
+{
+  "id": "{{ '/career/window/' | relative_url }}",
+  "name": "本周计划",
+  "short_name": "本周计划",
+  "lang": "zh-CN",
+  "start_url": "{{ '/career/window/' | relative_url }}",
+  "scope": "{{ '/career/window/' | relative_url }}",
+  "display": "standalone",
+  "background_color": "#f4f6f4",
+  "theme_color": "#245d65",
+  "icons": [{"src":"{{ '/assets/img/plan-window.svg' | relative_url }}","sizes":"any","type":"image/svg+xml","purpose":"any"}]
+}
