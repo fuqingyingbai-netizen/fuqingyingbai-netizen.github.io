@@ -127,10 +127,10 @@
     applyFilter();
   }
 
-  function persist(event) {
+  function persist(event, replacement) {
     if (!storageAvailable) return;
     try {
-      let updated = state();
+      let updated = replacement ?? state();
       const field = event?.target;
       if (field?.matches('[data-task]')) updated = mergeEdit(parseStored(localStorage.getItem(key)), {kind:'task', id:field.dataset.task, checked:field.checked});
       else if (field?.matches('[data-review]')) updated = mergeEdit(parseStored(localStorage.getItem(key)), {kind:'review', id:field.dataset.review, text:field.value});
@@ -212,7 +212,7 @@
   function restore(data) {
     tasks.forEach(task => { task.checked = data.completed.includes(task.dataset.task); });
     reviews.forEach(review => { review.value = data.reviews[review.dataset.review] || ''; });
-    persist();
+    persist(undefined, data);
     renderProgress();
   }
   root.querySelector('[data-import]').addEventListener('click', () => fileInput.click());
@@ -247,6 +247,11 @@
   root.querySelector('[data-confirm-import]').addEventListener('click', () => {
     if (!pendingBackup) return;
     previousState = state();
+    if (storageAvailable) {
+      try {
+        previousState = parseStored(localStorage.getItem(key));
+      } catch { /* Retain the visible state if the saved record cannot be read. */ }
+    }
     restore(pendingBackup);
     pendingBackup = null;
     preview.hidden = true;
