@@ -74,7 +74,6 @@
   select.addEventListener('change', () => move(weeks.findIndex(week => week.dataset.week === select.value)));
   current.addEventListener('click', () => { followingCurrent = true; selected = chooseWeek(dates,today); render(); });
   root.addEventListener('change', render);
-  root.addEventListener('input', render);
   window.addEventListener('storage', render);
   function refreshDate() {
     const updated = shanghaiDate();

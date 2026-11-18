@@ -1,22 +1,22 @@
 {
-  "id": "2026-embodied",
-  "updated": "2026-11-10",
-  "start": "2026-11-10",
-  "end": "2027-02-08",
-  "review_date": "2027-02-09",
-  "title": "从机器人软件与仿真，走向学习控制",
-  "summary": "RAG 实习已结束。接下来以具身智能相关的机器人软件、仿真与学习控制为主线，结合导师课题补好基础，逐步积累独立实现、实验验证和问题分析的能力；英语六级继续准备。",
-  "revision_note": "11 月 10 日另开本期 13 周计划。原 AI 应用与实习计划已归档，旧勾选和复盘保留在原计划中；新一期单独记录，旧完成项不会自动计入新任务。",
-  "time_budget": "课程与毕业任务优先。可用于技术准备的时间，先按约 60% 课题实践、30% 基础学习、10% 文献与岗位研究分配；六级维持每周约 5 小时，另留 30—60 分钟复盘。第 1 周记录实际可用时间，再固定节奏。",
-  "scope_note": "课题当前以机械臂仿真与学习控制为切入口。研究对象、实验条件和后续硬件安排以导师确认为准。每周任务服务于个人学习，不替代课题执行方案；仿真结果只在已验证条件下解释。",
+  "id": "2027-march-internship",
+  "updated": "2026-11-18",
+  "start": "2026-11-18",
+  "end": "2027-03-02",
+  "review_date": "2027-03-07",
+  "title": "机器人实习准备 · 2027 年 3 月首投",
+  "summary": "主投机器人软件、ROS 2 系统集成和仿真实习，兼投机械臂规划与控制。从机械臂项目练习系统调试，再独立完成 Nav2 三点巡检，把两段项目整理成可投递的材料。",
+  "revision_note": "已完成 ROS 2 节点、话题、服务和基础 C++ 节点练习，本期从 TF 与 URDF 接续。11 月 10 日版的勾选和复盘保留在旧计划；本期单独记录。",
+  "time_budget": "每周先按约 10 小时技术准备和 5 小时六级安排。技术时间约 6 小时实践、3 小时基础、1 小时复盘与岗位研究，相关导师课题实践计入其中。任务较多时，优先保证巡检核心功能和投递材料。",
+  "scope_note": "机械臂课题的对外材料以允许公开的内容为准。个人巡检项目使用官方仿真组件，记录自己实现的任务调度、调试过程与测试结果。",
   "lanes": [
     {
       "id": "learning",
-      "label": "机器人基础"
+      "label": "技术学习"
     },
     {
       "id": "project",
-      "label": "课题实践"
+      "label": "课题与项目"
     },
     {
       "id": "evidence",
@@ -29,9 +29,9 @@
   ],
   "roadmap": [
     {
-      "period": "现在 → 2027 年 2 月",
-      "title": "独立理解并负责一个机器人模块",
-      "text": "沿导师当前项目学习 ROS 2、C++、运动学与模型训练；亲手修改关键模块，形成包含结果和局限的技术报告。"
+      "period": "现在 → 2027 年 3 月",
+      "title": "用两段项目经历准备首投",
+      "text": "机械臂课题留下个人模块和排障证据；独立巡检项目展示 ROS 2/C++ 开发、系统集成和交付。"
     },
     {
       "period": "2027 年上半年",
@@ -51,19 +51,24 @@
   ],
   "checkpoints": [
     {
-      "index": 3,
-      "title": "个人理解跟上项目进度",
-      "text": "能否画清完整链路、解释关键变量，并独立完成一次修改与验证？任务强度和英语节奏是否可持续？"
+      "index": 5,
+      "title": "机械臂项目说明初稿",
+      "text": "能解释 TF、接口和个人模块，并出示一条可复现的排障记录。"
     },
     {
-      "index": 7,
-      "title": "形成可解释的成果",
-      "text": "是否有自己负责的模块、合理对照和失败分析？能否说明结果的适用范围？是否具备开始针对性投递的材料？"
+      "index": 10,
+      "title": "巡检首版可复现",
+      "text": "完成三点巡检、失败与取消验收，冻结首版并保存验证记录。"
     },
     {
       "index": 12,
-      "title": "用成果和反馈决定下一阶段",
-      "text": "整理课题贡献、基础短板与投递或面试反馈，确定后续实习目标，以及机器人软件或学习算法的投入重点。"
+      "title": "简历与演示齐备",
+      "text": "完成一页简历、两个项目说明和短演示。"
+    },
+    {
+      "index": 14,
+      "title": "准备 3 月首批投递",
+      "text": "核对届别和出勤要求，3 月第一周进入首批投递。"
     }
   ],
   "english": {
@@ -71,12 +76,12 @@
     "target": "继续按 2027 年上半年备考安排。具体考试日、报名窗口与报考资格，以教育考试院及学校通知为准；目标分数根据已有诊断记录确定。",
     "routine": "每周约 5 小时：工作日每天 30 分钟（词汇复习 10 分钟，听力或阅读 20 分钟），周末合计 2.5 小时做专项练习与订正。整套模考周将周末时间用于 130 分钟限时作答，订正分到工作日，不再叠加其他专项任务。",
     "method": "听力与阅读各占笔试的 35%，写作与翻译各占 15%。先记录各题型正确率、用时与错误原因，再分配练习时间；练习正确率不直接换算为官方成绩。真题按年份留出未做试卷供阶段诊断。",
-    "fallback": "课程、考试或课题集中时，缩小当周新增任务；英语保留每天约 20 分钟的复习与听读。未完成项顺延，不集中补齐全部任务。",
+    "fallback": "忙碌周保留词汇和短时听读，专项训练按考试安排和实际进度调整。",
     "stages": [
       {
-        "period": "本期 13 周",
+        "period": "本期 15 周",
         "title": "建立习惯与诊断记录",
-        "text": "沿用已有词汇与错题记录，继续听读和写译训练。第 1 周核对起点，第 8、13 周用未做真题整套诊断；其他周以少量练习和充分订正为主。"
+        "text": "沿用已有词汇与错题记录，每周安排听读、写译或诊断。第 8 周做一次整套诊断，最后一周回顾本期变化。"
       },
       {
         "period": "本期结束后 → 报名确认",
@@ -110,174 +115,506 @@
     {
       "id": "week-01",
       "number": 1,
-      "start": "2026-11-10",
-      "end": "2026-11-16",
-      "phase": "理解与独立实现",
-      "title": "画清当前项目，确定自己的模块",
-      "learning": "从一次任务读懂 Python 数据流、数组形状和模型输入输出，复习用到的神经网络基础。",
-      "project": "核对导师当前任务，选择一个可独立负责的模块；画出任务输入、策略、通信、执行与状态读回的链路。",
-      "evidence": "区分已有系统成果与个人掌握内容，列出三个知识缺口；整理 RAG 实习中允许公开的职责与贡献。",
-      "english": "核对已有诊断和错题记录；没有诊断时用未做真题摸底。确定两个弱项，并保持短时词汇与听读。",
-      "output": "一张系统链路图；一个个人模块范围；英语起点记录。"
+      "start": "2026-11-18",
+      "end": "2026-11-24",
+      "phase": "机械臂与 ROS 2 基础",
+      "title": "核对机械臂的末端坐标",
+      "learning": "读 TF、URDF/Xacro 和正向运动学，认清坐标方向、关节轴、米与弧度。",
+      "project": "为现有机械臂画坐标树，在两个静止姿态计算末端 XYZ，用同一参考系的 tf2_echo 结果核对。",
+      "evidence": "保存两组误差和检查过程，分清模型计算、TF 与仿真读回。",
+      "english": "核对已有诊断与错题，选两个薄弱项，恢复每天短时词汇和听读。",
+      "output": "一张坐标树、两组位置对照和误差说明。",
+      "source_ids": [
+        "tf",
+        "tfdebug",
+        "urdf",
+        "robotics"
+      ]
     },
     {
       "id": "week-02",
       "number": 2,
-      "start": "2026-11-17",
-      "end": "2026-11-23",
-      "phase": "理解与独立实现",
-      "title": "理解坐标、关节与运动",
-      "learning": "学习坐标系、角度单位和正向运动学，用一个简单构型手算并核对末端位置。",
-      "project": "沿当前项目追踪关节状态、坐标变换和可视化结果，解释参考轨迹与实际读回的区别。",
-      "evidence": "亲手定位一个单位或坐标相关的小问题，保存复现步骤、修改和验证记录。",
-      "english": "精听并订正 2 段长对话、精读 1 篇阅读；将影响理解的词和搭配加入间隔复习。",
-      "output": "运动学笔记；一次定位与验证记录；英语错因记录。"
+      "start": "2026-11-25",
+      "end": "2026-12-01",
+      "phase": "机械臂与 ROS 2 基础",
+      "title": "录下并回放一次抓放",
+      "learning": "理解 rosbag2 与仿真时间，识别 RViz 所需的数据和 TF 发布源。",
+      "project": "录制一次抓放的关节状态、TF 与静态 TF，并按需要录制仿真时钟；用隔离的会话将记录回放给观察节点。",
+      "evidence": "用 bag info 核对消息覆盖，写清回放复现的是消息与观测，完整物理过程需重新仿真。",
+      "english": "精听两段长对话、精读一篇短文，整理真正影响理解的词和搭配。",
+      "output": "一个可回放样例及复现步骤。",
+      "source_ids": [
+        "bag",
+        "qos",
+        "tfdebug"
+      ]
     },
     {
       "id": "week-03",
       "number": 3,
-      "start": "2026-11-24",
-      "end": "2026-11-30",
-      "phase": "理解与独立实现",
-      "title": "读懂一个 C++ 与 ROS 2 接口",
-      "learning": "结合项目学习 C++ 引用、对象生命周期和编译调试，理解一个节点或插件的入口。",
-      "project": "追踪一个消息或服务从发送到处理的过程，核对数据类型、配置和异常返回。",
-      "evidence": "独立补充一个小范围的接口检查或调试说明，说明它解决的具体问题。",
-      "english": "限时做 2 篇仔细阅读，逐题标出原文依据，记录长句和同义替换；维持听力复习。",
-      "output": "接口流程说明；一个可解释的小改动；阅读依据记录。"
+      "start": "2026-12-02",
+      "end": "2026-12-08",
+      "phase": "机械臂与 ROS 2 基础",
+      "title": "独立构建 C++ 监测节点",
+      "learning": "学引用、const、生命周期、智能指针和 ament/CMake 构建流程。",
+      "project": "把已写的关节状态订阅节点整理成独立包，按关节名匹配数据并检查数组边界。",
+      "evidence": "在干净终端复现从构建到运行，说明 package.xml、CMakeLists 和依赖各自负责什么。",
+      "english": "限时做两篇仔细阅读，标出原文依据及同义替换。",
+      "output": "一个能独立构建的包和一份运行说明。",
+      "source_ids": [
+        "cpp",
+        "cmake"
+      ]
     },
     {
       "id": "week-04",
       "number": 4,
-      "start": "2026-12-01",
-      "end": "2026-12-07",
-      "phase": "理解与独立实现",
-      "title": "完成第一次独立修改与复盘",
-      "learning": "学习 ROS 2 话题、服务、QoS 与 TF 中当前最需要的一项，结合故障现象理解。",
-      "project": "在导师确认的范围内完成一次模块修改，保留修改前后的验证证据。",
-      "evidence": "用自己的话讲解系统链路和此次改动，记录仍依赖他人或工具判断的部分，调整后续任务量。",
-      "english": "做一次未做材料的听读小测，回顾词汇保留情况，调整两个弱项的练习比例。",
-      "output": "独立修改记录；第一份阶段复盘；英语月度回顾。",
-      "checkpoint": "能否画清完整链路、解释关键变量，并独立完成一次修改与验证？任务强度和英语节奏是否可持续？"
+      "start": "2026-12-09",
+      "end": "2026-12-15",
+      "phase": "机械臂与 ROS 2 基础",
+      "title": "排查一次通信或时序问题",
+      "learning": "学习参数、Launch、QoS 与日志，理解看得到话题却收不到数据的原因。",
+      "project": "参数化话题、坐标系和告警阈值，在练习环境复现一个通信或时间戳故障。",
+      "evidence": "保留现象、定位命令、修改和复验结果，为汇报准备一条完整故障链。",
+      "english": "限时听读小测，比较同类题正确率，调整练习比例。",
+      "output": "一个正常样例、一个故障样例与修复证据。",
+      "source_ids": [
+        "qos",
+        "launch",
+        "tfdebug"
+      ]
     },
     {
       "id": "week-05",
       "number": 5,
-      "start": "2026-12-08",
-      "end": "2026-12-14",
-      "phase": "训练与实验验证",
-      "title": "看懂训练过程",
-      "learning": "学习 PyTorch 中前向计算、损失、反向传播与优化器，检查张量形状和单位。",
-      "project": "沿项目训练代码核对数据来源、标签含义和模型选择过程；在允许的条件下复现一个小规模训练案例。",
-      "evidence": "解释训练目标与实际任务指标的关系，记录一次失败或不符合预期的结果。",
-      "english": "精听 2 段讲话、报道或讲座，先作答再看文本，整理转折和因果信号；继续词汇复习。",
-      "output": "训练流程说明；一次结果分析；听力订正记录。"
+      "start": "2026-12-16",
+      "end": "2026-12-22",
+      "phase": "机械臂与 ROS 2 基础",
+      "title": "了解标准控制器接口",
+      "learning": "阅读 ros2_control 的控制器、状态接口和命令接口，区分轨迹规划与轨迹执行。",
+      "project": "用独立工作区跑 RRBot 示例，查看控制器状态、发送一条轨迹并观察关节状态。",
+      "evidence": "对照课题中的自定义执行器，说明哪些接口和测试方法可以迁移。",
+      "english": "精听两段讲话或讲座，标出因果、转折和遗漏的信息。",
+      "output": "一页标准控制器与课题执行器对照。",
+      "source_ids": [
+        "rrbot",
+        "controller",
+        "robotics"
+      ]
     },
     {
       "id": "week-06",
       "number": 6,
-      "start": "2026-12-15",
-      "end": "2026-12-21",
-      "phase": "训练与实验验证",
-      "title": "验证模型到底学会了什么",
-      "learning": "学习训练、验证和独立测试的职责，理解任务划分、数据泄漏与误差统计。",
-      "project": "核对一个实验的数据划分、配置和评价口径；只在导师允许的测试范围内检查结果。",
-      "evidence": "将成功条件、失败案例与适用范围整理成表，区分模型表现、执行表现和任务结果。",
-      "english": "限时做 1 组长篇匹配和 1 篇仔细阅读，复盘定位顺序与用时，保持短时精听。",
-      "output": "一份评价口径与结果范围说明；阅读定位笔记。"
+      "start": "2026-12-23",
+      "end": "2026-12-29",
+      "phase": "机械臂与 ROS 2 基础",
+      "title": "练习 Action，整理机械臂经历",
+      "learning": "学习 C++ Action 目标响应、反馈、最终结果和取消；用最短示例熟悉异步回调。",
+      "project": "完成官方练习，整理机械臂项目的系统链路和一项能独立解释的修改。",
+      "evidence": "口头讲解一次故障复现；把课题成果和个人负责范围写进项目说明。",
+      "english": "完成一篇写作并修改，保持听读训练。",
+      "output": "一个 Action 练习和机械臂项目说明初稿。",
+      "source_ids": [
+        "action",
+        "callback",
+        "gtest"
+      ],
+      "checkpoint": "能解释 TF、接口和个人模块，并出示一条可复现的排障记录。"
     },
     {
       "id": "week-07",
       "number": 7,
-      "start": "2026-12-22",
-      "end": "2026-12-28",
-      "phase": "训练与实验验证",
-      "title": "学习比较方法，解释方案取舍",
-      "learning": "围绕课题需要学习逆运动学、轨迹或基础控制中的一个专题，明确数学假设。",
-      "project": "与导师确认一种合理的已有方法或消融设置，在相同条件下组织一次小范围比较。",
-      "evidence": "记录比较中的数据、计算与任务条件，说明当前方法的收益和代价；不将仿真结论外推到实物。",
-      "english": "30 分钟写 1 篇作文并修改，检查切题、结构与常见语法；保持听读和词汇复习。",
-      "output": "一份公平比较记录；作文初稿与修改稿。"
+      "start": "2026-12-30",
+      "end": "2027-01-05",
+      "phase": "Nav2 巡检项目",
+      "title": "在独立工作区跑通单点导航",
+      "learning": "了解地图、AMCL 定位、代价地图、规划和控制，核对 map → odom → base_link。",
+      "project": "用 Jazzy、Gazebo Harmonic 和官方 TurtleBot 地图跑通单点导航，记录 Launch、初始定位与版本。",
+      "evidence": "从新终端重复启动，保留一次成功导航的记录和坐标图。",
+      "english": "限时完成长篇匹配和一篇仔细阅读，订正定位错误。",
+      "output": "一份可复现启动说明和一张导航坐标图。",
+      "source_ids": [
+        "navinstall",
+        "navstart",
+        "turtle",
+        "navconcept"
+      ]
     },
     {
       "id": "week-08",
       "number": 8,
-      "start": "2026-12-29",
-      "end": "2027-01-04",
-      "phase": "训练与实验验证",
-      "title": "形成第一份可讲清的项目报告",
-      "learning": "复习监督学习策略、误差累积和泛化的基本概念，将它们联系到当前任务。",
-      "project": "整理个人模块的目标、实现、验证和局限，确保报告与实际完成情况一致。",
-      "evidence": "阅读少量目标岗位要求，对照项目证据找短板；材料准备充分时开始针对性投递，记录反馈。",
-      "english": "用一套未做真题完成 130 分钟整套诊断并订正，本周不叠加其他专项任务。",
-      "output": "一份项目技术报告；岗位与能力差距表；英语阶段诊断。",
-      "checkpoint": "是否有自己负责的模块、合理对照和失败分析？能否说明结果的适用范围？是否具备开始针对性投递的材料？"
+      "start": "2027-01-06",
+      "end": "2027-01-12",
+      "phase": "Nav2 巡检项目",
+      "title": "写出 C++ 单点导航客户端",
+      "learning": "读 NavigateToPose 的目标、反馈和结果结构，学习异步回调。",
+      "project": "在代码中发送一个带坐标系的目标，分别处理目标接受、反馈和终态，记录当前点和剩余距离。",
+      "evidence": "对照 RViz 与日志，验证成功和目标拒绝的路径。",
+      "english": "完成一次整套限时诊断，记录用时与两个薄弱题型。",
+      "output": "一个可编译的单点客户端与终态日志。",
+      "source_ids": [
+        "action",
+        "navapi",
+        "navsetup"
+      ]
     },
     {
       "id": "week-09",
       "number": 9,
-      "start": "2027-01-05",
-      "end": "2027-01-11",
-      "phase": "成果与求职反馈",
-      "title": "补一项与目标岗位对应的方法",
-      "learning": "选择与导师任务最相关的一篇论文或公开方法，读清输入、输出、假设与评价方式。",
-      "project": "经导师确认后选择一个可复现的小部分；当前模块仍需完善时，优先解决已有问题。",
-      "evidence": "保存复现条件和结果，区分原方法结论、自己的结果及尚未验证的部分。",
-      "english": "30 分钟完成 1 段翻译并订正，关注漏译和句子主干；按第 8 周诊断练一个弱项。",
-      "output": "一份方法阅读或小范围复现记录；翻译修改稿。"
+      "start": "2027-01-13",
+      "end": "2027-01-19",
+      "phase": "Nav2 巡检项目",
+      "title": "从 YAML 顺序执行三个巡检点",
+      "learning": "练习参数化配置、任务状态和时间记录。",
+      "project": "从配置读取三个位置与朝向，确认上一站成功后再发下一站；记录每站耗时、结果和失败原因。",
+      "evidence": "跑通三点顺序，确认同一时刻只发一个目标，并验证错误配置的提示。",
+      "english": "做两组最弱题型专项，复盘错误来源。",
+      "output": "三点配置、顺序调度和一条完整日志。",
+      "source_ids": [
+        "launch",
+        "navapi",
+        "waypoint"
+      ]
     },
     {
       "id": "week-10",
       "number": 10,
-      "start": "2027-01-12",
-      "end": "2027-01-18",
-      "phase": "成果与求职反馈",
-      "title": "围绕一个实际问题做改进",
-      "learning": "结合当前问题学习时序、性能分析或误差传播中的一个专题，理解理想仿真的限制。",
-      "project": "从导师允许的范围选择一个问题，提出改进并验证；后续感知、接触或实物研究另行确认。",
-      "evidence": "记录改进的效果、代价和失败情况；结合已收到的投递反馈调整后续准备。",
-      "english": "针对最弱题型做 2 组练习并订正，隔几天回测相关词汇，保持其他题型的小量练习。",
-      "output": "一次问题驱动的改进记录；英语弱项训练记录。"
+      "start": "2027-01-20",
+      "end": "2027-01-26",
+      "phase": "Nav2 巡检项目",
+      "title": "处理不可达、超时和主动取消",
+      "learning": "理解取消请求与终态的差别，明确单点超时和任务终止逻辑。",
+      "project": "验证不可达和执行中主动取消；超时请求取消后等待终态，终止本轮并暂停后续目标。",
+      "evidence": "确认任何失败或取消后都没有下发下一站；另查 Nav2 未就绪时的提示。",
+      "english": "完成一段 30 分钟翻译，订正漏译、主干和表达。",
+      "output": "失败、取消与未就绪的日志证据。",
+      "source_ids": [
+        "navapi",
+        "callback",
+        "navsetup"
+      ]
     },
     {
       "id": "week-11",
       "number": 11,
-      "start": "2027-01-19",
-      "end": "2027-01-25",
-      "phase": "成果与求职反馈",
-      "title": "让别人能复现自己的工作",
-      "learning": "学习环境依赖、配置、版本记录和运行说明，练习定位配置不一致的问题。",
-      "project": "整理个人模块的运行和验证说明，区分可公开材料与课题内部材料。",
-      "evidence": "请有条件的同学或指导者按说明核对；无法获得反馈时，自查缺失步骤并记录限制。",
-      "english": "重写 1 篇作文、重译 1 段翻译，检查常见错误是否减少；继续新材料的听读练习。",
-      "output": "可复现的模块说明；反馈或自查清单；写译修改记录。"
+      "start": "2027-01-27",
+      "end": "2027-02-02",
+      "phase": "Nav2 巡检项目",
+      "title": "验收巡检并冻结首版",
+      "learning": "区分单元测试与集成测试，学习用固定条件记录全部运行结果。",
+      "project": "完成三轮正常巡检，补测不可达、取消、未就绪与配置错误，记录版本、场景和结果。",
+      "evidence": "保留日志、必要的 bag 与验收表，复核 README 的运行步骤。",
+      "english": "重写一篇作文、重译一段翻译，总结仍反复出现的错误。",
+      "output": "首版代码、配置、验收表和运行记录。",
+      "source_ids": [
+        "gtest",
+        "integration",
+        "bag",
+        "readme"
+      ],
+      "checkpoint": "完成三点巡检、失败与取消验收，冻结首版并保存验证记录。"
     },
     {
       "id": "week-12",
       "number": 12,
-      "start": "2027-01-26",
-      "end": "2027-02-01",
-      "phase": "成果与求职反馈",
-      "title": "准备项目讲解和相关实习",
-      "learning": "练习机器人基础和编程问题，准备三分钟项目讲解，能解释关键代码与方案取舍。",
-      "project": "围绕个人实际贡献整理演示和图表，准确标注仿真条件与尚未覆盖的问题。",
-      "evidence": "更新简历中的机器人项目和已结束的 RAG 实习经历；按准备情况投递相关研发实习，记录面试反馈。",
-      "english": "做一次 40 分钟阅读模块训练，检查题型用时；复习听力和写译中的反复错误。",
-      "output": "项目讲解材料；更新后的简历；阅读用时记录。"
+      "start": "2027-02-03",
+      "end": "2027-02-09",
+      "phase": "材料与投递",
+      "title": "留出一周补缺",
+      "learning": "复习出现频率最高的一个故障，补齐对应文档。",
+      "project": "优先修复影响复现的缺陷，检查新终端从安装到运行的步骤。",
+      "evidence": "核对课题可以引用的材料与巡检项目上游来源，明确目前的仿真条件。",
+      "english": "维持词汇与听读，回测一组旧错题。",
+      "output": "复现检查清单与已知限制。",
+      "source_ids": [
+        "navsetup",
+        "readme",
+        "linux"
+      ]
     },
     {
       "id": "week-13",
       "number": 13,
-      "start": "2027-02-02",
-      "end": "2027-02-08",
-      "phase": "成果与求职反馈",
-      "title": "用实际证据决定下一阶段",
-      "learning": "回顾机器人软件、数学与模型训练中的短板，选出下一季度三个优先事项。",
-      "project": "与导师核对个人模块的完成情况和后续任务，兼顾毕业要求及可用指导资源。",
-      "evidence": "汇总模块贡献、报告和投递或面试反馈，确定机器人软件或学习算法的后续重点。",
-      "english": "用另一套未做真题整套诊断并订正，回顾本期进步与弱项，核对后续报名通知。",
-      "output": "本期成果与能力清单；下一阶段任务；英语季度复盘。",
-      "checkpoint": "整理课题贡献、基础短板与投递或面试反馈，确定后续实习目标，以及机器人软件或学习算法的投入重点。"
+      "start": "2027-02-10",
+      "end": "2027-02-16",
+      "phase": "材料与投递",
+      "title": "把两段项目整理成简历材料",
+      "learning": "练习三分钟项目讲解，准备背景、个人贡献、验证和限制。",
+      "project": "写一页简历与两个项目说明，剪一段 60–90 秒巡检演示。",
+      "evidence": "机械臂岗先讲导师课题，软件或集成岗先讲巡检项目；用真实记录支撑表述。",
+      "english": "做一次限时阅读，重点检查题型用时。",
+      "output": "一页简历、两个项目说明和一段演示。",
+      "source_ids": [
+        "readme",
+        "guidelines"
+      ],
+      "checkpoint": "完成一页简历、两个项目说明和短演示。"
+    },
+    {
+      "id": "week-14",
+      "number": 14,
+      "start": "2027-02-17",
+      "end": "2027-02-23",
+      "phase": "材料与投递",
+      "title": "模拟面试并建立岗位清单",
+      "learning": "复习 C++ 生命周期、容器、Linux 日志和 ROS 2 通信、TF、QoS 排障。",
+      "project": "做两次模拟面试，一次讲项目，一次写代码和排查问题。",
+      "evidence": "列出 10–15 个目标岗位，核对届别、到岗天数、时长及相符的项目证据。",
+      "english": "限时做一次听读小测，继续写译订正。",
+      "output": "面试复盘、岗位表和计划到岗时间。",
+      "source_ids": [
+        "linux",
+        "guidelines",
+        "unitree",
+        "hik"
+      ]
+    },
+    {
+      "id": "week-15",
+      "number": 15,
+      "start": "2027-02-24",
+      "end": "2027-03-02",
+      "phase": "材料与投递",
+      "title": "复检材料，开始首批投递",
+      "learning": "根据模拟面试记录补一个最影响表达或实现的问题。",
+      "project": "复查代码入口、项目演示和可公开材料，按目标岗位调整简历顺序。",
+      "evidence": "3 月第一周先投 5–8 个匹配岗位，记录状态与反馈，准备后续调整。",
+      "english": "完成一期英语复盘，按学校和官方通知核对报名安排。",
+      "output": "投递版本简历、项目入口和首批投递记录。",
+      "source_ids": [
+        "unitree",
+        "hik",
+        "readme"
+      ],
+      "checkpoint": "核对届别和出勤要求，3 月第一周进入首批投递。"
     }
-  ]
+  ],
+  "phases": [
+    {
+      "id": "arm",
+      "label": "机械臂与 ROS 2 基础",
+      "first": 1,
+      "last": 6,
+      "goal": "独立讲清一个模块，留下坐标验证、录包和排障证据。"
+    },
+    {
+      "id": "patrol",
+      "label": "Nav2 巡检项目",
+      "first": 7,
+      "last": 11,
+      "goal": "完成三点巡检、终态处理和可复现测试。"
+    },
+    {
+      "id": "apply",
+      "label": "材料与投递",
+      "first": 12,
+      "last": 15,
+      "goal": "整理两段项目经历，2 月完成材料，3 月上旬首投。"
+    }
+  ],
+  "resources": {
+    "tf": {
+      "title": "TF2 教程",
+      "url": "https://github.com/ros2/ros2_documentation/blob/jazzy/source/Tutorials/Intermediate/Tf2/Tf2-Main.rst",
+      "note": "先读坐标树、静态变换和四元数，再查 C++ listener。"
+    },
+    "tfdebug": {
+      "title": "TF 排错",
+      "url": "https://github.com/ros2/ros2_documentation/blob/jazzy/source/Tutorials/Intermediate/Tf2/Debugging-Tf2-Problems.rst",
+      "note": "练习 view_frames、tf2_echo 和时间戳排查。"
+    },
+    "urdf": {
+      "title": "URDF 与 Xacro",
+      "url": "https://github.com/ros2/ros2_documentation/blob/jazzy/source/Tutorials/Intermediate/URDF/URDF-Main.rst",
+      "note": "看父子连杆、关节轴和 Robot State Publisher。"
+    },
+    "robotics": {
+      "title": "Modern Robotics",
+      "url": "https://modernrobotics.northwestern.edu/nu-gm-book-resource/",
+      "note": "先看第 3、4 章。机械臂控制岗再选看第 6、9 章。"
+    },
+    "bag": {
+      "title": "rosbag2 录制与回放",
+      "url": "https://github.com/ros2/ros2_documentation/blob/jazzy/source/Tutorials/Beginner-CLI-Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst",
+      "note": "练习 record、info、play，核对录制的话题。"
+    },
+    "cpp": {
+      "title": "LearnCpp",
+      "url": "https://www.learncpp.com/",
+      "note": "按需看引用、const、对象生命周期、智能指针、vector 和 lambda。"
+    },
+    "cmake": {
+      "title": "ament 与 CMake",
+      "url": "https://github.com/ros2/ros2_documentation/blob/jazzy/source/How-To-Guides/Ament-CMake-Documentation.rst",
+      "note": "重点看目标、依赖声明、安装和测试。"
+    },
+    "qos": {
+      "title": "ROS 2 QoS",
+      "url": "https://github.com/ros2/ros2_documentation/blob/jazzy/source/Concepts/Intermediate/About-Quality-of-Service-Settings.rst",
+      "note": "理解 reliability、durability 与发布订阅兼容性。"
+    },
+    "launch": {
+      "title": "Launch 与项目组织",
+      "url": "https://github.com/ros2/ros2_documentation/blob/jazzy/source/Tutorials/Intermediate/Launch/Using-ROS2-Launch-For-Large-Projects.rst",
+      "note": "看参数文件、命名空间和重映射。"
+    },
+    "rrbot": {
+      "title": "ros2_control 官方 RRBot",
+      "url": "https://github.com/ros-controls/ros2_control_demos/blob/jazzy/example_1/doc/userdoc.rst",
+      "note": "查看控制器状态，运行一次关节轨迹示例。"
+    },
+    "controller": {
+      "title": "关节轨迹控制器",
+      "url": "https://control.ros.org/jazzy/doc/ros2_controllers/joint_trajectory_controller/doc/userdoc.html",
+      "note": "理解轨迹点、状态接口与执行结果。"
+    },
+    "action": {
+      "title": "ROS 2 C++ Action",
+      "url": "https://github.com/ros2/ros2_documentation/blob/jazzy/source/Tutorials/Intermediate/Writing-an-Action-Server-Client/Cpp.rst",
+      "note": "弄清目标响应、反馈、结果回调和客户端职责。"
+    },
+    "callback": {
+      "title": "Callback Groups",
+      "url": "https://github.com/ros2/ros2_documentation/blob/jazzy/source/How-To-Guides/Using-callback-groups.rst",
+      "note": "遇到回调阻塞时，查执行器和异步调用。"
+    },
+    "navstart": {
+      "title": "Nav2 Jazzy Quickstart",
+      "url": "https://docs.nav2.org/jazzy/getting_started/quickstart/quickstart/",
+      "note": "用已发布软件包跑通地图、初始定位和单点导航。"
+    },
+    "navinstall": {
+      "title": "Nav2 Jazzy 安装",
+      "url": "https://docs.nav2.org/jazzy/getting_started/build_and_install/local_installation/",
+      "note": "选择 Jazzy 发布包，检查 Gazebo 和仿真包依赖。"
+    },
+    "turtle": {
+      "title": "官方 TurtleBot 仿真",
+      "url": "https://github.com/ros-navigation/nav2_minimal_turtlebot_simulation/tree/jazzy",
+      "note": "复用上游模型和启动入口，记录所用版本。"
+    },
+    "navconcept": {
+      "title": "Nav2 导航概念",
+      "url": "https://docs.nav2.org/jazzy/getting_started/navigation_concepts/",
+      "note": "区分定位、代价地图、规划器与控制器。"
+    },
+    "navsetup": {
+      "title": "Gazebo 机器人配置",
+      "url": "https://docs.nav2.org/jazzy/configuration_and_development/first_time_robot_setup_guide/gazebo/",
+      "note": "排查 TF、里程计、传感器和机器人轮廓。"
+    },
+    "navapi": {
+      "title": "NavigateToPose 接口",
+      "url": "https://github.com/ros-navigation/navigation2/blob/jazzy/nav2_msgs/action/NavigateToPose.action",
+      "note": "以 Jazzy 的目标、反馈、结果字段为准。"
+    },
+    "waypoint": {
+      "title": "官方 Waypoint Follower 源码",
+      "url": "https://github.com/ros-navigation/navigation2/blob/jazzy/nav2_waypoint_follower/src/waypoint_follower.cpp",
+      "note": "写完最小版本后，对照异步发送与结果处理。"
+    },
+    "gtest": {
+      "title": "GoogleTest 入门",
+      "url": "https://google.github.io/googletest/primer.html",
+      "note": "验证配置、状态转换和失败分支。"
+    },
+    "integration": {
+      "title": "ROS 2 集成测试",
+      "url": "https://github.com/ros2/ros2_documentation/blob/jazzy/source/Tutorials/Intermediate/Testing/Integration.rst",
+      "note": "用 launch_testing 验证节点间的行为。"
+    },
+    "readme": {
+      "title": "GitHub README 指南",
+      "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+      "note": "把依赖、操作、结果和限制写在项目入口。"
+    },
+    "linux": {
+      "title": "MIT Missing Semester",
+      "url": "https://missing.csail.mit.edu/",
+      "note": "按需选读命令行、Git 和调试。"
+    },
+    "guidelines": {
+      "title": "C++ Core Guidelines",
+      "url": "https://github.com/isocpp/CppCoreGuidelines",
+      "note": "集中复习资源管理和所有权。"
+    },
+    "unitree": {
+      "title": "宇树招聘",
+      "url": "https://www.unitree.com/cn/position/",
+      "note": "搜索机器人软件、仿真和 C++，以当期岗位为准。"
+    },
+    "hik": {
+      "title": "海康威视招聘",
+      "url": "https://talent.hikvision.com/",
+      "note": "核对实习届别、出勤和岗位实际开发职责。"
+    },
+    "fish": {
+      "title": "鱼香 ROS 中文教程",
+      "url": "https://github.com/fishros/d2l-ros2",
+      "note": "用 Humble 版理解概念，运行命令按 Jazzy 文档核对。"
+    },
+    "migration": {
+      "title": "Jazzy/Harmonic 迁移笔记",
+      "url": "https://github.com/HoseaChern/YuXiangROS-jazzy-learning",
+      "note": "社区资料，可对照 Gazebo Classic 与 Harmonic 的命令和桥接差异。"
+    }
+  },
+  "project": {
+    "title": "ROS 2 + Nav2 室内三点巡检",
+    "summary": "在 Jazzy 与 Gazebo Harmonic 中复用官方 TurtleBot 和现成地图。个人实现 C++ 巡检节点，从 YAML 读取三个点，通过 NavigateToPose 依次导航，并记录结果与耗时。",
+    "scope": "Nav2 提供定位、规划和控制。个人贡献聚焦任务调度、接口联调、异常处理与验证。首版用终端操作，并通过 RViz 设置初始位置。建图、自研规划器和真机验证列入后续扩展。",
+    "stages": [
+      [
+        "官方环境",
+        "先通过 RViz 完成一次单点导航。",
+        "week-07"
+      ],
+      [
+        "个人实现",
+        "编写单点客户端，再扩展为三点调度。",
+        "week-08"
+      ],
+      [
+        "异常验收",
+        "核对取消终态、超时、不可达和配置错误。",
+        "week-10"
+      ],
+      [
+        "作品交付",
+        "保留代码、README、测试记录和短演示。",
+        "week-13"
+      ]
+    ],
+    "acceptance": [
+      [
+        "正常巡检",
+        "按顺序完成三个点，保留三轮运行结果。"
+      ],
+      [
+        "目标不可达",
+        "显示失败或超时，停止本轮后续目标。"
+      ],
+      [
+        "执行中取消",
+        "等待取消终态，确认后续点没有下发。"
+      ],
+      [
+        "Nav2 未就绪",
+        "有限等待后提示原因，便于排查。"
+      ],
+      [
+        "配置错误",
+        "提示出错的点和字段，覆盖缺失坐标和非法数值。"
+      ]
+    ],
+    "resources": [
+      "navinstall",
+      "navstart",
+      "turtle",
+      "navconcept",
+      "navapi",
+      "waypoint",
+      "navsetup"
+    ]
+  }
 }

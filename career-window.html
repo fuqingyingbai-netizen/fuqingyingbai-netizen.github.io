@@ -18,7 +18,7 @@ sitemap: false
   <link rel="manifest" href="{{ '/career-window.webmanifest' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/career-window.css' | relative_url }}?v=2">
   <script defer src="{{ '/assets/js/career.js' | relative_url }}"></script>
-  <script defer src="{{ '/assets/js/career-window.js' | relative_url }}?v=2"></script>
+  <script defer src="{{ '/assets/js/career-window.js' | relative_url }}?v=3"></script>
 </head>
 <body>
 <main class="plan-window" data-career-planner data-plan-window data-plan-id="{{ plan.id }}" data-plan-title="{{ plan.title | escape }}" data-plan-start="{{ plan.start }}" data-plan-end="{{ plan.end }}">
@@ -49,6 +49,7 @@ sitemap: false
       <details class="window-output"><summary>本周交付{% if week.checkpoint %}与阶段检查{% endif %}</summary><p class="career-deliverable">{{ week.output }}</p>{% if week.checkpoint %}<p>{{ week.checkpoint }}</p>{% endif %}</details>
       <details class="career-week-review" data-review-box hidden><summary>写本周复盘</summary><label for="{{ week.id }}-review" class="sr-only">第 {{ week.number }} 周复盘</label><textarea id="{{ week.id }}-review" data-review="{{ week.id }}" rows="3" maxlength="2000" placeholder="完成了什么？证据、问题和下一步……"></textarea></details>
       </div>
+      {% if week.source_ids.size > 0 %}<p class="window-context"><a href="{{ '/career/' | relative_url }}#{{ week.id }}" target="_blank" rel="noopener">本周学习资料 ↗</a></p>{% endif %}
     </section>
     {% endfor %}
   </div>

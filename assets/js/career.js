@@ -70,6 +70,11 @@
   if (currentWeek) {
     weeks.forEach(week => { week.open = week === currentWeek; });
     currentWeek.classList.add('is-current');
+    const weekLink = root.querySelector('[data-current-week-link]');
+    if (weekLink) {
+      weekLink.href = `#${currentWeek.id}`;
+      weekLink.dataset.openWeek = currentWeek.id;
+    }
   }
 
   const planStatus = currentWeek

@@ -4,8 +4,8 @@ icon: fas fa-compass
 order: 4
 permalink: /career/
 toc: false
-description: 以机器人软件、仿真与学习控制为主线的职业规划、13 周任务、英语六级备考与个人复盘。
-search_content: 生涯规划 职业规划 具身智能 机器人软件 机器人学习 仿真 学习控制 ROS2 C++ 运动学 PyTorch 实习 13周计划 每周复盘 英语六级 CET6 RAG经历
+description: 面向 2027 年 3 月实习投递的 15 周计划，包含 ROS 2 学习资料、Nav2 巡检项目和英语六级。
+search_content: 生涯规划 职业规划 具身智能 机器人软件 机器人学习 仿真 学习控制 ROS2 C++ 运动学 PyTorch 机器人实习 Nav2 巡检 rosbag2 TF 15周计划 每周复盘 英语六级 CET6 RAG经历
 ---
 
 {% assign plan = site.data.career %}
@@ -13,46 +13,38 @@ search_content: 生涯规划 职业规划 具身智能 机器人软件 机器人
 {% assign total_tasks = plan.weeks.size | times: tasks_per_week %}
 <div class="career-page" data-career-planner data-plan-id="{{ plan.id }}" data-plan-title="{{ plan.title }}" data-plan-start="{{ plan.start }}" data-plan-end="{{ plan.end }}">
   <section class="career-hero" aria-labelledby="career-title">
-    <p class="eyebrow">学习 · 实践 · 复盘</p>
     <h2 id="career-title">{{ plan.title }}</h2>
     <p>{{ plan.summary }}</p>
     <div class="career-hero-meta"><span>本期：{{ plan.start }} — {{ plan.end }}</span><span>更新于 {{ plan.updated }}</span></div>
   </section>
 
   <nav class="notes-nav career-nav" aria-label="生涯规划章节">
+    <a class="career-primary-link" href="#career-weeks" data-current-week-link>本周任务</a>
+    <a href="#career-project">巡检项目</a>
+    <a href="#career-review">阶段目标</a>
+    <a href="#career-english">六级备考</a>
+    <a href="#career-direction">长期路线</a>
     <a href="{{ '/career/window/' | relative_url }}" target="_blank" rel="noopener">计划小窗 ↗</a>
-    <a href="#career-direction">长期路线</a><a href="#career-english">六级备考</a><a href="#career-weeks">13 周计划</a><a href="#career-review">阶段复盘</a><a href="{{ '/posts/生涯规划-转向机器人软件与学习控制/' | relative_url }}">本次调整 ↗</a><a href="{{ '/career/2026-autumn/' | relative_url }}">旧计划与复盘 ↗</a>
   </nav>
 
-  <section aria-labelledby="career-direction">
-    <h2 id="career-direction">方向先明确，选择留给实践</h2>
-    <div class="career-principles">
-      <article><span class="career-kicker">当前主线</span><h3>机器人软件、仿真与学习控制</h3><p>结合导师当前课题，深入 ROS 2、C++、运动学、训练与评测，逐步独立负责一个模块。下一段实习重点寻找技术指导、明确研发职责和真实问题。</p></article>
-      <article><span class="career-kicker">逐步深入</span><h3>机器人学习与操作策略</h3><p>先形成可解释、可复现的项目成果，再根据指导资源与实践反馈，选择控制、操作策略或感知中的一个方向持续投入。</p></article>
-    </div>
-    <ol class="career-roadmap">
-      {% for stage in plan.roadmap %}<li><span class="career-period">{{ stage.period }}</span><h3>{{ stage.title }}</h3><p>{{ stage.text }}</p></li>{% endfor %}
-    </ol>
-    <p class="career-note">RAG 实习已结束，保留其工程实践积累。后续用独立完成的项目、实习与面试反馈检验方向；岗位名称和行业热度作为参考。</p>
-  </section>
-
-  <section class="career-english" aria-labelledby="career-english">
-    <h2 id="career-english">{{ plan.english.title }}</h2>
-    <p>{{ plan.english.target }}</p>
-    <p>{{ plan.english.routine }}</p>
-    <p>{{ plan.english.method }}</p>
-    <p>{{ plan.english.vocabulary }}</p>
-    <ol class="career-roadmap">
-      {% for stage in plan.english.stages %}<li><span class="career-period">{{ stage.period }}</span><h3>{{ stage.title }}</h3><p>{{ stage.text }}</p></li>{% endfor %}
-    </ol>
-    <p class="career-sources">官方信息（本次核对：{{ plan.english.verified_at }}）：{% for source in plan.english.sources %}<a href="{{ source.url }}">{{ source.title }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}</p>
-  </section>
-
   <section aria-labelledby="career-weeks">
-    <div class="section-heading career-section-heading"><h2 id="career-weeks">未来三个月，每周留下一点成果</h2><span class="career-period">{{ plan.weeks.size }} 周 · {{ total_tasks }} 项任务</span></div>
+    <div class="section-heading career-section-heading"><h2 id="career-weeks">每周任务与学习资料</h2><span class="career-period">{{ plan.weeks.size }} 周 · {{ total_tasks }} 项任务</span></div>
     <p>{{ plan.time_budget }}</p>
-    <p>{{ plan.english.fallback }}</p>
-    <p class="career-note">{{ plan.revision_note }} <a href="{{ '/career/2026-autumn/' | relative_url }}">查看旧计划与复盘 →</a></p>
+    <details class="career-history">
+      <summary>计划接续与历史记录</summary>
+      <p>{{ plan.revision_note }}</p>
+      <div class="career-history-links"><a href="{{ '/career/2026-embodied/' | relative_url }}">11 月 10 日版与复盘</a><a href="{{ '/career/2026-autumn/' | relative_url }}">10 月版与复盘</a></div>
+    </details>
+    <nav class="career-phase-grid" aria-label="跳转学习阶段">
+    {% for phase in plan.phases %}
+      {% assign first_index = phase.first | minus: 1 %}
+      {% assign first_week = plan.weeks[first_index] %}
+      <a class="career-phase-card" href="#{{ first_week.id }}" data-open-week="{{ first_week.id }}">
+        <span class="career-period">第 {{ phase.first }}–{{ phase.last }} 周</span>
+        <strong>{{ phase.label }}</strong><span>{{ phase.goal }}</span>
+      </a>
+    {% endfor %}
+    </nav>
     <noscript><p class="career-note">完整计划可以直接阅读。开启 JavaScript 后可勾选进度、保存复盘和导出记录。</p></noscript>
 
     <div class="career-tools" data-career-tools hidden>
@@ -83,6 +75,16 @@ search_content: 生涯规划 职业规划 具身智能 机器人软件 机器人
             {% endfor %}
           </ul>
           <p class="career-deliverable"><strong>本周交付</strong>{{ week.output }}</p>
+          {% if week.source_ids.size > 0 %}
+          <div class="career-week-resources">
+            <h3>本周资料</h3>
+            <ul>
+            {% for source_id in week.source_ids %}{% assign source = plan.resources[source_id] %}
+              <li><a href="{{ source.url | escape }}">{{ source.title }}</a><span>{{ source.note }}</span></li>
+            {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
           {% if week.checkpoint %}<p class="career-checkpoint"><strong>阶段检查</strong>{{ week.checkpoint }}</p>{% endif %}
           <div class="career-week-review" data-review-box hidden><label for="{{ week.id }}-review">每周复盘<span>完成了什么？证据是什么？卡在哪里？下周如何调整？</span></label><textarea id="{{ week.id }}-review" data-review="{{ week.id }}" rows="3" maxlength="2000" placeholder="记录一个具体结果、一个问题和下一步……"></textarea><p class="career-review-help">仅在当前浏览器保存。勾选表示任务完成，质量与局限写在复盘里。</p></div>
         </div>
@@ -91,8 +93,35 @@ search_content: 生涯规划 职业规划 具身智能 机器人软件 机器人
     </div>
   </section>
 
+  <section class="career-project-section" aria-labelledby="career-project">
+    <h2 id="career-project">{{ plan.project.title }}</h2>
+    <p>{{ plan.project.summary }}</p><p>{{ plan.project.scope }}</p>
+    <div class="career-project-flow" aria-label="巡检应用链路">
+      <span>YAML 巡检点</span><span>C++ 调度节点</span><span>Nav2 + Gazebo</span><span>反馈与记录</span>
+    </div>
+    <ol class="career-project-stages">
+    {% for stage in plan.project.stages %}
+      <li><a href="#{{ stage[2] }}" data-open-week="{{ stage[2] }}">{{ stage[0] }}</a><span>{{ stage[1] }}</span></li>
+    {% endfor %}
+    </ol>
+    <details class="career-project-details" open><summary>首版验收</summary>
+      <dl class="career-acceptance">
+      {% for check in plan.project.acceptance %}<dt>{{ check[0] }}</dt><dd>{{ check[1] }}</dd>{% endfor %}
+      </dl>
+    </details>
+    <details class="career-project-details"><summary>项目参考资料</summary>
+      <ul class="career-project-resources">
+      {% for source_id in plan.project.resources %}{% assign source = plan.resources[source_id] %}
+        <li><a href="{{ source.url | escape }}">{{ source.title }}</a><span>{{ source.note }}</span></li>
+      {% endfor %}
+      <li><a href="{{ plan.resources.fish.url }}">{{ plan.resources.fish.title }}</a><span>{{ plan.resources.fish.note }}</span></li>
+      <li><a href="{{ plan.resources.migration.url }}">{{ plan.resources.migration.title }}</a><span>{{ plan.resources.migration.note }}</span></li>
+      </ul>
+    </details>
+  </section>
+
   <section class="career-review-section" aria-labelledby="career-review">
-    <h2 id="career-review">三次检查，把计划慢慢修正</h2>
+    <h2 id="career-review">投递前的阶段目标</h2>
     <div class="career-checkpoints">
       {% for point in plan.checkpoints %}
       {% assign checkpoint_week = plan.weeks[point.index] %}
@@ -100,5 +129,29 @@ search_content: 生涯规划 职业规划 具身智能 机器人软件 机器人
       {% endfor %}
     </div>
     <p class="career-note">{{ plan.scope_note }} 企业实习与课题对外展示均以允许公开的内容为准。</p>
+  </section>
+
+  <section aria-labelledby="career-direction">
+    <h2 id="career-direction">方向先明确，选择留给实践</h2>
+    <div class="career-principles">
+      <article><span class="career-kicker">当前主线</span><h3>机器人软件、仿真与学习控制</h3><p>结合导师当前课题，深入 ROS 2、C++、运动学、训练与评测，逐步独立负责一个模块。下一段实习重点寻找技术指导、明确研发职责和真实问题。</p></article>
+      <article><span class="career-kicker">逐步深入</span><h3>机器人学习与操作策略</h3><p>先形成可解释、可复现的项目成果，再根据指导资源与实践反馈，选择控制、操作策略或感知中的一个方向持续投入。</p></article>
+    </div>
+    <ol class="career-roadmap">
+      {% for stage in plan.roadmap %}<li><span class="career-period">{{ stage.period }}</span><h3>{{ stage.title }}</h3><p>{{ stage.text }}</p></li>{% endfor %}
+    </ol>
+    <p class="career-note">RAG 实习已结束，保留其工程实践积累。后续用独立完成的项目、实习与面试反馈检验方向；岗位名称和行业热度作为参考。</p>
+  </section>
+
+  <section class="career-english" aria-labelledby="career-english">
+    <h2 id="career-english">{{ plan.english.title }}</h2>
+    <p>{{ plan.english.target }}</p>
+    <p>{{ plan.english.routine }}</p>
+    <p>{{ plan.english.method }}</p>
+    <p>{{ plan.english.vocabulary }}</p>
+    <ol class="career-roadmap">
+      {% for stage in plan.english.stages %}<li><span class="career-period">{{ stage.period }}</span><h3>{{ stage.title }}</h3><p>{{ stage.text }}</p></li>{% endfor %}
+    </ol>
+    <p class="career-sources">官方信息（本次核对：{{ plan.english.verified_at }}）：{% for source in plan.english.sources %}<a href="{{ source.url }}">{{ source.title }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}</p>
   </section>
 </div>
