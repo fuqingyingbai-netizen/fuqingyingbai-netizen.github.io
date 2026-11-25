@@ -19,7 +19,9 @@ button { color:var(--accent); background:var(--surface); border:1px solid var(--
 h1 { margin:0; color:var(--text); font-size:21px; font-weight:650; letter-spacing:-.02em; line-height:1.5; }
 .window-header > a { padding:5px 0 5px 8px; font-size:11px; white-space:nowrap; }
 .window-header > a > span { display:inline-block; margin-left:3px; }
-.window-plan-title { margin:10px 0 15px; color:var(--muted); font-size:11px; line-height:1.7; }
+.window-plan-title,.window-time-budget { color:var(--muted); font-size:11px; line-height:1.7; }
+.window-plan-title { margin:10px 0 2px; }
+.window-time-budget { margin:0 0 15px; }
 .window-week-nav { display:grid; grid-template-columns:30px minmax(0,1fr) 30px auto; align-items:center; gap:4px; padding:4px; background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); }
 .window-week-nav > button { min-width:30px; min-height:32px; padding:3px 5px; border:0; background:none; }
 .window-week-nav > select { width:100%; min-width:0; min-height:32px; border:0; border-radius:5px; color:var(--text); background:var(--surface); padding:3px 3px; font-size:12px; }
@@ -66,6 +68,7 @@ summary::marker { color:var(--muted); font-size:9px; }
 .window-resource-count { margin-inline-start:4px; color:var(--muted); font-weight:400; }
 .window-resources > ul { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; margin:0; padding:0 8px; list-style:none; }
 .window-resources li > a { display:block; height:100%; min-height:34px; padding:7px 8px; border-radius:5px; background:var(--tint); font-size:11px; line-height:1.55; overflow-wrap:anywhere; }
+.window-resources a > small { display:block; color:var(--muted); font-size:10px; }
 .window-resource-notes { display:inline-block; margin:6px 8px 5px; padding:4px 2px; font-size:11px; }
 textarea { display:block; width:calc(100% - 22px); margin:0 11px 11px; resize:vertical; min-height:100px; padding:9px; color:var(--text); background:var(--bg); border:1px solid var(--line); border-radius:6px; font-size:12px; line-height:1.8; }
 .window-footer { margin-top:14px; padding-top:11px; border-top:1px solid var(--line); color:var(--muted); font-size:10px; }

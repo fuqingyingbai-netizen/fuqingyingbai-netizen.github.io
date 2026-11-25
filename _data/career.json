@@ -7,7 +7,8 @@
   "title": "机器人实习准备 · 2027 年 3 月首投",
   "summary": "主投机器人软件、ROS 2 系统集成和仿真实习，兼投机械臂规划与控制。从机械臂项目练习系统调试，再独立完成 Nav2 三点巡检，把两段项目整理成可投递的材料。",
   "revision_note": "已完成 ROS 2 节点、话题、服务和基础 C++ 节点练习，本期从 TF 与 URDF 接续。11 月 10 日版的勾选和复盘保留在旧计划；本期单独记录。",
-  "time_budget": "每周先按约 10 小时技术准备和 5 小时六级安排。技术时间约 6 小时实践、3 小时基础、1 小时复盘与岗位研究，相关导师课题实践计入其中。任务较多时，优先保证巡检核心功能和投递材料。",
+  "time_budget": "从第 2 周起，每周约 11 小时技术准备和 5 小时六级。技术时间分为 7 小时动手、3 小时基础学习和 1 小时复盘或岗位研究，相关导师课题实践计入动手时间。新增的 1 小时优先用来做对照实验、故障复现或复验。",
+  "time_budget_short": "第 2 周起 · 技术约 11 小时/周 · 六级约 5 小时/周",
   "scope_note": "机械臂课题的对外材料以允许公开的内容为准。个人巡检项目使用官方仿真组件，记录自己实现的任务调度、调试过程与测试结果。",
   "lanes": [
     {
@@ -126,7 +127,6 @@
       "output": "一张坐标树、两组位置对照和误差说明。",
       "source_ids": [
         "tf",
-        "tfdebug",
         "urdf",
         "robotics"
       ]
@@ -138,15 +138,15 @@
       "end": "2026-12-01",
       "phase": "机械臂与 ROS 2 基础",
       "title": "录下并回放一次抓放",
-      "learning": "理解 rosbag2 与仿真时间，识别 RViz 所需的数据和 TF 发布源。",
-      "project": "录制一次抓放的关节状态、TF 与静态 TF，并按需要录制仿真时钟；用隔离的会话将记录回放给观察节点。",
-      "evidence": "用 bag info 核对消息覆盖，写清回放复现的是消息与观测，完整物理过程需重新仿真。",
+      "learning": "练习 ros2 bag 的 record、info 和 play，理解录制时间戳、/clock 与观察节点的 use_sim_time。",
+      "project": "录制一次抓放的关节状态、动态 TF 和静态 TF，按回放方案决定是否录制 /clock。多留 1 小时：20 分钟核对话题和消息数，40 分钟在独立会话用同一份 bag 对照观察端开启和关闭 use_sim_time 的表现。",
+      "evidence": "记录回放命令、时钟来源、RViz 或观察节点的两次结果，并注明完整物理过程需要重新仿真。",
       "english": "精听两段长对话、精读一篇短文，整理真正影响理解的词和搭配。",
-      "output": "一个可回放样例及复现步骤。",
+      "output": "一份可回放的 bag、一组时钟对照结果和复现步骤。",
       "source_ids": [
         "bag",
-        "qos",
-        "tfdebug"
+        "bagclock",
+        "bagqos"
       ]
     },
     {
@@ -198,8 +198,7 @@
       "output": "一页标准控制器与课题执行器对照。",
       "source_ids": [
         "rrbot",
-        "controller",
-        "robotics"
+        "controller"
       ]
     },
     {
@@ -215,9 +214,7 @@
       "english": "完成一篇写作并修改，保持听读训练。",
       "output": "一个 Action 练习和机械臂项目说明初稿。",
       "source_ids": [
-        "action",
-        "callback",
-        "gtest"
+        "action"
       ],
       "checkpoint": "能解释 TF、接口和个人模块，并出示一条可复现的排障记录。"
     },
@@ -234,10 +231,9 @@
       "english": "限时完成长篇匹配和一篇仔细阅读，订正定位错误。",
       "output": "一份可复现启动说明和一张导航坐标图。",
       "source_ids": [
-        "navinstall",
         "navstart",
-        "turtle",
-        "navconcept"
+        "navconcept",
+        "turtle"
       ]
     },
     {
@@ -253,10 +249,12 @@
       "english": "完成一次整套限时诊断，记录用时与两个薄弱题型。",
       "output": "一个可编译的单点客户端与终态日志。",
       "source_ids": [
-        "action",
         "navapi",
-        "navsetup"
-      ]
+        "posestamped"
+      ],
+      "review_sources": {
+        "action": "接入 NavigateToPose 时，回查 C++ 客户端的三个回调如何注册。"
+      }
     },
     {
       "id": "week-09",
@@ -271,10 +269,12 @@
       "english": "做两组最弱题型专项，复盘错误来源。",
       "output": "三点配置、顺序调度和一条完整日志。",
       "source_ids": [
-        "launch",
-        "navapi",
+        "followwaypoints",
         "waypoint"
-      ]
+      ],
+      "review_sources": {
+        "launch": "需要让启动文件传入巡检点 YAML 路径时，回查参数文件示例。"
+      }
     },
     {
       "id": "week-10",
@@ -289,9 +289,8 @@
       "english": "完成一段 30 分钟翻译，订正漏译、主干和表达。",
       "output": "失败、取消与未就绪的日志证据。",
       "source_ids": [
-        "navapi",
         "callback",
-        "navsetup"
+        "navrecovery"
       ]
     },
     {
@@ -308,10 +307,11 @@
       "output": "首版代码、配置、验收表和运行记录。",
       "source_ids": [
         "gtest",
-        "integration",
-        "bag",
-        "readme"
+        "integration"
       ],
+      "review_sources": {
+        "bag": "需保存失败现场时，回查录制指定话题的方法，并在验收表标明对应日志。"
+      },
       "checkpoint": "完成三点巡检、失败与取消验收，冻结首版并保存验证记录。"
     },
     {
@@ -327,9 +327,7 @@
       "english": "维持词汇与听读，回测一组旧错题。",
       "output": "复现检查清单与已知限制。",
       "source_ids": [
-        "navsetup",
-        "readme",
-        "linux"
+        "navsetup"
       ]
     },
     {
@@ -345,8 +343,7 @@
       "english": "做一次限时阅读，重点检查题型用时。",
       "output": "一页简历、两个项目说明和一段演示。",
       "source_ids": [
-        "readme",
-        "guidelines"
+        "readme"
       ],
       "checkpoint": "完成一页简历、两个项目说明和短演示。"
     },
@@ -381,11 +378,11 @@
       "evidence": "3 月第一周先投 5–8 个匹配岗位，记录状态与反馈，准备后续调整。",
       "english": "完成一期英语复盘，按学校和官方通知核对报名安排。",
       "output": "投递版本简历、项目入口和首批投递记录。",
-      "source_ids": [
-        "unitree",
-        "hik",
-        "readme"
-      ],
+      "source_ids": [],
+      "review_sources": {
+        "unitree": "从上周的岗位清单回查职位是否仍开放，以及机器人软件方向是否匹配。",
+        "hik": "按实际职位页核对届别、每周到岗天数和投递入口。"
+      },
       "checkpoint": "核对届别和出勤要求，3 月第一周进入首批投递。"
     }
   ],
@@ -416,7 +413,7 @@
     "tf": {
       "title": "TF2 教程",
       "url": "https://github.com/ros2/ros2_documentation/blob/jazzy/source/Tutorials/Intermediate/Tf2/Tf2-Main.rst",
-      "note": "先读坐标树、静态变换和四元数，再查 C++ listener。"
+      "note": "先读 Introduction、静态变换和四元数，画出现有机械臂从基座到末端的坐标链。"
     },
     "tfdebug": {
       "title": "TF 排错",
@@ -426,17 +423,27 @@
     "urdf": {
       "title": "URDF 与 Xacro",
       "url": "https://github.com/ros2/ros2_documentation/blob/jazzy/source/Tutorials/Intermediate/URDF/URDF-Main.rst",
-      "note": "看父子连杆、关节轴和 Robot State Publisher。"
+      "note": "看父子连杆、关节轴和 Robot State Publisher。用机械臂模型确认一个关节的 origin 和 axis。"
     },
     "robotics": {
       "title": "Modern Robotics",
       "url": "https://modernrobotics.northwestern.edu/nu-gm-book-resource/",
-      "note": "先看第 3、4 章。机械臂控制岗再选看第 6、9 章。"
+      "note": "选看第 3 章的刚体变换和第 4 章的开链正向运动学，够算两组末端 XYZ 即可。"
     },
     "bag": {
       "title": "rosbag2 录制与回放",
       "url": "https://github.com/ros2/ros2_documentation/blob/jazzy/source/Tutorials/Beginner-CLI-Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst",
       "note": "练习 record、info、play，核对录制的话题。"
+    },
+    "bagclock": {
+      "title": "rosbag2 · 仿真时钟",
+      "url": "https://github.com/ros2/rosbag2/blob/jazzy/README.md#simulation-time",
+      "note": "看 Simulation time 和 Publishing simulation time。隔离回放时确认只有一个 /clock 来源。"
+    },
+    "bagqos": {
+      "title": "rosbag2 · 录放 QoS",
+      "url": "https://github.com/ros2/ros2_documentation/blob/jazzy/source/How-To-Guides/Overriding-QoS-Policies-For-Recording-And-Playback.rst",
+      "note": "静态变换收不到时，先核对 /tf_static 的 durability，再参考覆盖配置示例。"
     },
     "cpp": {
       "title": "LearnCpp",
@@ -508,10 +515,25 @@
       "url": "https://github.com/ros-navigation/navigation2/blob/jazzy/nav2_msgs/action/NavigateToPose.action",
       "note": "以 Jazzy 的目标、反馈、结果字段为准。"
     },
+    "posestamped": {
+      "title": "PoseStamped 消息",
+      "url": "https://github.com/ros2/common_interfaces/blob/jazzy/geometry_msgs/msg/PoseStamped.msg",
+      "note": "核对时间戳、frame_id 和位姿字段，再构造一条 map 坐标系下的导航目标。"
+    },
+    "followwaypoints": {
+      "title": "FollowWaypoints 接口",
+      "url": "https://github.com/ros-navigation/navigation2/blob/jazzy/nav2_msgs/action/FollowWaypoints.action",
+      "note": "对照点位数组、当前点索引和失败点列表，巡检练习仍使用顺序调用 NavigateToPose。"
+    },
     "waypoint": {
       "title": "官方 Waypoint Follower 源码",
       "url": "https://github.com/ros-navigation/navigation2/blob/jazzy/nav2_waypoint_follower/src/waypoint_follower.cpp",
       "note": "写完最小版本后，对照异步发送与结果处理。"
+    },
+    "navrecovery": {
+      "title": "Nav2 默认恢复行为树",
+      "url": "https://github.com/ros-navigation/navigation2/blob/jazzy/nav2_bt_navigator/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml",
+      "note": "只跟踪恢复节点和重试分支，结合日志区分 Nav2 内部恢复和巡检客户端收到的终态。"
     },
     "gtest": {
       "title": "GoogleTest 入门",

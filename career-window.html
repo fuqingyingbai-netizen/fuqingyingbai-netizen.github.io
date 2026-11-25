@@ -16,7 +16,7 @@ sitemap: false
   <title>本周计划 · {{ site.title | escape }}</title>
   <link rel="icon" href="{{ '/assets/img/plan-window.svg' | relative_url }}" type="image/svg+xml">
   <link rel="manifest" href="{{ '/career-window.webmanifest' | relative_url }}">
-  <link rel="stylesheet" href="{{ '/assets/css/career-window.css' | relative_url }}?v=3">
+  <link rel="stylesheet" href="{{ '/assets/css/career-window.css' | relative_url }}?v=4">
   <script defer src="{{ '/assets/js/career.js' | relative_url }}"></script>
   <script defer src="{{ '/assets/js/career-window.js' | relative_url }}?v=3"></script>
 </head>
@@ -24,6 +24,7 @@ sitemap: false
 <main class="plan-window" data-career-planner data-plan-window data-plan-id="{{ plan.id }}" data-plan-title="{{ plan.title | escape }}" data-plan-start="{{ plan.start }}" data-plan-end="{{ plan.end }}">
   <header class="window-header"><div class="window-brand"><img src="{{ '/assets/img/plan-window.svg' | relative_url }}" width="34" height="34" alt=""><h1>本周计划</h1></div><a href="{{ '/career/' | relative_url }}" target="_blank" rel="noopener">完整规划 <span aria-hidden="true">↗</span></a></header>
   <p class="window-plan-title">{{ plan.title }}</p>
+  <p class="window-time-budget">{{ plan.time_budget_short | escape }}</p>
   <div class="window-week-nav" data-window-nav hidden>
     <button type="button" data-window-prev aria-label="前一周">←</button>
     <label class="sr-only" for="window-week-select">选择周次</label>
@@ -49,13 +50,18 @@ sitemap: false
       <details class="window-output"><summary>本周交付{% if week.checkpoint %}与阶段检查{% endif %}</summary><p class="career-deliverable">{{ week.output }}</p>{% if week.checkpoint %}<p>{{ week.checkpoint }}</p>{% endif %}</details>
       <details class="career-week-review" data-review-box hidden><summary>写本周复盘</summary><label for="{{ week.id }}-review" class="sr-only">第 {{ week.number }} 周复盘</label><textarea id="{{ week.id }}-review" data-review="{{ week.id }}" rows="3" maxlength="2000" placeholder="完成了什么？证据、问题和下一步……"></textarea></details>
       </div>
-      {% if week.source_ids.size > 0 %}
+      {% if week.source_ids.size > 0 or week.review_sources.size > 0 %}
       <details class="window-resources" open>
-        <summary>学习资料 <span class="window-resource-count">{{ week.source_ids.size }} 项</span></summary>
+        <summary>学习资料 <span class="window-resource-count">{{ week.source_ids.size | plus: week.review_sources.size }} 项</span></summary>
         <ul>
           {% for source_id in week.source_ids %}
           {% assign source = plan.resources[source_id] %}
           <li><a href="{{ source.url | escape }}" target="_blank" rel="noopener">{{ source.title | escape }} <span aria-hidden="true">↗</span></a></li>
+          {% endfor %}
+          {% for review in week.review_sources %}
+          {% assign source_id = review | first %}
+          {% assign source = plan.resources[source_id] %}
+          <li><a href="{{ source.url | escape }}" target="_blank" rel="noopener"><small>按需回查</small> {{ source.title | escape }} <span aria-hidden="true">↗</span></a></li>
           {% endfor %}
         </ul>
         <a class="window-resource-notes" href="{{ '/career/' | relative_url }}#{{ week.id }}" target="_blank" rel="noopener">查看阅读重点 <span aria-hidden="true">↗</span></a>

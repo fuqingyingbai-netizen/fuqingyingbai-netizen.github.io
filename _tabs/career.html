@@ -75,12 +75,17 @@ search_content: 生涯规划 职业规划 具身智能 机器人软件 机器人
             {% endfor %}
           </ul>
           <p class="career-deliverable"><strong>本周交付</strong>{{ week.output }}</p>
-          {% if week.source_ids.size > 0 %}
+          {% if week.source_ids.size > 0 or week.review_sources.size > 0 %}
           <div class="career-week-resources">
             <h3>本周资料</h3>
             <ul>
             {% for source_id in week.source_ids %}{% assign source = plan.resources[source_id] %}
-              <li><a href="{{ source.url | escape }}">{{ source.title }}</a><span>{{ source.note }}</span></li>
+              <li><a href="{{ source.url | escape }}">{{ source.title | escape }}</a><span>{{ source.note | escape }}</span></li>
+            {% endfor %}
+            {% for review in week.review_sources %}
+              {% assign source_id = review | first %}
+              {% assign source = plan.resources[source_id] %}
+              <li><small>按需回查</small> <a href="{{ source.url | escape }}">{{ source.title | escape }}</a><span>{{ review | last | escape }}</span></li>
             {% endfor %}
             </ul>
           </div>
