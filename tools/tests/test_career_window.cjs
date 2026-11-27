@@ -1,7 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { parseStored, mergeEdit } = require('../../assets/js/career.js');
-const { chooseWeek, shanghaiDate } = require('../../assets/js/career-window.js');
+const { parseStored, mergeEdit, scheduleForDate, shanghaiDate } = require('../../assets/js/career.js');
 
 test('existing v1 task and review records remain readable; malformed records are not silently reset', () => {
   const old = {completed:['week-01-learning','week-01-project'],reviews:{'week-01':'保留原复盘'}};
@@ -28,13 +27,26 @@ test('editing one review retains completion and all other weeks', () => {
   assert.equal(mergeEdit(latest,{kind:'review',id:'week-01',text:'长'.repeat(2100)}).reviews['week-01'].length,2000);
 });
 
-test('week selection follows inclusive date boundaries and remains useful before and after the plan', () => {
-  const weeks = [{start:'2026-11-10',end:'2026-11-16'},{start:'2026-11-17',end:'2026-11-23'}];
-  assert.equal(chooseWeek(weeks,'2026-11-09'),0);
-  assert.equal(chooseWeek(weeks,'2026-11-16'),0);
-  assert.equal(chooseWeek(weeks,'2026-11-17'),1);
-  assert.equal(chooseWeek(weeks,'2026-12-01'),1);
-  assert.equal(chooseWeek([],'2026-11-10'),-1);
+test('workweeks end on Friday and weekends keep the previous week available for review', () => {
+  const { weeks } = require('../../_data/career.json');
+  assert.deepEqual(scheduleForDate(weeks,'2026-11-15'),{index:0,status:'upcoming'});
+  assert.deepEqual(scheduleForDate(weeks,'2026-11-27'),{index:1,status:'active'});
+  assert.deepEqual(scheduleForDate(weeks,'2026-11-28'),{index:1,status:'weekend'});
+  assert.deepEqual(scheduleForDate(weeks,'2026-11-29'),{index:1,status:'weekend'});
+  assert.deepEqual(scheduleForDate(weeks,'2026-11-30'),{index:2,status:'active'});
+  assert.deepEqual(scheduleForDate(weeks,'2027-02-08'),{index:11,status:'buffer'});
+  assert.deepEqual(scheduleForDate(weeks,'2027-02-12'),{index:11,status:'buffer'});
+  assert.deepEqual(scheduleForDate(weeks,'2027-02-15'),{index:12,status:'active'});
+  assert.deepEqual(scheduleForDate(weeks,'2027-03-05'),{index:14,status:'active'});
+  assert.deepEqual(scheduleForDate(weeks,'2027-03-06'),{index:14,status:'finished'});
+  assert.deepEqual(scheduleForDate([],'2026-11-27'),{index:-1,status:'upcoming'});
+  for (const { start, end } of weeks) {
+    const monday = new Date(start);
+    const friday = new Date(end);
+    assert.equal(monday.getUTCDay(),1);
+    assert.equal(friday.getUTCDay(),5);
+    assert.equal((friday - monday) / 86400000,4);
+  }
 });
 
 test('the daily switch uses Shanghai time independently of Windows timezone', () => {

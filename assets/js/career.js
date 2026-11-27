@@ -17,10 +17,30 @@
     } else if (edit.kind === 'review') next.reviews[edit.id] = edit.text.slice(0, 2000);
     return next;
   }
-  if (typeof module !== 'undefined' && module.exports) module.exports = { parseStored, mergeEdit };
+  function shanghaiDate(date = new Date()) {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit'
+    }).formatToParts(date);
+    const part = type => parts.find(value => value.type === type).value;
+    return `${part('year')}-${part('month')}-${part('day')}`;
+  }
+  function scheduleForDate(weeks, today) {
+    if (!weeks.length) return { index: -1, status: 'upcoming' };
+    const next = weeks.findIndex(week => today < week.start);
+    if (next === 0) return { index: 0, status: 'upcoming' };
+    const index = next < 0 ? weeks.length - 1 : next - 1;
+    if (today <= weeks[index].end) return { index, status: 'active' };
+    if (next < 0) return { index, status: 'finished' };
+    const day = new Date(`${today}T00:00:00Z`).getUTCDay();
+    return { index, status: day === 0 || day === 6 ? 'weekend' : 'buffer' };
+  }
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { parseStored, mergeEdit, shanghaiDate, scheduleForDate };
+  }
   if (typeof document === 'undefined') return;
   const root = document.querySelector('[data-career-planner]');
   if (!root) return;
+  window.careerCalendar = { shanghaiDate, scheduleForDate };
 
   const key = `career-planner:${root.dataset.planId}:v1`;
   const tasks = Array.from(root.querySelectorAll('[data-task]'));
@@ -61,15 +81,13 @@
   });
   root.querySelectorAll('[data-career-tools], [data-review-box], [data-week-count]').forEach(element => { element.hidden = false; });
 
-  const todayParts = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit'
-  }).formatToParts(new Date());
-  const part = type => todayParts.find(value => value.type === type).value;
-  const today = `${part('year')}-${part('month')}-${part('day')}`;
-  const currentWeek = weeks.find(week => today >= week.dataset.start && today <= week.dataset.end);
+  const today = shanghaiDate();
+  const calendar = scheduleForDate(weeks.map(week => week.dataset), today);
+  const scheduledWeek = weeks[calendar.index];
+  const currentWeek = ['upcoming', 'finished'].includes(calendar.status) ? null : scheduledWeek;
+  if (scheduledWeek) weeks.forEach(week => { week.open = week === scheduledWeek; });
   if (currentWeek) {
-    weeks.forEach(week => { week.open = week === currentWeek; });
-    currentWeek.classList.add('is-current');
+    if (calendar.status === 'active') currentWeek.classList.add('is-current');
     const weekLink = root.querySelector('[data-current-week-link]');
     if (weekLink) {
       weekLink.href = `#${currentWeek.id}`;
@@ -77,10 +95,14 @@
     }
   }
 
-  const planStatus = currentWeek
-    ? `本周：${currentWeek.querySelector('.career-week-number').textContent} 周`
-    : today < root.dataset.planStart ? '本期计划尚未开始' : '本期已结束，可继续复盘';
-  root.querySelector('[data-plan-status]').textContent = `今天 ${today} · ${planStatus}`;
+  const planStatus = {
+    active: `第 ${scheduledWeek?.querySelector('.career-week-number').textContent || ''} 周`,
+    weekend: '周末，可复盘最近一周',
+    buffer: '机动周，可补做或复验',
+    upcoming: '本期计划尚未开始',
+    finished: '本期已结束，可继续复盘'
+  };
+  root.querySelector('[data-plan-status]').textContent = `今天 ${today} · ${planStatus[calendar.status]}`;
 
   function state() {
     return {

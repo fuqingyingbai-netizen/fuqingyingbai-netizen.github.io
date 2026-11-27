@@ -1,19 +1,8 @@
 (() => {
   'use strict';
-  function chooseWeek(weeks, today) {
-    if (!weeks.length) return -1;
-    const current = weeks.findIndex(week => today >= week.start && today <= week.end);
-    return current >= 0 ? current : today < weeks[0].start ? 0 : weeks.length - 1;
-  }
-  function shanghaiDate(date = new Date()) {
-    const parts = new Intl.DateTimeFormat('en-US', {timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(date);
-    const part = kind => parts.find(value => value.type === kind).value;
-    return `${part('year')}-${part('month')}-${part('day')}`;
-  }
-  if (typeof module !== 'undefined' && module.exports) module.exports = { chooseWeek, shanghaiDate };
-  if (typeof document === 'undefined') return;
   const root = document.querySelector('[data-plan-window]');
-  if (!root) return;
+  if (!root || !window.careerCalendar) return;
+  const { shanghaiDate, scheduleForDate } = window.careerCalendar;
   const appearanceSelect = root.querySelector('[data-window-appearance]');
   const appearanceKey = 'career-window:appearance:v1';
   function applyAppearance(value) {
@@ -32,13 +21,14 @@
   });
   document.addEventListener('click', event => { if (more?.open && !more.contains(event.target)) more.open = false; });
   const weeks = [...root.querySelectorAll('[data-week]')];
-  const dates = weeks.map(week => ({start:week.dataset.start,end:week.dataset.end}));
+  const dates = weeks.map(week => week.dataset);
   const select = root.querySelector('[data-window-select]');
   const previous = root.querySelector('[data-window-prev]');
   const next = root.querySelector('[data-window-next]');
   const current = root.querySelector('[data-window-current]');
   let today = shanghaiDate();
-  let selected = chooseWeek(dates, today);
+  let calendar = scheduleForDate(dates, today);
+  let selected = calendar.index;
   let followingCurrent = true;
   if (selected < 0) return;
   function render() {
@@ -55,13 +45,18 @@
     progress.max = tasks.length;
     progress.value = done;
     root.querySelector('[data-window-date]').textContent = today;
-    const inCurrent = today >= dates[selected].start && today <= dates[selected].end;
+    const inCurrent = calendar.status === 'active' && selected === calendar.index;
     const progressLabel = root.querySelector('[data-window-progress-label]');
     if (progressLabel) progressLabel.textContent = inCurrent ? '本周进度' : '所选周进度';
-    root.querySelector('[data-window-context]').textContent = today < root.dataset.planStart
-      ? '本期尚未开始，先查看第 1 周。'
-      : today > root.dataset.planEnd ? '本期已结束，仍可回顾与复盘。'
-      : inCurrent ? '' : '正在查看其他周，点击“本周”返回。';
+    const context = {
+      active: '',
+      weekend: '周末可休息或复盘，周一切换到新一周。',
+      buffer: '这周为机动周，可补做或复验最近一周的任务。',
+      upcoming: '本期尚未开始，先查看第 1 周。',
+      finished: '本期已结束，仍可回顾与复盘。'
+    };
+    root.querySelector('[data-window-context]').textContent = selected === calendar.index
+      ? context[calendar.status] : '正在查看其他周，点击“本周”返回。';
     current.setAttribute('aria-pressed', String(followingCurrent));
   }
   function move(index) {
@@ -72,14 +67,15 @@
   previous.addEventListener('click', () => { move(selected - 1); if (previous.disabled) select.focus(); });
   next.addEventListener('click', () => { move(selected + 1); if (next.disabled) select.focus(); });
   select.addEventListener('change', () => move(weeks.findIndex(week => week.dataset.week === select.value)));
-  current.addEventListener('click', () => { followingCurrent = true; selected = chooseWeek(dates,today); render(); });
+  current.addEventListener('click', () => { followingCurrent = true; selected = calendar.index; render(); });
   root.addEventListener('change', render);
   window.addEventListener('storage', render);
   function refreshDate() {
     const updated = shanghaiDate();
     if (updated !== today) {
       today = updated;
-      if (followingCurrent) selected = chooseWeek(dates,today);
+      calendar = scheduleForDate(dates, today);
+      if (followingCurrent) selected = calendar.index;
     }
     render();
   }
